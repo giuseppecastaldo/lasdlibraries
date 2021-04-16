@@ -13,45 +13,43 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class Queue { // Must extend Container
-
+class Queue: public virtual Container {
+    
 private:
-
-  // ...
-
+    
 protected:
-
-  // ...
-
+    
 public:
-
-  // Destructor
-  // ~Queue() specifiers
-
-  /* ************************************************************************ */
-
-  // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
-
-  // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
-
-  /* ************************************************************************ */
-
-  // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract types might not be possible.
-  // type operator!=(argument) specifiers; // Comparison of abstract types might not be possible.
-
-  /* ************************************************************************ */
-
-  // Specific member functions
-
-  // type Enqueue(argument) specifiers; // Copy of the value
-  // type Enqueue(argument) specifiers; // Move of the value
-  // type Head() specifiers; // (concrete function must throw std::length_error when empty)
-  // type Dequeue() specifiers; // (concrete function must throw std::length_error when empty)
-  // type HeadNDequeue() specifiers; // (concrete function must throw std::length_error when empty)
-
+    
+    // Destructor
+    virtual ~Queue() = default;
+    
+    /* ************************************************************************ */
+    
+    // Copy assignment
+    Queue& operator=(const Queue&) = delete;
+    
+    // Move assignment
+    Queue& operator=(const Queue&&) noexcept = delete;
+    
+    /* ************************************************************************ */
+    
+    // Comparison operators
+    bool operator==(const Queue&) const noexcept = delete;
+    inline bool operator!=(const Queue&) const noexcept = delete;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions
+    
+    virtual void Enqueue(const Data&) = 0;
+    virtual void Enqueue(Data&&) noexcept = 0;
+    
+    virtual Data& Head() = 0; // (concrete function must throw std::length_error when empty)
+    
+    virtual void Dequeue() = 0; // (concrete function must throw std::length_error when empty)
+    virtual Data HeadNDequeue() = 0; // (concrete function must throw std::length_error when empty)
+    
 };
 
 /* ************************************************************************** */

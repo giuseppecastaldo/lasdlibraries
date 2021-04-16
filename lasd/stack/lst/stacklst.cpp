@@ -9,7 +9,7 @@ template <typename Data>
 StackLst<Data>::StackLst(const StackLst& s) : List<Data>(s) { }
 
 template <typename Data>
-StackLst<Data>::StackLst(StackLst&& s) noexcept : List<Data>(s) { }
+StackLst<Data>::StackLst(StackLst&& s) noexcept : List<Data>(std::move(s)) { }
 
 template <typename Data>
 StackLst<Data>::~StackLst() { }

@@ -14,71 +14,69 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class QueueLst { // Must extend Queue<Data> and List<Data>
-
+class QueueLst: public Queue<Data>, protected List<Data> {
+    
 private:
-
-  // ...
-
+    
 protected:
-
-  // using List<Data>::???;
-
-  // ...
-
+    
+    using List<Data>::size;
+    
 public:
-
-  // Default constructor
-  // QueueLst() specifier;
-
-  /* ************************************************************************ */
-
-  // Specific constructor
-  // QueueLst(argument) specifiers; // A queue obtained from a LinearContainer
-
-  /* ************************************************************************ */
-
-  // Copy constructor
-  // QueueLst(argument);
-
-  // Move constructor
-  // QueueLst(argument);
-
-  /* ************************************************************************ */
-
-  // Destructor
-  // ~QueueLst() specifier;
-
-  /* ************************************************************************ */
-
-  // Copy assignment
-  // type operator=(argument);
-
-  // Move assignment
-  // type operator=(argument);
-
-  /* ************************************************************************ */
-
-  // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from Queue)
-
-  // type Enqueue(argument) specifiers; // Override Queue member (copy of the value)
-  // type Enqueue(argument) specifiers; // Override Queue member (move of the value)
-  // type Head() specifiers; // Override Queue member (must throw std::length_error when empty)
-  // type Dequeue() specifiers; // Override Queue member (must throw std::length_error when empty)
-  // type HeadNDequeue() specifiers; // Override Queue member (must throw std::length_error when empty)
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from Container)
-
-  // type Clear() specifiers; // Override Container member
-
+    
+    // Default constructor
+    QueueLst() = default;
+    
+    /* ************************************************************************ */
+    
+    // Specific constructor
+    QueueLst(const LinearContainer<Data>&);
+    
+    /* ************************************************************************ */
+    
+    // Copy constructor
+    QueueLst(const QueueLst&);
+    
+    // Move constructor
+    QueueLst(QueueLst&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Destructor
+    virtual ~QueueLst();
+    
+    /* ************************************************************************ */
+    
+    // Copy assignment
+    QueueLst& operator = (const QueueLst&);
+    
+    // Move assignment
+    QueueLst& operator = (QueueLst&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Comparison operators
+    bool operator==(const QueueLst&) const noexcept;
+    inline bool operator!=(const QueueLst&) const noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from Queue)
+    
+    void Enqueue(const Data&) override;
+    void Enqueue(Data&&) noexcept override;
+    
+    Data& Head() override;
+    
+    void Dequeue() override;
+    Data HeadNDequeue() override;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from Container)
+    
+    void Clear() override;
+    
 };
 
 /* ************************************************************************** */

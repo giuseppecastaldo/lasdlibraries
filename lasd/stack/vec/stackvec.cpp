@@ -9,7 +9,9 @@ StackVec<Data>::StackVec() : Vector<Data>(2) {
 
 template <typename Data>
 StackVec<Data>::StackVec(const LinearContainer<Data>& con) {
-    Elements = new Data[con.Size()];
+    size = 2;
+    Elements = new Data[2];
+    
     for (unsigned long i = 0; i < con.Size(); i++) {
         StackVec<Data>::Push(con[i]);
     }
@@ -51,12 +53,12 @@ template <typename Data>
 bool StackVec<Data>::operator ==(const StackVec<Data>& ref) const noexcept{
     if(index != ref.index)
         return false;
-
+    
     for(unsigned long i = 0; i < index; i++){
         if(Elements[i] != ref.Elements[i])
             return false;
     }
-
+    
     return true;
 }
 
@@ -71,7 +73,7 @@ template <typename Data>
 Data& StackVec<Data>::Top(){
     if(index == 0)
         throw std::length_error("StackVec vuoto!");
-
+    
     return Elements[index-1];
 }
 
@@ -79,7 +81,7 @@ template <typename Data>
 void StackVec<Data>::Pop(){
     if(index == 0)
         throw std::length_error("StackVec vuoto!");
-
+    
     index--;
     if(index <= (size/4))
         Reduce();
@@ -99,7 +101,7 @@ template <typename Data>
 void StackVec<Data>::Push(const Data& ref){
     if(index == size-1)
         Expand();
-
+    
     Elements[index] = ref;
     index++;
 }
@@ -108,7 +110,7 @@ template <typename Data>
 void StackVec<Data>::Push(Data&& ref) noexcept{
     if(index == size-1)
         Expand();
-        
+    
     std::swap(Elements[index], ref);
     index++;
 }
