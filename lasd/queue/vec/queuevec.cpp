@@ -1,11 +1,9 @@
-#include <stdexcept>
+namespace lasd {
 
-// Default constructor
+/* ************************************************************************** */
+
 template <typename Data>
-QueueVec<Data>::QueueVec() : Vector<Data>(2){
-    // size = 2;
-    // Elements = new Data[2];
-}
+QueueVec<Data>::QueueVec() : Vector<Data>(2) { }
 
 template <typename Data>
 QueueVec<Data>::QueueVec(const LinearContainer<Data>& con) {
@@ -17,170 +15,172 @@ QueueVec<Data>::QueueVec(const LinearContainer<Data>& con) {
     }
 }
 
-// Copy constructor
 template <typename Data>
-QueueVec<Data>::QueueVec(const QueueVec& ref) : Vector<Data>(ref), top(ref.top), back(ref.back), lunghezza(ref.lunghezza) { }
-
-
-// Move constructor
-template <typename Data>
-QueueVec<Data>::QueueVec(QueueVec<Data>&& ref) noexcept : Vector<Data>(std::move(ref)) {
-    std::swap(top, ref.top);
-    std::swap(back, ref.back);
-    std::swap(lunghezza, ref.lunghezza);
+QueueVec<Data>::QueueVec(const QueueVec& q) : Vector<Data>(q) {
+    lenght = q.lenght;
+    head = q.head;
+    tail = q.tail;
 }
 
-
-// Destructor
 template <typename Data>
-QueueVec<Data>::~QueueVec() { } // E' chiamato quello di Vector
+QueueVec<Data>::QueueVec(QueueVec&& q) noexcept : Vector<Data>(std::move(q)) {
+    std::swap(lenght, q.lenght);
+    std::swap(head, q.head);
+    std::swap(tail, q.tail);
+}
 
-
-// Copy assignment
 template <typename Data>
-QueueVec<Data>& QueueVec<Data>::operator =(const QueueVec<Data>& ref){
-    Vector<Data>::operator =(ref);
-    top = ref.top;
-    back = ref.back;
-    lunghezza = ref.lunghezza;
+QueueVec<Data>::~QueueVec() { }
+
+template <typename Data>
+QueueVec<Data>& QueueVec<Data>::operator=(const QueueVec& q) {
+    Vector<Data>::operator=(q);
+    lenght = q.lenght;
+    head = q.head;
+    tail = q.tail;
     return *this;
 }
 
-
-// Move assignment
 template <typename Data>
-QueueVec<Data>& QueueVec<Data>::operator =(QueueVec<Data>&& ref) noexcept{
-    Vector<Data>::operator =(std::move(ref));
-    std::swap(top, ref.top);
-    std::swap(back, ref.back);
-    std::swap(lunghezza, ref.lunghezza);
+QueueVec<Data>& QueueVec<Data>::operator=(QueueVec&& q) noexcept {
+    Vector<Data>::operator=(std::move(q));
+    std::swap(lenght, q.lenght);
+    std::swap(head, q.head);
+    std::swap(tail, q.tail);
     return *this;
 }
 
-
-// Comparison operators
 template <typename Data>
-bool QueueVec<Data>::operator ==(const QueueVec<Data>& ref) const noexcept{
-    if(lunghezza != ref.lunghezza)
+bool QueueVec<Data>::operator==(const QueueVec& q) const noexcept {
+    if (lenght != q.lenght) {
         return false;
+    }
     
-    unsigned long index = top;
-    unsigned long index_ref = ref.top;
+    unsigned long this_head = head;
+    unsigned long q_head = q.head;
     
-    for(unsigned long i = 0; i < lunghezza; i++){
-        if(Elements[index] != ref.Elements[index_ref])
+    for (unsigned long i = 0; i < lenght; i++) {
+        if (Elements[this_head] != q.Elements[q_head]) {
             return false;
-        index = (index + 1) % size;
-        index_ref = (index_ref + 1) % ref.size;
+        }
+        
+        this_head = (this_head + 1) % size;
+        q_head = (q_head + 1) % size;
     }
     
     return true;
 }
 
 template <typename Data>
-bool QueueVec<Data>::operator !=(const QueueVec<Data>& ref) const noexcept{
-    return !(*this == ref);
-}
-
-// Specific member functions (inherited from Stack)
-template <typename Data>
-Data& QueueVec<Data>::Head(){
-    if(lunghezza == 0)
-        throw std::length_error("Coda vuota!");
-    
-    return Elements[top];
+bool QueueVec<Data>::operator!=(const QueueVec& q) const noexcept {
+    return !(*this == q);
 }
 
 template <typename Data>
-void QueueVec<Data>::Dequeue(){
-    if(lunghezza == 0)
-        throw std::length_error("QueueVec vuoto!");
+void QueueVec<Data>::Enqueue(const Data& data) {
+    if (lenght == size - 1) {
+        Expand();
+    }
     
-    top = (top + 1) % size;
-    lunghezza--;
-    if(lunghezza <= (size / 4))
+    Elements[tail] = data;
+    tail = (tail + 1) % size;
+    lenght++;
+}
+
+template <typename Data>
+void QueueVec<Data>::Enqueue(Data&& data) noexcept {
+    if (lenght == size - 1) {
+        Expand();
+    }
+    
+    std::swap(Elements[tail], data);
+    tail = (tail + 1) % size;
+    lenght++;
+}
+
+template <typename Data>
+Data& QueueVec<Data>::Head() {
+    if (lenght == 0) {
+        throw std::length_error("Access to an empty queue vector.");
+    }
+    
+    return Elements[head];
+}
+
+template <typename Data>
+void QueueVec<Data>::Dequeue() {
+    if (lenght == 0) {
+        throw std::length_error("Access to an empty queue vector.");
+    }
+    
+    head = (head + 1) % size;
+    lenght--;
+    
+    if (lenght <= size/4) {
         Reduce();
+    }
 }
 
 template <typename Data>
-Data QueueVec<Data>::HeadNDequeue(){
-    if(lunghezza == 0)
-        throw std::length_error("QueueVec vuoto!");
-    
+Data QueueVec<Data>::HeadNDequeue() {
     Data result = Head();
     Dequeue();
     return result;
 }
 
 template <typename Data>
-void QueueVec<Data>::Enqueue(const Data& ref){
-    if(lunghezza == size - 1)
-        Expand();
-    
-    lunghezza++;
-    Elements[back] = ref;
-    back = (back + 1) % size;
-}
-
-template <typename Data>
-void QueueVec<Data>::Enqueue(Data&& ref) noexcept{
-    if(lunghezza == size - 1)
-        Expand();
-    
-    lunghezza++;
-    std::swap(Elements[back], ref);
-    back = (back + 1) % size;
-}
-
-// Specific member functions (inherited from Container)
-template <typename Data>
-bool QueueVec<Data>::Empty() const noexcept{
-    if(lunghezza == 0)
+bool QueueVec<Data>::Empty() const noexcept {
+    if (lenght == 0) {
         return true;
+    }
     
     return false;
 }
 
 template <typename Data>
-unsigned long QueueVec<Data>::Size() const noexcept{
-    return lunghezza;
+unsigned long QueueVec<Data>::Size() const noexcept {
+    return lenght;
 }
 
 template <typename Data>
-void QueueVec<Data>::Clear(){
-    Vector<Data>::Clear();
-    top = 0;
-    back = 0;
-    lunghezza = 0;
-    Vector<Data>::Resize(2);
+void QueueVec<Data>::Clear() {
+    size = 2;
+    Elements = new Data[2];
+    lenght = 0;
+    head = 0;
+    tail = 0;
 }
 
 template <typename Data>
-void QueueVec<Data>::Expand(){
-    Data *tmp = new Data[size * 2];
-    unsigned long index = top;
-    for(unsigned long i = 0; i < lunghezza; i++){
-        tmp[i] = Elements[index];
-        index = (index + 1) % size;
+void QueueVec<Data>::Expand() {
+    SwapVectors(size * 2);
+}
+
+template <typename Data>
+void QueueVec<Data>::Reduce() {
+    SwapVectors(size / 2);
+}
+
+template <typename Data>
+void QueueVec<Data>::SwapVectors(unsigned long newsize) {
+    if (newsize == 0) {
+        Clear();
+    } else if (size != newsize) {
+        unsigned long this_head = head;
+        Data* TmpElements = new Data[size] {};
+        for (unsigned long index = 0; index < lenght; ++index) {
+            std::swap(TmpElements[index],Elements[this_head]);
+            this_head = (this_head + 1) % size;
+        }
+        
+        std::swap(Elements, TmpElements);
+        size = newsize;
+        head = 0;
+        tail = lenght;
+        delete[] TmpElements;
     }
-    top = 0;
-    back = lunghezza;
-    size = size * 2;
-    std::swap(tmp, Elements);
-    delete[] tmp;
 }
 
-template <typename Data>
-void QueueVec<Data>::Reduce(){
-    Data *tmp = new Data[size / 2];
-    unsigned long index = top;
-    for(unsigned long i = 0; i < lunghezza; i++){
-        tmp[i] = Elements[index];
-        index = (index + 1) % size;
-    }
-    top = 0;
-    back = lunghezza;
-    size = size / 2;
-    std::swap(tmp, Elements);
-    delete[] tmp;
+/* ************************************************************************** */
+
 }
