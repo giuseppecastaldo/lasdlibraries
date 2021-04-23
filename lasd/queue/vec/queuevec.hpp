@@ -23,7 +23,7 @@ protected:
     using Vector<Data>::Elements;
     unsigned long head = 0;
     unsigned long tail = 0;
-    unsigned long lenght = 0;
+    unsigned long length = 0;
     
 public:
     

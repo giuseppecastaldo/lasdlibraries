@@ -1,10 +1,3 @@
-//
-//  vector.cpp
-//  exercise1
-//
-//  Created by Giuseppe Castaldo on 02/04/21.
-//
-
 namespace lasd {
 
 /* ************************************************************************** */

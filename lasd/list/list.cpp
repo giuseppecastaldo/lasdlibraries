@@ -1,10 +1,3 @@
-//
-//  list.cpp
-//  exercise1
-//
-//  Created by Giuseppe Castaldo on 02/04/21.
-//
-
 namespace lasd {
 
 template <typename Data>
@@ -86,7 +79,7 @@ List<Data>& List<Data>::operator=(const List& list) {
 
 template <typename Data>
 List<Data>& List<Data>::operator=(List&& list) noexcept {
-    if (this != &list) {
+    if(this != &list) {
         std::swap(size, list.size);
         std::swap(Head, list.Head);
         std::swap(Tail, list.Tail);
@@ -95,16 +88,18 @@ List<Data>& List<Data>::operator=(List&& list) noexcept {
     return *this;
 }
 
+/* ************************************************************************** */
+
 template <typename Data>
 bool List<Data>::operator==(const List<Data>& list) const noexcept {
-    if (size != list.size)
+    if(size != list.size)
         return false;
     
     struct Node *tmp = Head;
     struct Node *tmp2 = list.Head;
     
     for(unsigned long i = 0; i < size; i++){
-        if (tmp->Element != tmp2->Element)
+        if(tmp->Element != tmp2->Element)
             return false;
         
         tmp = tmp->NextElement;
@@ -236,61 +231,61 @@ Data& List<Data>::operator[](const unsigned long index) const {
 }
 
 template <typename Data>
-void List<Data>::MapPreOrder(const MapFunctor functor, void* par) {
-    MapPreOrder(functor, par, Head);
+void List<Data>::MapPreOrder(MapFunctor function, void *par) {
+    MapPreOrder(function, par, Head);
 }
 
 template <typename Data>
-void List<Data>::MapPostOrder(const MapFunctor functor, void* par) {
-    MapPostOrder(functor, par, Head);
+void List<Data>::MapPostOrder(MapFunctor function, void *par) {
+    MapPostOrder(function, par, Head);
 }
 
 template <typename Data>
-void List<Data>::FoldPreOrder(const FoldFunctor functor, const void* par, void* acc) const {
-    FoldPreOrder(functor, par, acc, Head);
+void List<Data>::FoldPreOrder(FoldFunctor function, const void *constPar, void *par) const {
+    FoldPreOrder(function, constPar, par, Head);
 }
 
 template <typename Data>
-void List<Data>::FoldPostOrder(const FoldFunctor functor, const void* par, void* acc) const {
-    FoldPostOrder(functor, par, acc, Head);
+void List<Data>::FoldPostOrder(FoldFunctor function, const void *constPar, void *par) const {
+    FoldPostOrder(function, constPar, par, Head);
 }
 
+//OVERLOAD Accessory Function
+
 template <typename Data>
-void List<Data>::MapPreOrder(MapFunctor functor, void* par, Node* node) {
-    if (node == nullptr) {
+void List<Data>::MapPreOrder(MapFunctor function, void *par, struct Node *node) {
+    if (node == nullptr)
         return;
-    }
-
-    for (Node* current = node; current != nullptr; current = current->NextElement) {
-        functor(current->Element, par);
-    }
-}
-
-template <typename Data>
-void List<Data>::MapPostOrder(MapFunctor functor, void* par, Node* node) {
-    if (node != nullptr) {
-        MapPostOrder(functor, par, node->NextElement);
-        functor(node->Element, par);
-    }
-}
-
-template <typename Data>
-void List<Data>::FoldPreOrder(const FoldFunctor functor, const void* par, void* acc, Node* node) const {
-    if (node == nullptr) {
-        return;
-    }
     
-    for (Node* current = node; current != nullptr; current = current->NextElement) {
-        functor(current->Element, par, acc);
-    }
+    function(node->Element, par);
+    MapPreOrder(function, par, node->NextElement);
 }
 
 template <typename Data>
-void List<Data>::FoldPostOrder(const FoldFunctor functor, const void* par, void* acc, Node* node) const {
-    if (node != nullptr) {
-        FoldPostOrder(functor, par, acc, node->NextElement);
-        functor(node->Element, par, acc);
-    }
+void List<Data>::MapPostOrder(MapFunctor function, void *par, struct Node *node) {
+    if (node == nullptr)
+        return;
+    
+    MapPostOrder(function, par, node->NextElement);
+    function(node->Element, par);
+}
+
+template <typename Data>
+void List<Data>::FoldPreOrder(FoldFunctor function, const void *constPar, void *par, struct Node *node) const {
+    if (node == nullptr)
+        return;
+    
+    function(node->Element, constPar, par);
+    FoldPreOrder(function, constPar, par, node->NextElement);
+}
+
+template <typename Data>
+void List<Data>::FoldPostOrder(FoldFunctor function, const void *constPar, void *par, struct Node *node) const {
+    if (node == nullptr)
+        return;
+    
+    FoldPostOrder(function, constPar, par, node->NextElement);
+    function(node->Element, constPar, par);
 }
 
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		501F8EC22631AA6C00AD0665 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA881F2625D79600F40149 /* test.cpp */; };
 		504800362625D95C001E89DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504800352625D95C001E89DA /* main.cpp */; };
 		50DA88702625D7CE00F40149 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA88462625D79600F40149 /* simpletest.cpp */; };
 		50DA88722625D7DB00F40149 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA88452625D79600F40149 /* fulltest.cpp */; };
@@ -332,13 +333,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50DA887A2625D81400F40149 /* test.cpp in Sources */,
-				50DA88782625D7FD00F40149 /* container.cpp in Sources */,
-				50DA88762625D7EA00F40149 /* fulltest.cpp in Sources */,
-				50DA88742625D7E300F40149 /* simpletest.cpp in Sources */,
-				504800362625D95C001E89DA /* main.cpp in Sources */,
-				50DA88722625D7DB00F40149 /* fulltest.cpp in Sources */,
 				50DA88702625D7CE00F40149 /* simpletest.cpp in Sources */,
+				50DA88722625D7DB00F40149 /* fulltest.cpp in Sources */,
+				50DA88742625D7E300F40149 /* simpletest.cpp in Sources */,
+				50DA88762625D7EA00F40149 /* fulltest.cpp in Sources */,
+				50DA88782625D7FD00F40149 /* container.cpp in Sources */,
+				50DA887A2625D81400F40149 /* test.cpp in Sources */,
+				501F8EC22631AA6C00AD0665 /* test.cpp in Sources */,
+				504800362625D95C001E89DA /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

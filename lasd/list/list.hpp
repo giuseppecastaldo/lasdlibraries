@@ -1,11 +1,3 @@
-//
-//  list.hpp
-//  exercise1
-//
-//  Created by Giuseppe Castaldo on 02/04/21.
-//
-
-
 #ifndef LIST_HPP
 #define LIST_HPP
 
@@ -59,10 +51,6 @@ protected:
         inline bool operator != (const Node&) const noexcept;
         
         /* ********************************************************************** */
-        
-        // Specific member functions
-        
-        // ...
         
     };
     
@@ -164,6 +152,7 @@ protected:
     
     void FoldPreOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
     void FoldPostOrder(FoldFunctor, const void*, void*, Node*) const; // Accessory function executing from one point of the list onwards
+    
 };
 
 /* ************************************************************************** */

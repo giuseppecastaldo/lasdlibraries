@@ -1,10 +1,3 @@
-//
-//  vector.hpp
-//  exercise1
-//
-//  Created by Giuseppe Castaldo on 02/04/21.
-//
-
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
