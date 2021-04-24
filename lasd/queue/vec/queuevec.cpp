@@ -116,7 +116,7 @@ void QueueVec<Data>::Dequeue() {
     head = (head + 1) % size;
     length--;
     
-    if (length <= size/4) {
+    if (length <= (size/4)) {
         Reduce();
     }
 }
@@ -144,6 +144,7 @@ unsigned long QueueVec<Data>::Size() const noexcept {
 
 template <typename Data>
 void QueueVec<Data>::Clear() {
+    delete[] Elements;
     size = 2;
     Elements = new Data[2];
     length = 0;
@@ -176,7 +177,6 @@ void QueueVec<Data>::SwapVectors(unsigned long newsize) {
     std::swap(TmpElements, Elements);
     
     delete[] TmpElements;
-    
 }
 
 /* ************************************************************************** */

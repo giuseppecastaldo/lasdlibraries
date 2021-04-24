@@ -18,7 +18,6 @@ class QueueVec: public Queue<Data>, protected Vector<Data> {
 private:
     
 protected:
-    
     using Vector<Data>::size;
     using Vector<Data>::Elements;
     unsigned long head = 0;

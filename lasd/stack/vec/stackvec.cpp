@@ -94,7 +94,7 @@ void StackVec<Data>::Pop() {
     }
     
     index--;
-    if (index <= size/4) {
+    if (index <= (size/4)) {
         Reduce();
     }
 }
@@ -122,6 +122,7 @@ unsigned long StackVec<Data>::Size() const noexcept {
 
 template <typename Data>
 void StackVec<Data>::Clear() {
+    delete[] Elements;
     size = 2;
     Elements = new Data[2];
     index = 0;

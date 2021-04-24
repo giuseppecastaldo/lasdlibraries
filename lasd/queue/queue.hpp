@@ -13,7 +13,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class Queue: public virtual Container {
+class Queue: virtual public Container {
     
 private:
     
@@ -30,7 +30,7 @@ public:
     Queue& operator=(const Queue&) = delete;
     
     // Move assignment
-    Queue& operator=(const Queue&&) noexcept = delete;
+    Queue& operator=(Queue&&) noexcept = delete;
     
     /* ************************************************************************ */
     

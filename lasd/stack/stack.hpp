@@ -30,7 +30,7 @@ public:
     Stack& operator=(const Stack&) = delete;
     
     // Move assignment
-    Stack& operator=(const Stack&&) noexcept = delete;
+    Stack& operator=(Stack&&) noexcept = delete;
     
     /* ************************************************************************ */
     
