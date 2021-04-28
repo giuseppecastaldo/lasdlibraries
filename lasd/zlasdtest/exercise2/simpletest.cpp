@@ -52,12 +52,12 @@ void stestStackInt(Stk& stk, unsigned int& testnum, unsigned int& testerr) {
     NonEqualStack(loctestnum, loctesterr, stk, copstk, true);
 
     Top(loctestnum, loctesterr, copstk, true, 6);
-    copstk = std::move(stk);
+    copstk = move(stk);
     TopNPop(loctestnum, loctesterr, copstk, true, 5);
     Pop(loctestnum, loctesterr, copstk, true);
     Top(loctestnum, loctesterr, copstk, true, 3);
 
-    Stk movstk(std::move(stk));
+    Stk movstk(move(stk));
     Top(loctestnum, loctesterr, stk, false, 0);
 
     movstk.Clear();
@@ -218,12 +218,12 @@ void stestQueueInt(Que& que, unsigned int& testnum, unsigned int& testerr) {
     NonEqualQueue(loctestnum, loctesterr, que, copque, true);
 
     Head(loctestnum, loctesterr, copque, true, 0);
-    copque = std::move(que);
+    copque = move(que);
     HeadNDequeue(loctestnum, loctesterr, copque, true, 0);
     Dequeue(loctestnum, loctesterr, copque, true);
     Head(loctestnum, loctesterr, copque, true, 1);
 
-    Que movque(std::move(que));
+    Que movque(move(que));
     Head(loctestnum, loctesterr, que, false, 0);
 
     movque.Clear();
@@ -325,12 +325,12 @@ void stestQueueString(unsigned int& testnum, unsigned int& testerr) {
     EnqueueM(loctestnum, loctesterr, quevec, string("A"));
     EnqueueM(loctestnum, loctesterr, quevec, string("B"));
     lasd::QueueVec<string> newquevec(vec);
-    EqualStack(loctestnum, loctesterr, quevec, newquevec, true);
+    EqualQueue(loctestnum, loctesterr, quevec, newquevec, true);
 
     EnqueueM(loctestnum, loctesterr, quelst, string("A"));
     EnqueueM(loctestnum, loctesterr, quelst, string("B"));
     lasd::QueueLst<string> newquelst(vec);
-    EqualStack(loctestnum, loctesterr, quelst, newquelst, true);
+    EqualQueue(loctestnum, loctesterr, quelst, newquelst, true);
   } catch(...) {
     loctestnum++; loctesterr++;
     cout << endl << "Unmanaged error! " << endl;

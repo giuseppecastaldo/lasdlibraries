@@ -3,6 +3,8 @@
 
 #include "./exercise2/test.hpp"
 
+#include "./exercise3/test.hpp"
+
 /* ************************************************************************** */
 
 #include <iostream>
@@ -17,5 +19,7 @@ void lasdtest() {
   testFullExercise1();
   testSimpleExercise2();
   testFullExercise2();
+  testSimpleExercise3();
+  testFullExercise3();
   cout << endl << "Goodbye!" << endl;
 }

@@ -126,10 +126,10 @@ void stestVectorString(unsigned int& testnum, unsigned int& testerr) {
     MapPreOrder(loctestnum, loctesterr, vec, true, &MapStringAppend, string("!"));
     NonEqualVector(loctestnum, loctesterr, vec, copvec, true);
 
-    copvec = std::move(vec);
+    copvec = move(vec);
     FoldPreOrder(loctestnum, loctesterr, copvec, true, &FoldStringConcatenate, string(""), string("?"), string("?A !B !"));
 
-    lasd::Vector<string> movvec(std::move(vec));
+    lasd::Vector<string> movvec(move(vec));
     FoldPreOrder(loctestnum, loctesterr, movvec, true, &FoldStringConcatenate, string(""), string("?"), string("?A B "));
     SetAt(loctestnum, loctesterr, vec, false, 1, string(""));
     vec.Resize(1);
@@ -217,11 +217,11 @@ void stestListInt(unsigned int& testnum, unsigned int& testerr) {
 
     RemoveFromFront(loctestnum, loctesterr, coplst, true);
     FrontNRemove(loctestnum, loctesterr, coplst, true, 6);
-    coplst = std::move(lst);
+    coplst = move(lst);
     FoldPreOrder(loctestnum, loctesterr, lst, true, &FoldAdd<int>, 0, 0, 11);
     FoldPreOrder(loctestnum, loctesterr, coplst, true, &FoldAdd<int>, 0, 0, 17);
 
-    lasd::List<int> movlst(std::move(lst));
+    lasd::List<int> movlst(move(lst));
     MapPreOrder(loctestnum, loctesterr, movlst, true, &MapIncrement<int>, 0);
     FoldPreOrder(loctestnum, loctesterr, movlst, true, &FoldAdd<int>, 0, 0, 14);
 
@@ -307,7 +307,7 @@ void stestListString(unsigned int& testnum, unsigned int& testerr) {
     InsertAtFront(loctestnum, loctesterr, lst, true, string("C"));
     NonEqualList(loctestnum, loctesterr, lst, coplst, true);
 
-    coplst = std::move(lst);
+    coplst = move(lst);
     FoldPreOrder(loctestnum, loctesterr, coplst, true, &FoldStringConcatenate, string(""), string("?"), string("?CB A"));
   } catch(...) {
     loctestnum++; loctesterr++;
