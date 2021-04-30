@@ -40,7 +40,7 @@ public:
     
     virtual Data& operator*() = 0; // (concrete function must throw std::out_of_range when terminated)
     
-    virtual bool Terminated() = 0; // (concrete function should not throw exceptions)
+    virtual bool Terminated() const noexcept = 0; // (concrete function should not throw exceptions)
     
 };
 
@@ -76,7 +76,7 @@ public:
     
     // Specific member functions
     
-    virtual void operator++() = 0; // (concrete function must throw std::out_of_range when terminated)
+    virtual Data& operator++() = 0; // (concrete function must throw std::out_of_range when terminated)
     
 };
 

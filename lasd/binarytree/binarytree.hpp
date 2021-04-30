@@ -8,6 +8,9 @@
 #include "../iterator/iterator.hpp"
 
 #include "../queue/queue.hpp"
+#include "../stack/stack.hpp"
+
+#include "../stack/lst/stacklst.hpp"
 #include "../queue/lst/queuelst.hpp"
 
 /* ************************************************************************** */
@@ -43,7 +46,7 @@ public:
         /* ********************************************************************** */
         
         // Destructor
-        ~Node() = default;
+        virtual ~Node() = default;
         
         /* ********************************************************************** */
         
@@ -66,12 +69,12 @@ public:
         virtual Data& Element() = 0;
         virtual const Data& Element() const = 0;
         
-        virtual bool IsLeaf() noexcept = 0;
-        virtual bool HasLeftChild() noexcept = 0;
-        virtual bool HasRightChild() noexcept = 0;
+        virtual bool IsLeaf() const noexcept = 0;
+        virtual bool HasLeftChild() const noexcept = 0;
+        virtual bool HasRightChild() const noexcept = 0;
         
-        virtual Node& LeftChild() = 0; // (concrete function must throw std::out_of_range when not existent)
-        virtual Node& RightChild() = 0; // (concrete function must throw std::out_of_range when not existent)
+        virtual Node& LeftChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
+        virtual Node& RightChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
         
     };
     
@@ -191,7 +194,8 @@ private:
     
 protected:
     
-    QueueLst<struct BinaryTree<Data>::Node*> elements;
+    typename BinaryTree<Data>::Node* current;
+    StackLst<typename BinaryTree<Data>::Node*> elements;
     
 public:
     
@@ -231,17 +235,13 @@ public:
     
     Data& operator*() override; // (throw std::out_of_range when terminated)
     
-    bool Terminated() override; // (should not throw exceptions)
+    bool Terminated() const noexcept override; // (should not throw exceptions)
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    void operator++() override; // (throw std::out_of_range when terminated)
-    
-protected:
-    
-    void FillQueueInPreOrder(struct BinaryTree<Data>::Node*);
+    Data& operator++() override; // (throw std::out_of_range when terminated)
     
 };
 
@@ -254,7 +254,8 @@ private:
     
 protected:
     
-    QueueLst<struct BinaryTree<Data>::Node*> elements;
+    typename BinaryTree<Data>::Node* current;
+    StackLst<typename BinaryTree<Data>::Node*> elements;
     
 public:
     
@@ -294,17 +295,17 @@ public:
     
     Data& operator*() override; // (throw std::out_of_range when terminated)
     
-    bool Terminated() override; // (should not throw exceptions)
+    bool Terminated() const noexcept override; // (should not throw exceptions)
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    void operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override; // (throw std::out_of_range when terminated)
     
 protected:
     
-    void FillQueueInPostOrder(struct BinaryTree<Data>::Node*);
+    void FindLastLeftLeaf(typename BinaryTree<Data>::Node*);
     
 };
 
@@ -316,6 +317,9 @@ class BTInOrderIterator: virtual public ForwardIterator<Data> {
 private:
     
 protected:
+    
+    typename BinaryTree<Data>::Node* current;
+    StackLst<typename BinaryTree<Data>::Node*> elements;
     
 public:
     
@@ -355,13 +359,17 @@ public:
     
     Data& operator*() override; // (throw std::out_of_range when terminated)
     
-    bool Terminated() override; // (should not throw exceptions)
+    bool Terminated() const noexcept override; // (should not throw exceptions)
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    void operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override; // (throw std::out_of_range when terminated)
+    
+protected:
+    
+    void FindLastLeftNode(typename BinaryTree<Data>::Node*);
     
 };
 
@@ -373,6 +381,9 @@ class BTBreadthIterator: virtual public ForwardIterator<Data> {
 private:
     
 protected:
+    
+    typename BinaryTree<Data>::Node* current;
+    QueueLst<typename BinaryTree<Data>::Node*> elements;
     
 public:
     
@@ -412,13 +423,13 @@ public:
     
     Data& operator*() override; // (throw std::out_of_range when terminated)
     
-    bool Terminated() override; // (should not throw exceptions)
+    bool Terminated() const noexcept override; // (should not throw exceptions)
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    void operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override; // (throw std::out_of_range when terminated)
     
 };
 
