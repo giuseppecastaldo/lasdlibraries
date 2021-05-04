@@ -255,7 +255,7 @@ Data& BTPreOrderIterator<Data>::operator++() {
 }
 
 template <typename Data>
-Data& BTPreOrderIterator<Data>::operator*() {
+Data& BTPreOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
@@ -333,7 +333,7 @@ Data& BTPostOrderIterator<Data>::operator++() {
 }
 
 template <typename Data>
-Data& BTPostOrderIterator<Data>::operator*() {
+Data& BTPostOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
@@ -419,7 +419,7 @@ Data& BTInOrderIterator<Data>::operator++() {
 }
 
 template <typename Data>
-Data& BTInOrderIterator<Data>::operator*() {
+Data& BTInOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
@@ -503,7 +503,7 @@ Data& BTBreadthIterator<Data>::operator++() {
 }
 
 template <typename Data>
-Data& BTBreadthIterator<Data>::operator*() {
+Data& BTBreadthIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }

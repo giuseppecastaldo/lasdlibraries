@@ -143,7 +143,8 @@ typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTreeLnk(const No
     if(nodePtr == nullptr)
         return nullptr;
     else{
-        struct NodeLnk* ptr = new struct NodeLnk(nodePtr->dato);
+        NodeLnk* ptr = new NodeLnk();
+        ptr->element = nodePtr->element;
         ptr->left = CopyTreeLnk(nodePtr->left);
         ptr->right = CopyTreeLnk(nodePtr->right);
         size++;

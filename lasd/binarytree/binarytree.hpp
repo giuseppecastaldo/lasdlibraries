@@ -233,7 +233,7 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override; // (throw std::out_of_range when terminated)
+    Data& operator*() const override; // (throw std::out_of_range when terminated)
     
     bool Terminated() const noexcept override; // (should not throw exceptions)
     
@@ -293,7 +293,7 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override; // (throw std::out_of_range when terminated)
+    Data& operator*() const override; // (throw std::out_of_range when terminated)
     
     bool Terminated() const noexcept override; // (should not throw exceptions)
     
@@ -357,7 +357,7 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override;
+    Data& operator*() const override;
     
     bool Terminated() const noexcept override;
     
@@ -421,7 +421,7 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override;
+    Data& operator*() const override;
     
     bool Terminated() const noexcept override;
     
