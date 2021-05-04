@@ -10,13 +10,6 @@
 		50ECE410263988A6008F87E6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504800352625D95C001E89DA /* main.cpp */; };
 		50ECE412263988D1008F87E6 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA881F2625D79600F40149 /* test.cpp */; };
 		50ECE419263988F9008F87E6 /* container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DF26398853008F87E6 /* container.cpp */; };
-		50ECE445263AC32A008F87E6 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D526398853008F87E6 /* fulltest.cpp */; };
-		50ECE447263AC32D008F87E6 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D626398853008F87E6 /* simpletest.cpp */; };
-		50ECE449263AC331008F87E6 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D926398853008F87E6 /* fulltest.cpp */; };
-		50ECE44B263AC334008F87E6 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DA26398853008F87E6 /* simpletest.cpp */; };
-		50ECE44D263AC33D008F87E6 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3E426398853008F87E6 /* fulltest.cpp */; };
-		50ECE44F263AC341008F87E6 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3E526398853008F87E6 /* simpletest.cpp */; };
-		50ECE451263AC3B0008F87E6 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DC26398853008F87E6 /* test.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -415,14 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ECE44F263AC341008F87E6 /* simpletest.cpp in Sources */,
-				50ECE44D263AC33D008F87E6 /* fulltest.cpp in Sources */,
-				50ECE447263AC32D008F87E6 /* simpletest.cpp in Sources */,
-				50ECE445263AC32A008F87E6 /* fulltest.cpp in Sources */,
-				50ECE44B263AC334008F87E6 /* simpletest.cpp in Sources */,
-				50ECE449263AC331008F87E6 /* fulltest.cpp in Sources */,
 				50ECE419263988F9008F87E6 /* container.cpp in Sources */,
-				50ECE451263AC3B0008F87E6 /* test.cpp in Sources */,
 				50ECE412263988D1008F87E6 /* test.cpp in Sources */,
 				50ECE410263988A6008F87E6 /* main.cpp in Sources */,
 			);

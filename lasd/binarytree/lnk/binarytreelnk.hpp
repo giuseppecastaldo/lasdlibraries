@@ -1,4 +1,3 @@
-
 #ifndef BINARYTREELNK_HPP
 #define BINARYTREELNK_HPP
 
@@ -13,83 +12,107 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BinaryTreeLnk { // Must extend BinaryTree<Data>
-
+class BinaryTreeLnk: public BinaryTree<Data> {
+    
 private:
-
-  // ...
-
+    
 protected:
-
-  // using BinaryTree<Data>::???;
-
-  // ...
-
-  struct NodeLnk { // Must extend Node
-
-  private:
-
-    // ...
-
-  protected:
-
-    // ...
-
-  public:
-
-    // ...
-
-  };
-
+    
+    using BinaryTree<Data>::size;
+    
+    struct NodeLnk: public BinaryTree<Data>::Node {
+        
+    private:
+        
+    protected:
+        
+        using BinaryTree<Data>::Node::element;
+        NodeLnk* right = nullptr;
+        NodeLnk* left = nullptr;
+        
+    public:
+        
+        friend class BinaryTreeLnk<Data>;
+        
+        /* ********************************************************************** */
+        
+        // Copy assignment
+        NodeLnk& operator =(const NodeLnk&);
+        
+        // Move assignment
+        NodeLnk& operator =(NodeLnk&&) noexcept;
+        
+        /* ********************************************************************** */
+        
+        // Specific member functions
+        
+        Data& Element() override;
+        const Data& Element() const override;
+        
+        bool IsLeaf() const noexcept override;
+        bool HasLeftChild() const noexcept override;
+        bool HasRightChild() const noexcept override;
+        
+        NodeLnk& LeftChild() const override;
+        NodeLnk& RightChild() const override;
+        
+    };
+    
 public:
-
-  // Default constructor
-  // BinaryTreeLnk() specifiers;
-
-  /* ************************************************************************ */
-
-  // Specific constructors
-  // BinaryTreeLnk(argument) specifiers; // A binary tree obtained from a LinearContainer
-
-  /* ************************************************************************ */
-
-  // Copy constructor
-  // BinaryTreeLnk(argument) specifiers;
-
-  // Move constructor
-  // BinaryTreeLnk(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Destructor
-  // ~BinaryTreeLnk() specifiers;
-
-  /* ************************************************************************ */
-
-  // Copy assignment
-  // type operator=(argument) specifiers;
-
-  // Move assignment
-  // type operator=(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from BinaryTree)
-
-  // type Root() specifiers; // Override BinaryTree member (throw std::length_error when empty)
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from Container)
-
-  // type Clear() specifiers; // Override Container member
-
+    
+    // Default constructor
+    BinaryTreeLnk() = default;
+    
+    /* ************************************************************************ */
+    
+    // Specific constructors
+    BinaryTreeLnk(const LinearContainer<Data>&);
+    
+    /* ************************************************************************ */
+    
+    // Copy constructor
+    BinaryTreeLnk(const BinaryTreeLnk&);
+    
+    // Move constructor
+    BinaryTreeLnk(BinaryTreeLnk&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Destructor
+    virtual ~BinaryTreeLnk();
+    
+    /* ************************************************************************ */
+    
+    // Copy assignment
+    BinaryTreeLnk& operator = (const BinaryTreeLnk&);
+    
+    // Move assignment
+    BinaryTreeLnk& operator = (BinaryTreeLnk&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Comparison operators
+    bool operator == (const BinaryTreeLnk&) const noexcept;
+    inline bool operator != (const BinaryTreeLnk&) const noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from BinaryTree)
+    
+    NodeLnk& Root() const override;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from Container)
+    
+    void Clear() override;
+    
+protected:
+    
+    NodeLnk *root = nullptr;
+    void DeleteTree(NodeLnk* root) noexcept;
+    NodeLnk* CopyTreeLnk(const NodeLnk* node);
+    NodeLnk& FillTreeFromLinearContainer(const LinearContainer<Data>&, NodeLnk&, unsigned int);
 };
 
 /* ************************************************************************** */
