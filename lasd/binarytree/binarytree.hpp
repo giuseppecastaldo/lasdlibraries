@@ -8,10 +8,10 @@
 #include "../iterator/iterator.hpp"
 
 #include "../stack/stack.hpp"
-#include "../stack/lst/stacklst.hpp"
-
 #include "../queue/queue.hpp"
+
 #include "../queue/lst/queuelst.hpp"
+#include "../stack/lst/stacklst.hpp"
 
 /* ************************************************************************** */
 

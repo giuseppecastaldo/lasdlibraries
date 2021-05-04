@@ -7,9 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		50ECE410263988A6008F87E6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504800352625D95C001E89DA /* main.cpp */; };
-		50ECE412263988D1008F87E6 /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA881F2625D79600F40149 /* test.cpp */; };
-		50ECE419263988F9008F87E6 /* container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DF26398853008F87E6 /* container.cpp */; };
+		50BB9E0226417BAA00E7990E /* container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DF26398853008F87E6 /* container.cpp */; };
+		50BB9E0426417BAF00E7990E /* test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50DA881F2625D79600F40149 /* test.cpp */; };
+		50BB9E07264184C800E7990E /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D526398853008F87E6 /* fulltest.cpp */; };
+		50BB9E09264184CC00E7990E /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D626398853008F87E6 /* simpletest.cpp */; };
+		50BB9E0B264184D100E7990E /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3D926398853008F87E6 /* fulltest.cpp */; };
+		50BB9E0D264184D400E7990E /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3DA26398853008F87E6 /* simpletest.cpp */; };
+		50BB9E0F264184D900E7990E /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3E426398853008F87E6 /* fulltest.cpp */; };
+		50BB9E11264184E100E7990E /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50ECE3E526398853008F87E6 /* simpletest.cpp */; };
+		50ECE410263988A6008F87E6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504800352625D95C001E89DA /* main.cpp */; settings = {COMPILER_FLAGS = "-Wall"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -408,8 +414,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50ECE419263988F9008F87E6 /* container.cpp in Sources */,
-				50ECE412263988D1008F87E6 /* test.cpp in Sources */,
+				50BB9E11264184E100E7990E /* simpletest.cpp in Sources */,
+				50BB9E0F264184D900E7990E /* fulltest.cpp in Sources */,
+				50BB9E09264184CC00E7990E /* simpletest.cpp in Sources */,
+				50BB9E07264184C800E7990E /* fulltest.cpp in Sources */,
+				50BB9E0D264184D400E7990E /* simpletest.cpp in Sources */,
+				50BB9E0B264184D100E7990E /* fulltest.cpp in Sources */,
+				50BB9E0226417BAA00E7990E /* container.cpp in Sources */,
+				50BB9E0426417BAF00E7990E /* test.cpp in Sources */,
 				50ECE410263988A6008F87E6 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
