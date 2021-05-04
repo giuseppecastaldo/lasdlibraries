@@ -501,21 +501,6 @@ BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc){
       treeVec[i] = nullptr;
   }
 
-// Specific member functions (inherited from BreadthSearchableContainer)
-  template <typename Data>
-  void BinaryTreeVec<Data>::MapBreadth(MapFunctor func, void* par){
-    for(unsigned long i = 0; i < treeVec.Size(); i++)
-      if(treeVec[i] != nullptr)
-        func(treeVec[i]->element, par);
-  }
-
-  template <typename Data>
-  void BinaryTreeVec<Data>::FoldBreadth(FoldFunctor func, const void* cPar, void* par) const{
-    for(unsigned long i = 0; i < treeVec.Size(); i++)
-      if(treeVec[i] != nullptr)
-        func(treeVec[i]->element, cPar, par);
-  }
-
 // Accessory functions
   template <typename Data>
   void BinaryTreeVec<Data>::Expand(){

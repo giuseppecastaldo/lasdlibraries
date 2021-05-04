@@ -112,7 +112,7 @@ protected:
     NodeLnk *root = nullptr;
     void DeleteTree(NodeLnk* root) noexcept;
     NodeLnk* CopyTreeLnk(const NodeLnk* node);
-    NodeLnk& FillTreeFromLinearContainer(const LinearContainer<Data>&, NodeLnk&, unsigned int);
+    NodeLnk* FillTreeFromLinearContainer(const LinearContainer<Data>&, NodeLnk*, unsigned int);
 };
 
 /* ************************************************************************** */

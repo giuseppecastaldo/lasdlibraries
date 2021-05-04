@@ -27,7 +27,6 @@ private:
 protected:
     
     using InOrderMappableContainer<Data>::size;
-    using BreadthMappableContainer<Data>::size;
     
 public:
     

@@ -8,7 +8,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(c
     element = n.element;
     right = &(n.RightChild());
     left = &(n.LeftChild());
-
+    
     return *this;
 }
 
@@ -17,7 +17,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(N
     std::swap(element, n.element);
     std::swap(right, &(n.RightChild()));
     std::swap(left, &(n.LeftChild()));
-
+    
     return *this;
 }
 
@@ -52,7 +52,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild()
     if (!HasLeftChild()) {
         throw std::out_of_range("Element not exists.");
     }
-
+    
     return *left;
 }
 
@@ -61,7 +61,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild(
     if (!HasRightChild()) {
         throw std::out_of_range("Element not exists.");
     }
-
+    
     return *right;
 }
 
@@ -70,7 +70,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild(
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& lc) {
     size = lc.Size();
-    FillTreeFromLinearContainer(lc, Root(), 0);
+    root = FillTreeFromLinearContainer(lc, root, 0);
 }
 
 template <typename Data>
@@ -118,7 +118,7 @@ template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
     if (root == nullptr)
         throw std::length_error("Empty tree!");
-
+    
     return *root;
 }
 
@@ -129,12 +129,13 @@ void BinaryTreeLnk<Data>::Clear() {
 }
 
 template <typename Data>
-void BinaryTreeLnk<Data>::DeleteTree(NodeLnk* root) noexcept {
-    if(root != nullptr){
-        DeleteTree(root->left);
-        DeleteTree(root->right);
-        delete root;
-        size--;
+void BinaryTreeLnk<Data>::DeleteTree(NodeLnk* node) noexcept {
+    if(node != nullptr){
+        DeleteTree(node->left);
+        DeleteTree(node->right);
+        delete node;
+        if(size > 0)
+            size--;
     }
 }
 
@@ -153,14 +154,15 @@ typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTreeLnk(const No
 }
 
 template <typename Data>
-typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::FillTreeFromLinearContainer(const LinearContainer<Data>& lc, NodeLnk& root, unsigned int i) {
+typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::FillTreeFromLinearContainer(const LinearContainer<Data>& lc, NodeLnk* root, unsigned int i) {
     if (i < lc.Size()) {
-        root.element = lc[i];
-
-        root.left = &(FillTreeFromLinearContainer(lc, root, 2*i+1));
-        root.right = &(FillTreeFromLinearContainer(lc, root, 2*i+2));
+        root = new NodeLnk();
+        root->element = lc[i];
+        
+        root->left = FillTreeFromLinearContainer(lc, root->left, 2 * i + 1);
+        root->right = FillTreeFromLinearContainer(lc, root->right, 2 * i + 2);
     }
-
+    
     return root;
 }
 
