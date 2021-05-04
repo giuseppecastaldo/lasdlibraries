@@ -25,9 +25,9 @@ int main() {
     lst.InsertAtBack(2);
     lst.InsertAtBack(3);
     
-    BinaryTreeLnk<int> bst(lst);
-    
-    std::cout << bst.Root().Element();
-    
+//    BinaryTreeLnk<int> bst(lst);
+//
+//    std::cout << bst.Root().Element();
+//
     return 0;
 }

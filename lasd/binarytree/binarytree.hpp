@@ -73,8 +73,8 @@ public:
         virtual bool HasLeftChild() const noexcept = 0;
         virtual bool HasRightChild() const noexcept = 0;
         
-        virtual Node& LeftChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
-        virtual Node& RightChild() const = 0; // (concrete function must throw std::out_of_range when not existent)
+        virtual Node& LeftChild() const = 0;
+        virtual Node& RightChild() const = 0;
         
     };
     
@@ -101,7 +101,7 @@ public:
     
     // Specific member functions
     
-    virtual Node& Root() const = 0; // (concrete function must throw std::length_error when empty)
+    virtual Node& Root() const = 0;
     
     /* ************************************************************************ */
     
@@ -125,25 +125,25 @@ public:
     
     // Specific member functions (inherited from InOrderMappableContainer)
     
-    virtual void MapInOrder(MapFunctor, void*) override; // Override InOrderMappableContainer member
+    virtual void MapInOrder(MapFunctor, void*) override;
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from InOrderFoldableContainer)
     
-    virtual void FoldInOrder(FoldFunctor, const void*, void*) const override; // Override InOrderFoldableContainer member
+    virtual void FoldInOrder(FoldFunctor, const void*, void*) const override;
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from BreadthMappableContainer)
     
-    virtual void MapBreadth(MapFunctor, void*) override; // Override BreadthMappableContainer member
+    virtual void MapBreadth(MapFunctor, void*) override;
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from BreadthFoldableContainer)
     
-    virtual void FoldBreadth(FoldFunctor, const void*, void*) const override; // Override BreadthFoldableContainer member
+    virtual void FoldBreadth(FoldFunctor, const void*, void*) const override;
     
 protected:
     
@@ -241,7 +241,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override;
     
 };
 
@@ -301,7 +301,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override;
     
 protected:
     
@@ -357,15 +357,15 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override; // (throw std::out_of_range when terminated)
+    Data& operator*() override;
     
-    bool Terminated() const noexcept override; // (should not throw exceptions)
+    bool Terminated() const noexcept override;
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override;
     
 protected:
     
@@ -421,15 +421,15 @@ public:
     
     // Specific member functions (inherited from Iterator)
     
-    Data& operator*() override; // (throw std::out_of_range when terminated)
+    Data& operator*() override;
     
-    bool Terminated() const noexcept override; // (should not throw exceptions)
+    bool Terminated() const noexcept override;
     
     /* ************************************************************************ */
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override; // (throw std::out_of_range when terminated)
+    Data& operator++() override;
     
 };
 
