@@ -29,16 +29,16 @@ bool BinaryTreeVec<Data>::NodeVec::IsLeaf() const noexcept{
 
 template <typename Data>
 bool BinaryTreeVec<Data>::NodeVec::HasLeftChild() const noexcept{
-    if (left < ptr->vettore.Size())
-        return ((ptr->vettore)[left] != nullptr);
+    if (left < ptr->tree_vector.Size())
+        return ((ptr->tree_vector)[left] != nullptr);
     
     return false;
 }
 
 template <typename Data>
 bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept{
-    if (right < ptr->vettore.Size())
-        return ((ptr->vettore)[right] != nullptr);
+    if (right < ptr->tree_vector.Size())
+        return ((ptr->tree_vector)[right] != nullptr);
     
     return false;
 }
@@ -46,75 +46,78 @@ bool BinaryTreeVec<Data>::NodeVec::HasRightChild() const noexcept{
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::LeftChild() const{
     if (!HasLeftChild())
-        throw std::out_of_range("Non esiste il figlio sinistro");
+        throw std::out_of_range("Left child does not exist.");
     
-    return *(ptr->vettore)[left];
+    return *(ptr->tree_vector)[left];
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild() const{
     if (!HasRightChild())
-        throw std::out_of_range("Non esiste il figlio destro");
+        throw std::out_of_range("Right child does not exist.");
     
-    return *(ptr->vettore)[right];
+    return *(ptr->tree_vector)[right];
 }
 
 /* ************************************************************************ */
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec() {
-    vettore.Resize(7);
-    for(unsigned long i = 0; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
+    tree_vector.Resize(7);
+    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
+        tree_vector[i] = nullptr;
+    }
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc) {
-    vettore.Resize(lc.Size());
-    for(unsigned long i = 0; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
+    tree_vector.Resize(lc.Size());
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        tree_vector[i] = nullptr;
+    }
     
     size = lc.Size();
     for (unsigned long i = 0; i < lc.Size(); i++) {
-        vettore[i] = new struct NodeVec(lc[i]);
-        vettore[i]->index = i;
-        vettore[i]->left = i*2+1;
-        vettore[i]->right = i*2+2;
-        vettore[i]->ptr = this;
+        tree_vector[i] = new struct NodeVec(lc[i]);
+        tree_vector[i]->index = i;
+        tree_vector[i]->left = i*2+1;
+        tree_vector[i]->right = i*2+2;
+        tree_vector[i]->ptr = this;
     }
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec& tree){
-    vettore.Resize(tree.vettore.Size());
-    for(unsigned long i = 0; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
-    
-    size = tree.size;
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(tree.vettore[i] != nullptr){
-            vettore[i] = new struct NodeVec(tree.vettore[i]->Element());
-            
-            vettore[i]->index = tree.vettore[i]->index;
-            vettore[i]->left = tree.vettore[i]->left;
-            vettore[i]->right = tree.vettore[i]->right;
-            vettore[i]->ptr = this;
-        }
+    tree_vector.Resize(tree.tree_vector.Size());
+    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
+        tree_vector[i] = nullptr;
     }
     
+    
+    size = tree.size;
+    for(unsigned long i = 0; i < tree_vector.Size(); i++){
+        if(tree.tree_vector[i] != nullptr){
+            tree_vector[i] = new struct NodeVec(tree.tree_vector[i]->Element());
+            
+            tree_vector[i]->index = tree.tree_vector[i]->index;
+            tree_vector[i]->left = tree.tree_vector[i]->left;
+            tree_vector[i]->right = tree.tree_vector[i]->right;
+            tree_vector[i]->ptr = this;
+        }
+    }
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec&& tree) noexcept{
-    vettore.Resize(7);
-    for(unsigned long i = 0; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
+    tree_vector.Resize(7);
+    for(unsigned long i = 0; i < tree_vector.Size(); i++)
+    tree_vector[i] = nullptr;
     
     std::swap(size, tree.size);
-    std::swap(vettore, tree.vettore);
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr){
-            vettore[i]->ptr = this;
+    std::swap(tree_vector, tree.tree_vector);
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        if(tree_vector[i] != nullptr){
+            tree_vector[i]->ptr = this;
         }
     }
 }
@@ -130,12 +133,12 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(const BinaryTreeVec& tree){
     size = tree.size;
     
     for(unsigned long i = 0; i < size; i++){
-        if(tree.vettore[i] != nullptr){
-            vettore[i] = new struct NodeVec(tree.vettore[i]->Element());
-            vettore[i]->index = tree.vettore[i]->index;
-            vettore[i]->left = tree.vettore[i]->left;
-            vettore[i]->right = tree.vettore[i]->right;
-            vettore[i]->ptr = this;
+        if(tree.tree_vector[i] != nullptr){
+            tree_vector[i] = new struct NodeVec(tree.tree_vector[i]->Element());
+            tree_vector[i]->index = tree.tree_vector[i]->index;
+            tree_vector[i]->left = tree.tree_vector[i]->left;
+            tree_vector[i]->right = tree.tree_vector[i]->right;
+            tree_vector[i]->ptr = this;
         }
     }
     
@@ -147,10 +150,10 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(BinaryTreeVec&& tree) noexc
     Clear();
     
     std::swap(size, tree.size);
-    std::swap(vettore, tree.vettore);
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr){
-            vettore[i]->ptr = this;
+    std::swap(tree_vector, tree.tree_vector);
+    for(unsigned long i = 0; i < size; i++){
+        if(tree_vector[i] != nullptr){
+            tree_vector[i]->ptr = this;
         }
     }
     
@@ -169,48 +172,27 @@ bool BinaryTreeVec<Data>::operator !=(const BinaryTree<Data>& tree) const noexce
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::Root() const{
-    if(size == 0)
-        throw std::length_error("Albero vuoto");
+    if (size == 0) {
+        throw std::length_error("Empty tree.");
+    }
     
-    return *vettore[0];
+    return *tree_vector[0];
 }
 
 template <typename Data>
 void BinaryTreeVec<Data>::MapBreadth(MapFunctor mapFunctor, void *par){
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr)
-            mapFunctor(vettore[i]->Element(), par);
-    }
-}
-
-template <typename Data>
-void BinaryTreeVec<Data>::FoldBreadth(FoldFunctor foldFunctor, const void *par, void *acc) const{
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr)
-            foldFunctor(vettore[i]->Element(), par, acc);
-    }
-}
-
-template <typename Data>
-void BinaryTreeVec<Data>::Expand(){
-    unsigned long oldSize = vettore.Size();
-    vettore.Resize( vettore.Size()*2 + 1);
-    for(unsigned long i = oldSize; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
-    
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr){
-            vettore[i]->ptr = this;
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        if (tree_vector[i] != nullptr) {
+            mapFunctor(tree_vector[i]->Element(), par);
         }
     }
 }
 
 template <typename Data>
-void BinaryTreeVec<Data>::Reduce(){
-    vettore.Resize( (vettore.Size()-1) / 2 );
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr){
-            vettore[i]->ptr = this;
+void BinaryTreeVec<Data>::FoldBreadth(FoldFunctor foldFunctor, const void *par, void *acc) const{
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        if (tree_vector[i] != nullptr) {
+            foldFunctor(tree_vector[i]->Element(), par, acc);
         }
     }
 }
@@ -218,16 +200,18 @@ void BinaryTreeVec<Data>::Reduce(){
 template <typename Data>
 void BinaryTreeVec<Data>::Clear(){
     size = 0;
-    for(unsigned long i = 0; i < vettore.Size(); i++){
-        if(vettore[i] != nullptr){
-            delete vettore[i];
-            vettore[i] = nullptr;
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        if (tree_vector[i] != nullptr) {
+            delete tree_vector[i];
+            tree_vector[i] = nullptr;
         }
     }
-    vettore.Clear();
-    vettore.Resize(7);
-    for(unsigned long i = 0; i < vettore.Size(); i++)
-    vettore[i] = nullptr;
+    
+    tree_vector.Clear();
+    tree_vector.Resize(7);
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        tree_vector[i] = nullptr;
+    }
 }
 
 /* ************************************************************************ */

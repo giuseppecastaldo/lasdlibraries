@@ -184,6 +184,10 @@ protected:
     
     virtual void FoldBreadth(FoldFunctor, const void*, void*, Node&) const;
     
+protected:
+    
+    bool CompareTrees(Node&, Node&) const;
+    
 };
 
 /* ************************************************************************** */

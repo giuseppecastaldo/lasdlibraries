@@ -5,7 +5,7 @@ namespace lasd {
 
 template <typename Data>
 bool BinaryTree<Data>::Node::operator==(const Node& node) const noexcept {
-    return (node.element == element && node.LeftChild().Element() == LeftChild().Element() && node.RightChild().Element() == RightChild().Element());
+    return (node.element == element);
 }
 
 template <typename Data>
@@ -21,16 +21,40 @@ bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
         return false;
     }
     
-    BTBreadthIterator<Data> it1(*this);
-    BTBreadthIterator<Data> it2(tree);
+    if (size == 0 && tree.Size() == 0) {
+        return true;
+    }
     
-    for (int i = 0; i < size ; ++it1, ++it2, i++) {
-        if (*it1 != *it2) {
-            return false;
+    return CompareTrees(Root(), tree.Root());
+}
+
+template <typename Data>
+bool BinaryTree<Data>::CompareTrees(Node& root1, Node& root2) const {
+    bool flag = true;
+    
+    if (root1.Element() != root2.Element()) {
+        flag = false;
+    } else {
+        if (root1.HasLeftChild() && root2.HasLeftChild()) {
+            flag = CompareTrees(root1.LeftChild(),root2.LeftChild());
+        } else if (!root1.HasLeftChild() && !root2.HasLeftChild()) {
+            flag = true;
+        } else {
+            flag = false;
+        }
+            
+        if (flag == true) {
+            if (root1.HasRightChild() && root2.HasRightChild())
+                flag = CompareTrees(root1.RightChild(), root2.RightChild());
+            else if (!root1.HasRightChild() && !root2.HasRightChild()) {
+                flag = true;
+            } else {
+                flag = false;
+            }
         }
     }
     
-    return true;
+    return flag;
 }
 
 template <typename Data>

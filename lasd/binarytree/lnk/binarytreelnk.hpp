@@ -36,6 +36,11 @@ protected:
         
         /* ********************************************************************** */
         
+        NodeLnk(const Data&);
+        NodeLnk(Data&&);
+        
+        /* ********************************************************************** */
+        
         // Copy assignment
         NodeLnk& operator =(const NodeLnk&);
         
@@ -84,16 +89,16 @@ public:
     /* ************************************************************************ */
     
     // Copy assignment
-    BinaryTreeLnk& operator = (const BinaryTreeLnk&);
+    BinaryTreeLnk& operator =(const BinaryTreeLnk&);
     
     // Move assignment
-    BinaryTreeLnk& operator = (BinaryTreeLnk&&) noexcept;
+    BinaryTreeLnk& operator =(BinaryTreeLnk&&) noexcept;
     
     /* ************************************************************************ */
     
     // Comparison operators
-    bool operator == (const BinaryTreeLnk&) const noexcept;
-    inline bool operator != (const BinaryTreeLnk&) const noexcept;
+    bool operator ==(const BinaryTreeLnk&) const noexcept;
+    inline bool operator !=(const BinaryTreeLnk&) const noexcept;
     
     /* ************************************************************************ */
     
@@ -111,7 +116,7 @@ protected:
     
     NodeLnk *root = nullptr;
     void DeleteTree(NodeLnk* root) noexcept;
-    NodeLnk* CopyTreeLnk(const NodeLnk* node);
+    NodeLnk* CopyTree(const NodeLnk* node);
     NodeLnk* FillTreeFromLinearContainer(const LinearContainer<Data>&, NodeLnk*, unsigned int);
 };
 

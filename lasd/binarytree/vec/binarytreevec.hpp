@@ -87,10 +87,10 @@ public:
     /* ************************************************************************ */
     
     // Copy assignment
-    BinaryTreeVec& operator=(const BinaryTreeVec<Data>&);
+    BinaryTreeVec& operator =(const BinaryTreeVec<Data>&);
     
     // Move assignment
-    BinaryTreeVec& operator=(BinaryTreeVec<Data>&&) noexcept;
+    BinaryTreeVec& operator =(BinaryTreeVec<Data>&&) noexcept;
     
     /* ************************************************************************ */
     
@@ -120,13 +120,11 @@ public:
     
 protected:
     
-    void Expand();
-    void Reduce();
     void RemoveTree(NodeVec&);
     
 private:
 
-    lasd::Vector<struct NodeVec*> vettore;
+    Vector<struct NodeVec*> tree_vector;
     
 };
 
