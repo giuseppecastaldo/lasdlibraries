@@ -17,9 +17,19 @@ bool BinaryTree<Data>::Node::operator!=(const Node& node) const noexcept {
 
 template <typename Data>
 bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
-    if (size != tree.Size() || tree.Root() != Root())
+    if (size != tree.Size()) {
         return false;
-
+    }
+    
+    BTBreadthIterator<Data> it1(*this);
+    BTBreadthIterator<Data> it2(tree);
+    
+    for (int i = 0; i < size ; ++it1, ++it2, i++) {
+        if (*it1 != *it2) {
+            return false;
+        }
+    }
+    
     return true;
 }
 
@@ -213,7 +223,6 @@ void BinaryTree<Data>::FoldBreadth(FoldFunctor fun, const void* acc, void* par, 
 template <typename Data>
 BTPreOrderIterator<Data>::BTPreOrderIterator(const BinaryTree<Data>& tree) {
     current = &(tree.Root());
-    elements.Push(&(tree.Root()));
 }
 
 template <typename Data>
@@ -259,12 +268,11 @@ bool BTPreOrderIterator<Data>::operator!=(const BTPreOrderIterator& it) const no
 }
 
 template <typename Data>
-Data& BTPreOrderIterator<Data>::operator++() {
+BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
 
-    current = elements.TopNPop();
     if (current->HasRightChild()) {
         elements.Push(&(current->RightChild()));
     }
@@ -272,8 +280,14 @@ Data& BTPreOrderIterator<Data>::operator++() {
     if (current->HasLeftChild()) {
         elements.Push(&(current->LeftChild()));
     }
+    
+    if (elements.Empty()) {
+        current = nullptr;
+    } else {
+        current = elements.TopNPop();
+    }
 
-    return current->Element();
+    return *this;
 }
 
 template <typename Data>
@@ -287,7 +301,7 @@ Data& BTPreOrderIterator<Data>::operator*() const {
 
 template <typename Data>
 bool BTPreOrderIterator<Data>::Terminated() const noexcept {
-    return (elements.Empty());
+    return (current == nullptr);
 }
 
 /* ************************************************************************** */
@@ -295,7 +309,7 @@ bool BTPreOrderIterator<Data>::Terminated() const noexcept {
 template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& tree) {
     FindLastLeftLeaf(&(tree.Root()));
-    current = elements.Top();
+    current = elements.TopNPop();
 }
 
 template <typename Data>
@@ -341,19 +355,26 @@ bool BTPostOrderIterator<Data>::operator!=(const BTPostOrderIterator& it) const 
 }
 
 template <typename Data>
-Data& BTPostOrderIterator<Data>::operator++() {
+BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
-    current = elements.TopNPop();
+    
     if (!elements.Empty()) {
-        if (current == &(elements.Top()->LeftChild())) {
-            FindLastLeftLeaf(&(elements.Top()->RightChild()));
+        if (elements.Top()->HasLeftChild()) {
+            if (current == &(elements.Top()->LeftChild())) {
+                if (elements.Top()->HasRightChild()) {
+                    FindLastLeftLeaf(&(elements.Top()->RightChild()));
+                }
+            }
         }
+        
+        current = elements.TopNPop();
+    } else {
+        current = nullptr;
     }
 
-    return current->Element();
+    return *this;
 }
 
 template <typename Data>
@@ -367,7 +388,7 @@ Data& BTPostOrderIterator<Data>::operator*() const {
 
 template <typename Data>
 bool BTPostOrderIterator<Data>::Terminated() const noexcept {
-    return (elements.Empty());
+    return (current == nullptr);
 }
 
 template <typename Data>
@@ -389,7 +410,7 @@ void BTPostOrderIterator<Data>::FindLastLeftLeaf(typename BinaryTree<Data>::Node
 template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data>& tree) {
     FindLastLeftNode(&(tree.Root()));
-    current = elements.Top();
+    current = elements.TopNPop();
 }
 
 template <typename Data>
@@ -435,17 +456,22 @@ bool BTInOrderIterator<Data>::operator!=(const BTInOrderIterator& it) const noex
 }
 
 template <typename Data>
-Data& BTInOrderIterator<Data>::operator++() {
+BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
 
-    current = elements.TopNPop();
     if (current->HasRightChild()) {
         FindLastLeftNode(&(current->RightChild()));
     }
+    
+    if (elements.Empty()) {
+        current = nullptr;
+    } else {
+        current = elements.TopNPop();
+    }
 
-    return current->Element();
+    return *this;
 }
 
 template <typename Data>
@@ -459,7 +485,7 @@ Data& BTInOrderIterator<Data>::operator*() const {
 
 template <typename Data>
 bool BTInOrderIterator<Data>::Terminated() const noexcept {
-    return (elements.Empty());
+    return (current == nullptr);
 }
 
 template <typename Data>
@@ -479,7 +505,6 @@ void BTInOrderIterator<Data>::FindLastLeftNode(typename BinaryTree<Data>::Node* 
 template <typename Data>
 BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& tree) {
     current = &(tree.Root());
-    elements.Enqueue(&(tree.Root()));
 }
 
 template <typename Data>
@@ -525,12 +550,10 @@ bool BTBreadthIterator<Data>::operator!=(const BTBreadthIterator& it) const noex
 }
 
 template <typename Data>
-Data& BTBreadthIterator<Data>::operator++() {
+BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
-    current = elements.HeadNDequeue();
 
     if (current->HasLeftChild()) {
         elements.Enqueue(&current->LeftChild());
@@ -538,8 +561,14 @@ Data& BTBreadthIterator<Data>::operator++() {
     if (current->HasRightChild()) {
         elements.Enqueue(&current->RightChild());
     }
+    
+    if (elements.Empty()) {
+        current = nullptr;
+    } else {
+        current = elements.HeadNDequeue();
+    }
 
-    return current->Element();
+    return *this;
 }
 
 template <typename Data>
@@ -553,7 +582,7 @@ Data& BTBreadthIterator<Data>::operator*() const {
 
 template <typename Data>
 bool BTBreadthIterator<Data>::Terminated() const noexcept {
-    return (elements.Empty());
+    return (current == nullptr);
 }
 
 /* ************************************************************************** */

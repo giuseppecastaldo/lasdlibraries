@@ -26,41 +26,22 @@ int main() {
     lasdtest(); // To call in the menu of your library test!
     
 //    List<int> lst;
+//    List<int> lst1;
+//
 //    lst.InsertAtBack(1);
 //    lst.InsertAtBack(2);
 //    lst.InsertAtBack(3);
 //    lst.InsertAtBack(4);
-//    lst.InsertAtBack(5);
-//    lst.InsertAtBack(6);
-//    lst.InsertAtBack(7);
+//
+//    lst1.InsertAtBack(1);
+//    lst1.InsertAtBack(2);
+//    lst1.InsertAtBack(3);
+//    lst1.InsertAtBack(4);
 //
 //    BinaryTreeLnk<int> bst(lst);
+//    BinaryTreeLnk<int> bst1(lst1);
 //
-//    std::cout << "Iteratore in ampiezza: ";
-//    for (BTBreadthIterator<int> it(bst); !it.Terminated();) {
-//        std::cout << ++it << " ";
-//    }
-//    std::cout << std::endl;
-//
-//    std::cout << "Iteratore pre order: ";
-//    for (BTPreOrderIterator<int> it(bst); !it.Terminated();) {
-//        std::cout << ++it << " ";
-//    }
-//    std::cout << std::endl;
-//
-//    std::cout << "Iteratore in order: ";
-//    for (BTInOrderIterator<int> it(bst); !it.Terminated();) {
-//        std::cout << ++it << " ";
-//    }
-//    std::cout << std::endl;
-//
-//    std::cout << "Iteratore post order: ";
-//    for (BTPostOrderIterator<int> it(bst); !it.Terminated();) {
-//        std::cout << ++it << " ";
-//    }
-//    std::cout << std::endl;
-    
-    
+//    std::cout << (bst == bst1) << std::endl;
     
     return 0;
 }

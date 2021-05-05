@@ -13,6 +13,8 @@
 #include "../queue/lst/queuelst.hpp"
 #include "../stack/lst/stacklst.hpp"
 
+#include <iostream>
+
 /* ************************************************************************** */
 
 namespace lasd {
@@ -240,7 +242,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override;
+    BTPreOrderIterator& operator++() override;
     
 };
 
@@ -300,7 +302,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override;
+    BTPostOrderIterator& operator++() override;
     
 protected:
     
@@ -364,7 +366,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override;
+    BTInOrderIterator& operator++() override;
     
 protected:
     
@@ -428,7 +430,7 @@ public:
     
     // Specific member functions (inherited from ForwardIterator)
     
-    Data& operator++() override;
+    BTBreadthIterator& operator++() override;
     
 };
 
