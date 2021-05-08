@@ -118,6 +118,7 @@ protected:
     void DeleteTree(NodeLnk* root) noexcept;
     NodeLnk* CopyTree(const NodeLnk* node);
     NodeLnk* FillTreeFromLinearContainer(const LinearContainer<Data>&, NodeLnk*, unsigned int);
+
 };
 
 /* ************************************************************************** */

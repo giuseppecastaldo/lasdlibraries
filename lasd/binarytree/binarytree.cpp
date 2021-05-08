@@ -42,11 +42,11 @@ bool BinaryTree<Data>::CompareTrees(Node& root1, Node& root2) const {
         } else {
             flag = false;
         }
-            
+        
         if (flag == true) {
-            if (root1.HasRightChild() && root2.HasRightChild())
+            if (root1.HasRightChild() && root2.HasRightChild()) {
                 flag = CompareTrees(root1.RightChild(), root2.RightChild());
-            else if (!root1.HasRightChild() && !root2.HasRightChild()) {
+            } else if (!root1.HasRightChild() && !root2.HasRightChild()) {
                 flag = true;
             } else {
                 flag = false;
@@ -110,12 +110,12 @@ void BinaryTree<Data>::MapPreOrder(MapFunctor fun, void * par, Node& node) {
     if (&node == nullptr) {
         return;
     }
-
+    
     fun(node.Element(), par);
     if (node.HasLeftChild()) {
         MapPreOrder(fun, par, node.LeftChild());
     }
-
+    
     if (node.HasRightChild()) {
         MapPreOrder(fun, par, node.RightChild());
     }
@@ -126,7 +126,7 @@ void BinaryTree<Data>::MapPostOrder(MapFunctor fun, void * par, Node& node) {
     if (&node == nullptr) {
         return;
     }
-
+    
     if (node.HasLeftChild()) {
         MapPostOrder(fun, par, node.LeftChild());
     }
@@ -141,7 +141,7 @@ void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* acc, void
     if (&node == nullptr) {
         return;
     }
-
+    
     fun(node.Element(), acc, par);
     if (node.HasLeftChild()) {
         FoldPreOrder(fun, acc, par, node.LeftChild());
@@ -156,7 +156,7 @@ void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* acc, voi
     if (&node == nullptr) {
         return;
     }
-
+    
     if (node.HasLeftChild()) {
         FoldPostOrder(fun, acc, par, node.LeftChild());
     }
@@ -171,7 +171,7 @@ void BinaryTree<Data>::FoldInOrder(FoldFunctor fun, const void* acc, void* par, 
     if (&node == nullptr) {
         return;
     }
-
+    
     if (node.HasLeftChild()) {
         FoldInOrder(fun, acc, par, node.LeftChild());
     }
@@ -186,7 +186,7 @@ void BinaryTree<Data>::MapInOrder(MapFunctor fun, void* par, Node& node) {
     if (&node == nullptr) {
         return;
     }
-
+    
     if (node.HasLeftChild()) {
         MapInOrder(fun, par, node.LeftChild());
     }
@@ -199,22 +199,22 @@ void BinaryTree<Data>::MapInOrder(MapFunctor fun, void* par, Node& node) {
 template <typename Data>
 void BinaryTree<Data>::MapBreadth(MapFunctor fun, void* par, Node& node) {
     lasd::QueueLst<Node*> queue;
-
+    
     if (&node != nullptr) {
         queue.Enqueue(&node);
     }
-
+    
     while (!queue.Empty()) {
         fun(queue.Head()->Element(), par);
-
+        
         if (queue.Head()->HasLeftChild()) {
             queue.Enqueue(&(queue.Head()->LeftChild()));
         }
-
+        
         if (queue.Head()->HasRightChild()) {
             queue.Enqueue(&(queue.Head()->RightChild()));
         }
-
+        
         queue.Dequeue();
     }
 }
@@ -222,22 +222,22 @@ void BinaryTree<Data>::MapBreadth(MapFunctor fun, void* par, Node& node) {
 template <typename Data>
 void BinaryTree<Data>::FoldBreadth(FoldFunctor fun, const void* acc, void* par, Node& node) const {
     lasd::QueueLst<Node*> queue;
-
+    
     if (&node != nullptr) {
         queue.Enqueue(&node);
     }
-
+    
     while (!queue.Empty()) {
         fun(queue.Head()->Element(), acc, par);
-
+        
         if (queue.Head()->HasLeftChild()) {
             queue.Enqueue(&(queue.Head()->LeftChild()));
         }
-
+        
         if (queue.Head()->HasRightChild()) {
             queue.Enqueue(&(queue.Head()->RightChild()));
         }
-
+        
         queue.Dequeue();
     }
 }
@@ -296,11 +296,11 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     if (current->HasRightChild()) {
         elements.Push(&(current->RightChild()));
     }
-
+    
     if (current->HasLeftChild()) {
         elements.Push(&(current->LeftChild()));
     }
@@ -310,7 +310,7 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
     } else {
         current = elements.TopNPop();
     }
-
+    
     return *this;
 }
 
@@ -319,7 +319,7 @@ Data& BTPreOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     return current->Element();
 }
 
@@ -397,7 +397,7 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++() {
     } else {
         current = nullptr;
     }
-
+    
     return *this;
 }
 
@@ -406,7 +406,7 @@ Data& BTPostOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     return current->Element();
 }
 
@@ -484,7 +484,7 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     if (current->HasRightChild()) {
         FindLastLeftNode(&(current->RightChild()));
     }
@@ -494,7 +494,7 @@ BTInOrderIterator<Data>& BTInOrderIterator<Data>::operator++() {
     } else {
         current = elements.TopNPop();
     }
-
+    
     return *this;
 }
 
@@ -503,7 +503,7 @@ Data& BTInOrderIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     return current->Element();
 }
 
@@ -578,7 +578,7 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     if (current->HasLeftChild()) {
         elements.Enqueue(&current->LeftChild());
     }
@@ -591,7 +591,7 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
     } else {
         current = elements.HeadNDequeue();
     }
-
+    
     return *this;
 }
 
@@ -600,7 +600,7 @@ Data& BTBreadthIterator<Data>::operator*() const {
     if (Terminated()) {
         throw std::out_of_range("Out of range exception.");
     }
-
+    
     return current->Element();
 }
 

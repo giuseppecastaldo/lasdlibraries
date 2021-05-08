@@ -106,8 +106,7 @@ BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator =(const BinaryTreeLnk& btl){
 }
 
 template <typename Data>
-BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator =(BinaryTreeLnk&& btl) noexcept{
-    Clear();
+BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator =(BinaryTreeLnk&& btl) noexcept {
     std::swap(size, btl.size);
     std::swap(root, btl.root);
     return *this;

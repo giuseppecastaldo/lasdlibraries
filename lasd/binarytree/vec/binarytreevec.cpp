@@ -3,7 +3,7 @@ namespace lasd {
 /* ************************************************************************ */
 
 template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(const Data& value){
+BinaryTreeVec<Data>::NodeVec::NodeVec(const Data& value) {
     element = value;
 }
 
@@ -62,23 +62,12 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild(
 /* ************************************************************************ */
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec() {
-    tree_vector.Resize(7);
-    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
-        tree_vector[i] = nullptr;
-    }
-}
-
-template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc) {
-    tree_vector.Resize(lc.Size());
-    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
-        tree_vector[i] = nullptr;
-    }
+    InitializeVector(lc.Size());
     
     size = lc.Size();
     for (unsigned long i = 0; i < lc.Size(); i++) {
-        tree_vector[i] = new struct NodeVec(lc[i]);
+        tree_vector[i] = new NodeVec(lc[i]);
         tree_vector[i]->index = i;
         tree_vector[i]->left = i*2+1;
         tree_vector[i]->right = i*2+2;
@@ -88,17 +77,12 @@ BinaryTreeVec<Data>::BinaryTreeVec(const LinearContainer<Data>& lc) {
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec& tree){
-    tree_vector.Resize(tree.tree_vector.Size());
-    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
-        tree_vector[i] = nullptr;
-    }
-    
+    InitializeVector(tree.Size());
     
     size = tree.size;
-    for(unsigned long i = 0; i < tree_vector.Size(); i++){
+    for (unsigned long i = 0; i < tree_vector.Size(); i++){
         if(tree.tree_vector[i] != nullptr){
             tree_vector[i] = new struct NodeVec(tree.tree_vector[i]->Element());
-            
             tree_vector[i]->index = tree.tree_vector[i]->index;
             tree_vector[i]->left = tree.tree_vector[i]->left;
             tree_vector[i]->right = tree.tree_vector[i]->right;
@@ -108,10 +92,8 @@ BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec& tree){
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec&& tree) noexcept{
-    tree_vector.Resize(7);
-    for(unsigned long i = 0; i < tree_vector.Size(); i++)
-    tree_vector[i] = nullptr;
+BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec&& tree) noexcept {
+    InitializeVector(tree.Size());
     
     std::swap(size, tree.size);
     std::swap(tree_vector, tree.tree_vector);
@@ -130,9 +112,10 @@ BinaryTreeVec<Data>::~BinaryTreeVec(){
 template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(const BinaryTreeVec& tree){
     Clear();
+    InitializeVector(tree.Size());
     size = tree.size;
     
-    for(unsigned long i = 0; i < size; i++){
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
         if(tree.tree_vector[i] != nullptr){
             tree_vector[i] = new struct NodeVec(tree.tree_vector[i]->Element());
             tree_vector[i]->index = tree.tree_vector[i]->index;
@@ -146,14 +129,19 @@ BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(const BinaryTreeVec& tree){
 }
 
 template <typename Data>
-BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(BinaryTreeVec&& tree) noexcept{
-    Clear();
-    
+BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator =(BinaryTreeVec&& tree) noexcept {
     std::swap(size, tree.size);
     std::swap(tree_vector, tree.tree_vector);
-    for(unsigned long i = 0; i < size; i++){
-        if(tree_vector[i] != nullptr){
+    
+    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+        if (tree_vector[i] != nullptr) {
             tree_vector[i]->ptr = this;
+        }
+    }
+    
+    for(unsigned long i = 0; i < tree.tree_vector.Size(); i++) {
+        if (tree.tree_vector[i] != nullptr) {
+            tree.tree_vector[i]->ptr = &tree;
         }
     }
     
@@ -181,7 +169,7 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::Root() const{
 
 template <typename Data>
 void BinaryTreeVec<Data>::MapBreadth(MapFunctor mapFunctor, void *par){
-    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
         if (tree_vector[i] != nullptr) {
             mapFunctor(tree_vector[i]->Element(), par);
         }
@@ -190,7 +178,7 @@ void BinaryTreeVec<Data>::MapBreadth(MapFunctor mapFunctor, void *par){
 
 template <typename Data>
 void BinaryTreeVec<Data>::FoldBreadth(FoldFunctor foldFunctor, const void *par, void *acc) const{
-    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+    for (unsigned long i = 0; i < tree_vector.Size(); i++) {
         if (tree_vector[i] != nullptr) {
             foldFunctor(tree_vector[i]->Element(), par, acc);
         }
@@ -208,8 +196,12 @@ void BinaryTreeVec<Data>::Clear(){
     }
     
     tree_vector.Clear();
-    tree_vector.Resize(7);
-    for(unsigned long i = 0; i < tree_vector.Size(); i++) {
+}
+
+template <typename Data>
+void BinaryTreeVec<Data>::InitializeVector(unsigned long size) {
+    tree_vector.Resize(size);
+    for(unsigned long i = 0; i < size; i++) {
         tree_vector[i] = nullptr;
     }
 }

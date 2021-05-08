@@ -2,24 +2,9 @@
 
 #include "zmytest/test.hpp"
 
-#include "list/list.hpp"
-
-#include "queue/queue.hpp"
-#include "queue/lst/queuelst.hpp"
-
-#include "iterator/iterator.hpp"
-
-
-#include "binarytree/binarytree.hpp"
-#include "binarytree/lnk/binarytreelnk.hpp"
-
-#include "binarytree/vec/binarytreevec.hpp"
-
 /* ************************************************************************** */
 
 #include <iostream>
-
-using namespace lasd;
 
 /* ************************************************************************** */
 

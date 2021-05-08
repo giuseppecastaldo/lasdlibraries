@@ -34,8 +34,8 @@ public:
         unsigned long index;
         unsigned long left;
         unsigned long right;
-        
         using BinaryTree<Data>::Node::element;
+        
         BinaryTreeVec<Data> *ptr = nullptr;
         
     public:
@@ -64,7 +64,7 @@ public:
 public:
     
     // Default constructor
-    BinaryTreeVec();
+    BinaryTreeVec() = default;
     
     /* ************************************************************************ */
     
@@ -108,7 +108,7 @@ public:
     
     // Specific member functions (inherited from Container)
     
-    void Clear() override; // Override Container member
+    void Clear() override;
     
     /* ************************************************************************ */
     
@@ -121,10 +121,11 @@ public:
 protected:
     
     void RemoveTree(NodeVec&);
+    void InitializeVector(unsigned long size);
     
 private:
-
-    Vector<struct NodeVec*> tree_vector;
+    
+    Vector<NodeVec*> tree_vector;
     
 };
 
