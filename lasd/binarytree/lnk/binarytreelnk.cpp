@@ -79,7 +79,7 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild(
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& lc) {
     size = lc.Size();
-    root = FillTreeFromLinearContainer(lc, root, 0);
+    root = LinearContainerConstructor(lc, root, 0);
 }
 
 template <typename Data>
@@ -162,12 +162,12 @@ typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTree(const NodeL
 }
 
 template <typename Data>
-typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::FillTreeFromLinearContainer(const LinearContainer<Data>& lc, NodeLnk* root, unsigned int i) {
+typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::LinearContainerConstructor(const LinearContainer<Data>& lc, NodeLnk* root, unsigned int i) {
     if (i < lc.Size()) {
         root = new NodeLnk(lc[i]);
         
-        root->left = FillTreeFromLinearContainer(lc, root->left, 2*i+1);
-        root->right = FillTreeFromLinearContainer(lc, root->right, 2*i+2);
+        root->left = LinearContainerConstructor(lc, root->left, 2*i+1);
+        root->right = LinearContainerConstructor(lc, root->right, 2*i+2);
     }
     
     return root;
