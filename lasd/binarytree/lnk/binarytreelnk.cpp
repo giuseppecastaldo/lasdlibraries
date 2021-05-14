@@ -84,7 +84,7 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(const LinearContainer<Data>& lc) {
 
 template <typename Data>
 BinaryTreeLnk<Data>::BinaryTreeLnk(const BinaryTreeLnk& btl) {
-    root = CopyTree(btl.root);
+    root = CopyTreeLnk(btl.root);
 }
 
 template <typename Data>
@@ -101,7 +101,7 @@ BinaryTreeLnk<Data>::~BinaryTreeLnk() {
 template <typename Data>
 BinaryTreeLnk<Data>& BinaryTreeLnk<Data>::operator =(const BinaryTreeLnk& btl){
     Clear();
-    root = CopyTree(btl.root);
+    root = CopyTreeLnk(btl.root);
     return *this;
 }
 
@@ -132,30 +132,28 @@ typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::Root() const {
 
 template <typename Data>
 void BinaryTreeLnk<Data>::Clear() {
-    DeleteTree(root);
+    DeleteTreeLnk(root);
     root = nullptr;
 }
 
 template <typename Data>
-void BinaryTreeLnk<Data>::DeleteTree(NodeLnk* node) noexcept {
-    if(node != nullptr){
-        DeleteTree(node->left);
-        DeleteTree(node->right);
+void BinaryTreeLnk<Data>::DeleteTreeLnk(NodeLnk* node) noexcept {
+    if (node != nullptr) {
+        DeleteTreeLnk(node->left);
+        DeleteTreeLnk(node->right);
         delete node;
-        if(size > 0)
-            size--;
+        size--;
     }
 }
 
 template <typename Data>
-typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTree(const NodeLnk* node){
+typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::CopyTreeLnk(const NodeLnk* node){
     if(node == nullptr)
         return nullptr;
     else{
         NodeLnk* ptr = new NodeLnk(node->element);
-        
-        ptr->left = CopyTree(node->left);
-        ptr->right = CopyTree(node->right);
+        ptr->left = CopyTreeLnk(node->left);
+        ptr->right = CopyTreeLnk(node->right);
         size++;
         return ptr;
     }
@@ -165,7 +163,6 @@ template <typename Data>
 typename BinaryTreeLnk<Data>::NodeLnk* BinaryTreeLnk<Data>::LinearContainerConstructor(const LinearContainer<Data>& lc, NodeLnk* root, unsigned int i) {
     if (i < lc.Size()) {
         root = new NodeLnk(lc[i]);
-        
         root->left = LinearContainerConstructor(lc, root->left, 2*i+1);
         root->right = LinearContainerConstructor(lc, root->right, 2*i+2);
     }

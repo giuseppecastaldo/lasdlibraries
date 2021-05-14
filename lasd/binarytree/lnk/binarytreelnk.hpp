@@ -115,8 +115,8 @@ public:
 protected:
     
     NodeLnk *root = nullptr;
-    void DeleteTree(NodeLnk* root) noexcept;
-    NodeLnk* CopyTree(const NodeLnk* node);
+    void DeleteTreeLnk(NodeLnk* root) noexcept;
+    NodeLnk* CopyTreeLnk(const NodeLnk* node);
     NodeLnk* LinearContainerConstructor(const LinearContainer<Data>&, NodeLnk*, unsigned int);
 
 };

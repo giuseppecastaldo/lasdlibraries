@@ -25,18 +25,18 @@ bool BinaryTree<Data>::operator==(const BinaryTree& tree) const noexcept {
         return true;
     }
     
-    return CompareTrees(Root(), tree.Root());
+    return Compare(Root(), tree.Root());
 }
 
 template <typename Data>
-bool BinaryTree<Data>::CompareTrees(Node& root1, Node& root2) const {
+bool BinaryTree<Data>::Compare(Node& root1, Node& root2) const {
     bool flag = true;
     
     if (root1.Element() != root2.Element()) {
         flag = false;
     } else {
         if (root1.HasLeftChild() && root2.HasLeftChild()) {
-            flag = CompareTrees(root1.LeftChild(),root2.LeftChild());
+            flag = Compare(root1.LeftChild(),root2.LeftChild());
         } else if (!root1.HasLeftChild() && !root2.HasLeftChild()) {
             flag = true;
         } else {
@@ -45,7 +45,7 @@ bool BinaryTree<Data>::CompareTrees(Node& root1, Node& root2) const {
         
         if (flag == true) {
             if (root1.HasRightChild() && root2.HasRightChild()) {
-                flag = CompareTrees(root1.RightChild(), root2.RightChild());
+                flag = Compare(root1.RightChild(), root2.RightChild());
             } else if (!root1.HasRightChild() && !root2.HasRightChild()) {
                 flag = true;
             } else {
@@ -107,92 +107,80 @@ void BinaryTree<Data>::FoldBreadth(FoldFunctor fun, const void* acc, void* par) 
 
 template <typename Data>
 void BinaryTree<Data>::MapPreOrder(MapFunctor fun, void * par, Node& node) {
-    if (&node == nullptr) {
-        return;
-    }
-    
-    fun(node.Element(), par);
-    if (node.HasLeftChild()) {
-        MapPreOrder(fun, par, node.LeftChild());
-    }
-    
-    if (node.HasRightChild()) {
-        MapPreOrder(fun, par, node.RightChild());
+    if (&node != nullptr) {
+        fun(node.Element(), par);
+        if (node.HasLeftChild()) {
+            MapPreOrder(fun, par, node.LeftChild());
+        }
+        
+        if (node.HasRightChild()) {
+            MapPreOrder(fun, par, node.RightChild());
+        }
     }
 }
 
 template <typename Data>
 void BinaryTree<Data>::MapPostOrder(MapFunctor fun, void * par, Node& node) {
-    if (&node == nullptr) {
-        return;
+    if (&node != nullptr) {
+        if (node.HasLeftChild()) {
+            MapPostOrder(fun, par, node.LeftChild());
+        }
+        if (node.HasRightChild()) {
+            MapPostOrder(fun, par, node.RightChild());
+        }
+        fun(node.Element(), par);
     }
-    
-    if (node.HasLeftChild()) {
-        MapPostOrder(fun, par, node.LeftChild());
-    }
-    if (node.HasRightChild()) {
-        MapPostOrder(fun, par, node.RightChild());
-    }
-    fun(node.Element(), par);
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldPreOrder(const FoldFunctor fun, const void* acc, void *par, Node& node) const {
-    if (&node == nullptr) {
-        return;
-    }
-    
-    fun(node.Element(), acc, par);
-    if (node.HasLeftChild()) {
-        FoldPreOrder(fun, acc, par, node.LeftChild());
-    }
-    if (node.HasRightChild()) {
-        FoldPreOrder(fun, acc, par, node.RightChild());
+    if (&node != nullptr) {
+        fun(node.Element(), acc, par);
+        if (node.HasLeftChild()) {
+            FoldPreOrder(fun, acc, par, node.LeftChild());
+        }
+        if (node.HasRightChild()) {
+            FoldPreOrder(fun, acc, par, node.RightChild());
+        }
     }
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldPostOrder(const FoldFunctor fun, const void* acc, void *par, Node& node) const {
-    if (&node == nullptr) {
-        return;
+    if (&node != nullptr) {
+        if (node.HasLeftChild()) {
+            FoldPostOrder(fun, acc, par, node.LeftChild());
+        }
+        if (node.HasRightChild()) {
+            FoldPostOrder(fun, acc, par, node.RightChild());
+        }
+        fun(node.Element(), acc, par);
     }
-    
-    if (node.HasLeftChild()) {
-        FoldPostOrder(fun, acc, par, node.LeftChild());
-    }
-    if (node.HasRightChild()) {
-        FoldPostOrder(fun, acc, par, node.RightChild());
-    }
-    fun(node.Element(), acc, par);
 }
 
 template <typename Data>
 void BinaryTree<Data>::FoldInOrder(FoldFunctor fun, const void* acc, void* par, Node& node) const {
-    if (&node == nullptr) {
-        return;
-    }
-    
-    if (node.HasLeftChild()) {
-        FoldInOrder(fun, acc, par, node.LeftChild());
-    }
-    fun(node.Element(), acc, par);
-    if (node.HasRightChild()) {
-        FoldInOrder(fun, acc, par, node.RightChild());
+    if (&node != nullptr) {
+        if (node.HasLeftChild()) {
+            FoldInOrder(fun, acc, par, node.LeftChild());
+        }
+        fun(node.Element(), acc, par);
+        if (node.HasRightChild()) {
+            FoldInOrder(fun, acc, par, node.RightChild());
+        }
     }
 }
 
 template <typename Data>
 void BinaryTree<Data>::MapInOrder(MapFunctor fun, void* par, Node& node) {
-    if (&node == nullptr) {
-        return;
-    }
-    
-    if (node.HasLeftChild()) {
-        MapInOrder(fun, par, node.LeftChild());
-    }
-    fun(node.Element(), par);
-    if (node.HasRightChild()) {
-        MapInOrder(fun, par, node.RightChild());
+    if (&node != nullptr) {
+        if (node.HasLeftChild()) {
+            MapInOrder(fun, par, node.LeftChild());
+        }
+        fun(node.Element(), par);
+        if (node.HasRightChild()) {
+            MapInOrder(fun, par, node.RightChild());
+        }
     }
 }
 

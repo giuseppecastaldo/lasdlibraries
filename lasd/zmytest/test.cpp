@@ -215,7 +215,7 @@ void testBTInt(BinaryTree<int>& bt) {
         std::cout << "Il valore NON esiste" << std::endl;
     }
     
-    int input; unsigned int acc = 1;
+    int input; unsigned long acc = 1;
     std::cout << "Inserisci intero: "; std::cin >> input;
     std::cout << "Eseguo moltiplicazione di interi minori di questo: "; fold(bt, &multiply_n<int>, input, acc); std::cout << std::endl;
     std::cout << "Moltiplico tutti gli elementi per 3..."; map(bt, &multiply_3<int>, 0); std::cout << std::endl;

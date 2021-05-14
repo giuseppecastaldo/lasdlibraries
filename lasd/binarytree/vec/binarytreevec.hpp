@@ -120,7 +120,6 @@ public:
     
 protected:
     
-    void RemoveTree(NodeVec&);
     void InitializeVector(unsigned long size);
     
 private:

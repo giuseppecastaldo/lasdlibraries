@@ -82,7 +82,7 @@ public:
     /* ************************************************************************ */
     
     // Destructor
-    ~BinaryTree() = default;
+    virtual ~BinaryTree() = default;
     
     /* ********************************************************************** */
     
@@ -186,7 +186,7 @@ protected:
     
 protected:
     
-    bool CompareTrees(Node&, Node&) const;
+    bool Compare(Node&, Node&) const;
     
 };
 
