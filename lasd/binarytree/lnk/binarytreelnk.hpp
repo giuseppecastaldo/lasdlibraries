@@ -26,11 +26,11 @@ protected:
         
     protected:
         
+    public:
+        
         using BinaryTree<Data>::Node::element;
         NodeLnk* right = nullptr;
         NodeLnk* left = nullptr;
-        
-    public:
         
         friend class BinaryTreeLnk<Data>;
         

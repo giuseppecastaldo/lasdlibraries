@@ -11,7 +11,7 @@ void PushC(unsigned int& testnum, unsigned int& testerr, lasd::Stack<Data>& stk,
   testnum++;
   bool tst = true;
   try {
-    std::cout << " " << testnum << " Push on the stack of the value \"" << val << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") Push on the stack of the value \"" << val << "\": ";
     stk.Push(val);
     std::cout << "Correct!" << std::endl;
   } catch(std::exception exc) {
@@ -26,7 +26,7 @@ void PushM(unsigned int& testnum, unsigned int& testerr, lasd::Stack<Data>& stk,
   testnum++;
   bool tst = true;
   try {
-    std::cout << " " << testnum << " Push on the stack of the value \"" << val << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") Push on the stack of the value \"" << val << "\": ";
     stk.Push(std::move(val));
     std::cout << "Correct!" << std::endl;
   } catch(std::exception exc) {
@@ -41,7 +41,7 @@ void Top(unsigned int& testnum, unsigned int& testerr, lasd::Stack<Data>& stk, b
   testnum++;
   bool tst;
   try {
-    std::cout << " " << testnum << " Top of the stack with value \"" << stk.Top() << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") Top of the stack with value \"" << stk.Top() << "\": ";
     std::cout << ((tst = ((stk.Top() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
@@ -57,7 +57,7 @@ void Pop(unsigned int& testnum, unsigned int& testerr, lasd::Stack<Data>& stk, b
   testnum++;
   bool tst = true;
   try {
-    std::cout << " " << testnum << " Pop from the stack: ";
+    std::cout << " " << testnum << " (" << testerr << ") Pop from the stack: ";
     stk.Pop();
     std::cout << ((tst = chk) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
@@ -74,7 +74,7 @@ void TopNPop(unsigned int& testnum, unsigned int& testerr, lasd::Stack<Data>& st
   testnum++;
   bool tst;
   try {
-    std::cout << " " << testnum << " TopNPop from the stack with value \"" << stk.Top() << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") TopNPop from the stack with value \"" << stk.Top() << "\": ";
     std::cout << ((tst = ((stk.TopNPop() == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::length_error exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
@@ -90,7 +90,7 @@ void EqualStack(unsigned int& testnum, unsigned int& testerr, const Stk& stk1, c
   testnum++;
   bool tst;
   try {
-    std::cout << " " << testnum << " The two stacks are " << ((tst = (stk1 == stk2)) ? "" : "not ") << "equal: ";
+    std::cout << " " << testnum << " (" << testerr << ") The two stacks are " << ((tst = (stk1 == stk2)) ? "" : "not ") << "equal: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
@@ -103,7 +103,7 @@ void NonEqualStack(unsigned int& testnum, unsigned int& testerr, const Stk& stk1
   testnum++;
   bool tst;
   try {
-    std::cout << " " << testnum << " The two stacks are " << ((tst = (stk1 != stk2)) ? "not " : "") << "equal: ";
+    std::cout << " " << testnum << " (" << testerr << ") The two stacks are " << ((tst = (stk1 != stk2)) ? "not " : "") << "equal: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;

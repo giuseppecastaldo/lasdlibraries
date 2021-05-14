@@ -11,7 +11,7 @@ void EqualVector(unsigned int& testnum, unsigned int& testerr, const lasd::Vecto
   bool tst;
   testnum++;
   try {
-    std::cout << " " << testnum << " The two vectors are " << ((tst = (vec1 == vec2)) ? "" : "not ") << "equal: ";
+    std::cout << " " << testnum << " (" << testerr << ") The two vectors are " << ((tst = (vec1 == vec2)) ? "" : "not ") << "equal: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
@@ -24,7 +24,7 @@ void NonEqualVector(unsigned int& testnum, unsigned int& testerr, const lasd::Ve
   bool tst;
   testnum++;
   try {
-    std::cout << " " << testnum << " The two vectors are " << ((tst = (vec1 != vec2)) ? "not " : "") << "equal: ";
+    std::cout << " " << testnum << " (" << testerr << ") The two vectors are " << ((tst = (vec1 != vec2)) ? "not " : "") << "equal: ";
     std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::exception exc) {
     std::cout << "\"" << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;

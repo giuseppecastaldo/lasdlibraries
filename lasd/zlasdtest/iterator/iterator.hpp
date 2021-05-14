@@ -11,7 +11,7 @@ void GetItrValue(unsigned int& testnum, unsigned int& testerr, const lasd::Itera
   bool tst;
   testnum++;
   try {
-    std::cout << " " << testnum << " The value pointed by the iterator is \"" << *itr << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") The value pointed by the iterator is \"" << *itr << "\": ";
     std::cout << ((tst = ((*itr == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::out_of_range exc) {
     std::cout << exc.what() << "\": " << ((tst = !chk) ? "Correct" : "Error") << "!" << std::endl;
@@ -27,7 +27,7 @@ void SetItrValue(unsigned int& testnum, unsigned int& testerr, const lasd::Itera
   bool tst;
   testnum++;
   try {
-    std::cout << " " << testnum << " Setting the value pointed by the iterator to \"" << val << "\": ";
+    std::cout << " " << testnum << " (" << testerr << ") Setting the value pointed by the iterator to \"" << val << "\": ";
     *itr = val;
     std::cout << ((tst = ((*itr == val) == chk)) ? "Correct" : "Error") << "!" << std::endl;
   } catch(std::out_of_range exc) {
@@ -43,8 +43,13 @@ template <typename Data>
 void Terminated(unsigned int& testnum, unsigned int& testerr, const lasd::Iterator<Data>& itr, bool chk) {
   bool tst;
   testnum++;
-  std::cout << " " << testnum << " The iterator is " << ((tst = itr.Terminated()) ? "" : "not ") << "terminated: ";
-  std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
+  try {
+    std::cout << " " << testnum << " (" << testerr << ") The iterator is " << ((tst = itr.Terminated()) ? "" : "not ") << "terminated: ";
+    std::cout << ((tst = (tst == chk)) ? "Correct" : "Error") << "!" << std::endl;
+  } catch(std::exception exc) {
+    tst = false;
+    std::cout << "\"" << exc.what() << "\": " << "Error!" << std::endl;
+  }
   testerr += (1 - (unsigned int) tst);
 }
 
