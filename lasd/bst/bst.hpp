@@ -17,15 +17,14 @@ class BST: public BinaryTreeLnk<Data> {
     
 private:
     
-    // ...
-    
 protected:
     
     using BinaryTreeLnk<Data>::size;
     using BinaryTreeLnk<Data>::root;
+    using typename BinaryTreeLnk<Data>::NodeLnk;
     
 public:
-    
+
     // Default constructor
     BST() = default;
     
@@ -37,53 +36,53 @@ public:
     /* ************************************************************************ */
     
     // Copy constructor
-    // BST(argument) specifiers;
+    BST(const BST&);
     
     // Move constructor
-    // BST(argument) specifiers;
+    BST(BST&&) noexcept;
     
     /* ************************************************************************ */
     
     // Destructor
-    // ~BST() specifiers;
+    ~BST() = default;
     
     /* ************************************************************************ */
     
     // Copy assignment
-    // type operator=(argument) specifiers;
+    BST& operator =(const BST&);
     
     // Move assignment
-    // type operator=(argument) specifiers;
+    BST& operator =(BST&&) noexcept;
     
     /* ************************************************************************ */
     
     // Comparison operators
-    // type operator==(argument) specifiers;
-    // type operator!=(argument) specifiers;
+    bool operator ==(const BST&) const noexcept;
+    bool operator !=(const BST&) const noexcept;
     
     /* ************************************************************************ */
     
     // Specific member functions
     
     void Insert(const Data&);
-    // type Insert(argument) specifiers; // Move of the value
-    // type Remove(argument) specifiers;
+    void Insert(Data&&);
+    void Remove(const Data&);
     
-    // type Min(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type MinNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type RemoveMin(argument) specifiers; // (concrete function must throw std::length_error when empty)
+    Data& Min() const; // (concrete function must throw std::length_error when empty)
+    Data MinNRemove(); // (concrete function must throw std::length_error when empty)
+    void RemoveMin(); // (concrete function must throw std::length_error when empty)
     
-    // type Max(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type MaxNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type RemoveMax(argument) specifiers; // (concrete function must throw std::length_error when empty)
+    Data& Max() const; // (concrete function must throw std::length_error when empty)
+    Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
+    void RemoveMax(); // (concrete function must throw std::length_error when empty)
     
-    // type Predecessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type PredecessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type RemovePredecessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
+    Data& Predecessor(const Data&) const; // (concrete function must throw std::length_error when empty)
+    Data PredecessorNRemove(const Data&); // (concrete function must throw std::length_error when empty)
+    void RemovePredecessor(const Data&); // (concrete function must throw std::length_error when empty)
     
-    // type Successor(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type SuccessorNRemove(argument) specifiers; // (concrete function must throw std::length_error when empty)
-    // type RemoveSuccessor(argument) specifiers; // (concrete function must throw std::length_error when empty)
+    Data& Successor(const Data&) const; // (concrete function must throw std::length_error when empty)
+    Data SuccessorNRemove(const Data&); // (concrete function must throw std::length_error when empty)
+    void RemoveSuccessor(const Data&); // (concrete function must throw std::length_error when empty)
     
     /* ************************************************************************ */
     
@@ -97,22 +96,28 @@ protected:
     
     // type DataNDelete(argument) specifiers;
     
-    // type Detach(argument) specifiers;
+    NodeLnk* Remove(NodeLnk*, const Data&);
     
-    // type DetachMin(argument) specifiers;
-    // type DetachMax(argument) specifiers;
+    NodeLnk* DetachMin(NodeLnk*);
+    NodeLnk* DetachMax(NodeLnk*);
     
-    // type SkipOnLeft(argument) specifiers;
-    // type SkipOnRight(argument) specifiers;
+    NodeLnk* SkipOnLeft(NodeLnk*);
+    NodeLnk* SkipOnRight(NodeLnk*);
     
-    // type FindPointerToMin(argument) specifiers;
-    // type FindPointerToMax(argument) specifiers;
+    NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
+    NodeLnk* FindPointerToMin(NodeLnk*) const noexcept;
     
-    typename BinaryTreeLnk<Data>::NodeLnk*& FindPointerTo(typename BinaryTreeLnk<Data>::NodeLnk*&, const Data&) noexcept;
-    typename BinaryTreeLnk<Data>::NodeLnk* const& FindPointerTo(typename BinaryTreeLnk<Data>::NodeLnk* const&, const Data&) const noexcept;
+    NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
+    NodeLnk* FindPointerToMax(NodeLnk*) const noexcept;
     
-    // type FindPointerToPredecessor(argument) specifiers;
-    // type FindPointerToSuccessor(argument) specifiers;
+    NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
+    NodeLnk* FindPointerTo(NodeLnk*, const Data&) const noexcept;
+    
+    NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept;
+    NodeLnk* FindPointerToPredecessor(NodeLnk*, const Data&) const noexcept;
+    
+    NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
+    NodeLnk* FindPointerToSuccessor(NodeLnk*, const Data&) const noexcept;
     
 };
 

@@ -16,26 +16,32 @@ int main() {
 //    menu();
     
     List<int> lst;
-    lst.InsertAtBack(1);
-    lst.InsertAtBack(5);
-    lst.InsertAtBack(4);
     lst.InsertAtBack(3);
+    lst.InsertAtBack(1);
+    lst.InsertAtBack(4);
     lst.InsertAtBack(2);
-    lst.InsertAtBack(6);
-    lst.InsertAtBack(8);
-    lst.InsertAtBack(78);
-    lst.InsertAtBack(73);
-    lst.InsertAtBack(7);
-    lst.InsertAtBack(9);
-    
+    lst.InsertAtBack(5);
+
     BST<int> bst(lst);
-    bst.Insert(10);
+    
+    for(BTBreadthIterator<int> it(bst); !it.Terminated(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+    
+    
+    std::cout << std::endl;
+    std::cout << "Min bst " << (bst.Min()) << std::endl;
+    std::cout << "Max bst " << (bst.Max()) << std::endl;
+
+    bst.RemoveMax();
     
     for(BTInOrderIterator<int> it(bst); !it.Terminated(); ++it) {
         std::cout << *it << " ";
     }
     std::cout << std::endl;
-    std::cout << bst.Exists(4) << std::endl;
+    
+    std::cout << bst.Successor(4) << std::endl;
     
     return 0;
 }
