@@ -17,6 +17,8 @@
 		502457EC264ED1510060500D /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457B9264ECFA20060500D /* fulltest.cpp */; };
 		502457ED264ED1580060500D /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457CD264ECFA20060500D /* simpletest.cpp */; };
 		502457EE264ED15E0060500D /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457CC264ECFA20060500D /* fulltest.cpp */; };
+		504DA40926502BA600765507 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457C2264ECFA20060500D /* simpletest.cpp */; };
+		504DA40A26502BAA00765507 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457C1264ECFA20060500D /* fulltest.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -451,12 +453,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				502457EE264ED15E0060500D /* fulltest.cpp in Sources */,
 				502457ED264ED1580060500D /* simpletest.cpp in Sources */,
-				502457EC264ED1510060500D /* fulltest.cpp in Sources */,
+				502457EE264ED15E0060500D /* fulltest.cpp in Sources */,
 				502457EB264ED14E0060500D /* simpletest.cpp in Sources */,
-				502457EA264ED14A0060500D /* fulltest.cpp in Sources */,
+				502457EC264ED1510060500D /* fulltest.cpp in Sources */,
 				502457E9264ED1460060500D /* simpletest.cpp in Sources */,
+				502457EA264ED14A0060500D /* fulltest.cpp in Sources */,
+				504DA40926502BA600765507 /* simpletest.cpp in Sources */,
+				504DA40A26502BAA00765507 /* fulltest.cpp in Sources */,
 				502457E8264ED1320060500D /* container.cpp in Sources */,
 				502457E7264ED11E0060500D /* test.cpp in Sources */,
 				502457E6264ED1160060500D /* test.cpp in Sources */,

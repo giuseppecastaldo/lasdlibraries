@@ -96,10 +96,10 @@ protected:
     
     // type DataNDelete(argument) specifiers;
     
-    NodeLnk* Remove(NodeLnk*, const Data&);
+    NodeLnk* Detach(NodeLnk*, const Data&);
     
-    NodeLnk* DetachMin(NodeLnk*);
-    NodeLnk* DetachMax(NodeLnk*);
+    NodeLnk* DetachMin(NodeLnk*, NodeLnk*);
+    NodeLnk* DetachMax(NodeLnk*, NodeLnk*);
     
     NodeLnk* SkipOnLeft(NodeLnk*);
     NodeLnk* SkipOnRight(NodeLnk*);
@@ -113,8 +113,8 @@ protected:
     NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
     NodeLnk* FindPointerTo(NodeLnk*, const Data&) const noexcept;
     
-    NodeLnk*& FindPointerToPredecessor(NodeLnk*&, const Data&) noexcept;
-    NodeLnk* FindPointerToPredecessor(NodeLnk*, const Data&) const noexcept;
+    NodeLnk*& FindPointerToPredecessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
+    NodeLnk* FindPointerToPredecessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
     
     NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
     NodeLnk* FindPointerToSuccessor(NodeLnk*, const Data&) const noexcept;

@@ -23,7 +23,7 @@ void lasdtest() {
   testFullExercise2();
   testSimpleExercise3();
   testFullExercise3();
-//  testSimpleExercise4();
-//  testFullExercise4();
+  testSimpleExercise4();
+  testFullExercise4();
   cout << endl << "Goodbye!" << endl;
 }
