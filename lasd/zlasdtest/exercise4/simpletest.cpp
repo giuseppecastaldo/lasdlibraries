@@ -89,6 +89,7 @@ void stestBSTInt(unsigned int& testnum, unsigned int& testerr) {
 
     Predecessor(loctestnum, loctesterr, bst, true, 4, 3);
     Predecessor(loctestnum, loctesterr, bst, true, 5, 4);
+      
 
     Successor(loctestnum, loctesterr, bst, true, 2, 3);
     Successor(loctestnum, loctesterr, bst, true, 4, 6);

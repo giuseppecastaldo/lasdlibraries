@@ -101,8 +101,8 @@ protected:
     NodeLnk* DetachMin(NodeLnk*, NodeLnk*);
     NodeLnk* DetachMax(NodeLnk*, NodeLnk*);
     
-    NodeLnk* SkipOnLeft(NodeLnk*);
-    NodeLnk* SkipOnRight(NodeLnk*);
+    void SkipOnLeft(NodeLnk*&);
+    void SkipOnRight(NodeLnk*&);
     
     NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
     NodeLnk* FindPointerToMin(NodeLnk*) const noexcept;
@@ -116,8 +116,8 @@ protected:
     NodeLnk*& FindPointerToPredecessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
     NodeLnk* FindPointerToPredecessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
     
-    NodeLnk*& FindPointerToSuccessor(NodeLnk*&, const Data&) noexcept;
-    NodeLnk* FindPointerToSuccessor(NodeLnk*, const Data&) const noexcept;
+    NodeLnk*& FindPointerToSuccessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
+    NodeLnk* FindPointerToSuccessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
     
 };
 
