@@ -36,6 +36,7 @@ protected:
         
         /* ********************************************************************** */
         
+        NodeLnk() = default;
         NodeLnk(const Data&);
         NodeLnk(Data&&);
         

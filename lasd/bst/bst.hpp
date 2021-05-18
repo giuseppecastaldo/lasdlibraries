@@ -94,7 +94,7 @@ protected:
     
     // Auxiliary member functions
     
-    // type DataNDelete(argument) specifiers;
+    Data DataNRemove(NodeLnk*& node);
     
     NodeLnk* Detach(NodeLnk*, const Data&);
     
@@ -113,11 +113,11 @@ protected:
     NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
     NodeLnk* FindPointerTo(NodeLnk*, const Data&) const noexcept;
     
-    NodeLnk*& FindPointerToPredecessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
-    NodeLnk* FindPointerToPredecessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
+    NodeLnk* FindPointerToPredecessor(const Data&) const noexcept;
+    NodeLnk*& FindPointerToPredecessor(const Data&) noexcept;
     
-    NodeLnk*& FindPointerToSuccessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
-    NodeLnk* FindPointerToSuccessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
+    NodeLnk* FindPointerToSuccessor(const Data&) const noexcept;
+    NodeLnk*& FindPointerToSuccessor(const Data&) noexcept;
     
 };
 
