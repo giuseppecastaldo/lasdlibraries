@@ -94,15 +94,15 @@ protected:
     
     // Auxiliary member functions
     
-    Data DataNRemove(NodeLnk*& node);
+    Data DataNDelete(NodeLnk*);
     
     NodeLnk* Detach(NodeLnk*, const Data&);
     
     NodeLnk* DetachMin(NodeLnk*, NodeLnk*);
     NodeLnk* DetachMax(NodeLnk*, NodeLnk*);
     
-    void SkipOnLeft(NodeLnk*&);
-    void SkipOnRight(NodeLnk*&);
+    NodeLnk* SkipOnLeft(NodeLnk*&);
+    NodeLnk* SkipOnRight(NodeLnk*&);
     
     NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
     NodeLnk* FindPointerToMin(NodeLnk*) const noexcept;

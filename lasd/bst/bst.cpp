@@ -10,7 +10,7 @@ template <typename Data>
 BST<Data>::BST(BST&& bst) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(bst)) {}
 
 template <typename Data>
-BST<Data>& BST<Data>::operator =(const BST& bst){
+BST<Data>& BST<Data>::operator =(const BST& bst) {
     BinaryTreeLnk<Data>::operator =(bst);
     return *this;
 }
@@ -30,8 +30,12 @@ BST<Data>::BST(const LinearContainer<Data>& lc) {
 
 template <typename Data>
 bool BST<Data>::operator ==(const BST& bst) const noexcept {
-    if (size!=bst.Size()) {
+    if (size != bst.Size()) {
         return false;
+    }
+    
+    if (size == 0 && bst.Size() == 0) {
+        return true;
     }
     
     BTInOrderIterator<Data> it2(bst);
@@ -69,7 +73,7 @@ void BST<Data>::Insert(Data&& value) {
 
 template <typename Data>
 void BST<Data>::Remove(const Data& value) {
-    Detach(root, value);
+    delete Detach(root, value);
 }
 
 template <typename Data>
@@ -78,13 +82,7 @@ Data& BST<Data>::Min() const {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* min = FindPointerToMin(root);
-    
-    if (min == nullptr) {
-        throw std::length_error("Value not found.");
-    }
-    
-    return min->element;
+    return FindPointerToMin(root)->element;
 }
 
 template <typename Data>
@@ -93,13 +91,8 @@ Data BST<Data>::MinNRemove() {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* min = DetachMin(root, nullptr);
-    
-    if (min == nullptr) {
-        throw std::length_error("Value not found.");
-    }
     size--;
-    return DataNRemove(min);
+    return DataNDelete(DetachMin(root, nullptr));
 }
 
 template <typename Data>
@@ -108,14 +101,8 @@ void BST<Data>::RemoveMin() {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* min = DetachMin(root, nullptr);
-    
-    if (min == nullptr) {
-        throw std::length_error("Value not found.");
-    }
-    
-    DataNRemove(min);
     size--;
+    delete DetachMin(root, nullptr);
 }
 
 template <typename Data>
@@ -124,13 +111,7 @@ Data& BST<Data>::Max() const {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* max = FindPointerToMax(root);
-    
-    if (max == nullptr) {
-        throw std::length_error("Value not found.");
-    }
-    
-    return max->element;
+    return FindPointerToMax(root)->element;
 }
 
 template <typename Data>
@@ -139,14 +120,8 @@ void BST<Data>::RemoveMax() {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* max = DetachMax(root, nullptr);
-    
-    if (max == nullptr) {
-        throw std::length_error("Value not found.");
-    }
     size--;
-    
-    DataNRemove(max);
+    delete DetachMax(root, nullptr);
 }
 
 template <typename Data>
@@ -155,13 +130,8 @@ Data BST<Data>::MaxNRemove() {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* max = DetachMax(root, nullptr);
-    
-    if (max == nullptr) {
-        throw std::length_error("Value not found.");
-    }
     size--;
-    return DataNRemove(max);
+    return DataNDelete(DetachMax(root, nullptr));
 }
 
 template <typename Data>
@@ -175,6 +145,7 @@ Data& BST<Data>::Predecessor(const Data& value) const {
     if (predecessor == nullptr) {
         throw std::length_error("Value not found.");
     }
+    
     return predecessor->element;
 }
 
@@ -184,14 +155,13 @@ Data BST<Data>::PredecessorNRemove(const Data& value) {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* predecessor = FindPointerToPredecessor(root, nullptr, value);
+    NodeLnk* predecessor = Detach(root, FindPointerToPredecessor(root, nullptr, value)->element);
     
     if (predecessor == nullptr) {
         throw std::length_error("Value not found.");
     }
     
-    Detach(root, predecessor->element);
-    return predecessor->element;
+    return DataNDelete(predecessor);
 }
 
 template <typename Data>
@@ -200,13 +170,7 @@ void BST<Data>::RemovePredecessor(const Data& value) {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* predecessor = FindPointerToPredecessor(root, nullptr, value);
-    
-    if (predecessor == nullptr) {
-        throw std::length_error("Value not found.");
-    }
-    
-    Detach(root, predecessor->element);
+    delete Detach(root, FindPointerToPredecessor(root, nullptr, value)->element);
 }
 
 template <typename Data>
@@ -220,6 +184,7 @@ Data& BST<Data>::Successor(const Data& value) const {
     if (successor == nullptr) {
         throw std::length_error("Value not found.");
     }
+    
     return successor->element;
 }
 
@@ -229,14 +194,13 @@ Data BST<Data>::SuccessorNRemove(const Data& value) {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* successor = FindPointerToSuccessor(root, nullptr, value);
+    NodeLnk* successor = Detach(root, FindPointerToSuccessor(root, nullptr, value)->element);
     
     if (successor == nullptr) {
         throw std::length_error("Value not found.");
     }
     
-    Detach(root, successor->element);
-    return successor->element;
+    return DataNDelete(successor);
 }
 
 template <typename Data>
@@ -245,13 +209,7 @@ void BST<Data>::RemoveSuccessor(const Data& value) {
         throw std::length_error("Empty BST!");
     }
     
-    NodeLnk* successor = FindPointerToSuccessor(value);
-    
-    if (successor == nullptr) {
-        throw std::length_error("Value not found.");
-    }
-    
-    Detach(root, successor->element);
+    delete Detach(root, FindPointerToSuccessor(root, nullptr, value)->element);
 }
 
 template <typename Data>
@@ -262,7 +220,7 @@ bool BST<Data>::Exists(const Data& value) const noexcept {
 /* ************************************************************************** */
 
 template <typename Data>
-Data BST<Data>::DataNRemove(NodeLnk*& node) {
+Data BST<Data>::DataNDelete(NodeLnk* node) {
     Data element = node->element;
     delete node;
     node = nullptr;
@@ -274,17 +232,20 @@ typename BST<Data>::NodeLnk* BST<Data>::Detach(NodeLnk* node, const Data& value)
     NodeLnk*& to_be_detached = *&FindPointerTo(root, value);
     
     if (to_be_detached != nullptr) {
+        size--;
         if (to_be_detached->left == nullptr && to_be_detached->right == nullptr) {
+            NodeLnk* tmp = to_be_detached;
             to_be_detached = nullptr;
+            return tmp;
         } else if (to_be_detached->left != nullptr && to_be_detached->right == nullptr) {
-            SkipOnLeft(to_be_detached);
+            return SkipOnLeft(to_be_detached);
         } else if (to_be_detached->left == nullptr && to_be_detached->right != nullptr) {
-            SkipOnRight(to_be_detached);
+            return SkipOnRight(to_be_detached);
         } else {
             NodeLnk* tmp = DetachMin(to_be_detached->right, to_be_detached);
-            to_be_detached->element = tmp->element;
+            std::swap(to_be_detached->element, tmp->element);
+            return tmp;
         }
-        size--;
     }
     
     return to_be_detached;
@@ -296,10 +257,14 @@ typename BST<Data>::NodeLnk* BST<Data>::DetachMin(NodeLnk* node, NodeLnk* parent
         if (node->left != nullptr) {
             return DetachMin(node->left, node);
         } else {
-            if (parent->left == node)
-                parent->left = node->right;
-            else
-                parent->right = node->right;
+            if (parent != nullptr) {
+                if (parent->left == node)
+                    parent->left = node->right;
+                else
+                    parent->right = node->right;
+            } else {
+                root = root->right;
+            }
         }
     }
     
@@ -312,10 +277,14 @@ typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk* node, NodeLnk* parent
         if (node->right != nullptr) {
             return DetachMax(node->right, node);
         } else {
-            if (node->left == node)
-                parent->left = node->left;
-            else
-                parent->right = node->left;
+            if (parent != nullptr) {
+                if (parent->left == node)
+                    parent->left = node->left;
+                else
+                    parent->right = node->left;
+            } else {
+                root = root->left;
+            }
         }
     }
     
@@ -323,15 +292,17 @@ typename BST<Data>::NodeLnk* BST<Data>::DetachMax(NodeLnk* node, NodeLnk* parent
 }
 
 template <typename Data>
-void BST<Data>::SkipOnLeft(NodeLnk*& node) {
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnLeft(NodeLnk*& node) {
     NodeLnk* tmp = node;
     node = node->left;
+    return tmp;
 }
 
 template <typename Data>
-void BST<Data>::SkipOnRight(NodeLnk*& node) {
+typename BST<Data>::NodeLnk* BST<Data>::SkipOnRight(NodeLnk*& node) {
     NodeLnk* tmp = node;
     node = node->right;
+    return tmp;
 }
 
 template <typename Data>
