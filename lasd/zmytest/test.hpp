@@ -5,9 +5,10 @@
 
 #include "../list/list.hpp"
 
-#include "../binarytree/binarytree.hpp"
-#include "../binarytree/vec/binarytreevec.hpp"
-#include "../binarytree/lnk/binarytreelnk.hpp"
+#include "../bst/bst.hpp"
+
+#include "../zlasdtest/container/container.hpp"
+#include "../zlasdtest/bst/bst.hpp"
 
 #include <iostream>
 #include <random>
@@ -38,13 +39,12 @@ void menu();
 void types(int);
 void populate_structure(int, int);
 
-void testBTInt(BinaryTree<int>&);
+void testBSTInt(BinaryTree<int>&);
+
+void personal_test();
 
 template <typename Data>
-void nodeOptions(BinaryTree<Data>&);
-
-template <typename Data>
-void testBT(BinaryTree<Data>&);
+void testBST(BinaryTree<Data>&);
 
 /* ************************************************************************** */
 
