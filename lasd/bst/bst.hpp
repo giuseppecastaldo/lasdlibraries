@@ -104,20 +104,14 @@ protected:
     NodeLnk* SkipOnLeft(NodeLnk*&);
     NodeLnk* SkipOnRight(NodeLnk*&);
     
-    NodeLnk*& FindPointerToMin(NodeLnk*&) noexcept;
     NodeLnk* FindPointerToMin(NodeLnk*) const noexcept;
-    
-    NodeLnk*& FindPointerToMax(NodeLnk*&) noexcept;
     NodeLnk* FindPointerToMax(NodeLnk*) const noexcept;
     
     NodeLnk*& FindPointerTo(NodeLnk*&, const Data&) noexcept;
     NodeLnk* FindPointerTo(NodeLnk*, const Data&) const noexcept;
     
     NodeLnk* FindPointerToPredecessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
-    NodeLnk*& FindPointerToPredecessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
-    
     NodeLnk* FindPointerToSuccessor(NodeLnk*, NodeLnk*, const Data&) const noexcept;
-    NodeLnk*& FindPointerToSuccessor(NodeLnk*&, NodeLnk*&, const Data&) noexcept;
     
 };
 
