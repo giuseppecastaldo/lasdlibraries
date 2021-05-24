@@ -17,6 +17,11 @@
 		502457EC264ED1510060500D /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457B9264ECFA20060500D /* fulltest.cpp */; };
 		502457ED264ED1580060500D /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457CD264ECFA20060500D /* simpletest.cpp */; };
 		502457EE264ED15E0060500D /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457CC264ECFA20060500D /* fulltest.cpp */; };
+		504B44A9265BB59000608FF3 /* matrixcsr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504B44A3265BB58F00608FF3 /* matrixcsr.cpp */; };
+		504B44AA265BB59000608FF3 /* matrixvec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504B44A7265BB59000608FF3 /* matrixvec.cpp */; };
+		504B44AB265BB59000608FF3 /* matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504B44A8265BB59000608FF3 /* matrix.cpp */; };
+		504B44B0265BB63800608FF3 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504B44AD265BB63800608FF3 /* fulltest.cpp */; };
+		504B44B1265BB63800608FF3 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504B44AE265BB63800608FF3 /* simpletest.cpp */; };
 		504DA40926502BA600765507 /* simpletest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457C2264ECFA20060500D /* simpletest.cpp */; };
 		504DA40A26502BAA00765507 /* fulltest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 502457C1264ECFA20060500D /* fulltest.cpp */; };
 /* End PBXBuildFile section */
@@ -60,6 +65,16 @@
 		502457D8264ECFA20060500D /* vector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vector.hpp; sourceTree = "<group>"; };
 		502457DA264ECFA20060500D /* bst.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bst.hpp; sourceTree = "<group>"; };
 		504800352625D95C001E89DA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		504B44A2265BB58F00608FF3 /* matrixcsr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = matrixcsr.hpp; sourceTree = "<group>"; };
+		504B44A3265BB58F00608FF3 /* matrixcsr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrixcsr.cpp; sourceTree = "<group>"; };
+		504B44A4265BB58F00608FF3 /* matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = matrix.hpp; sourceTree = "<group>"; };
+		504B44A6265BB59000608FF3 /* matrixvec.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = matrixvec.hpp; sourceTree = "<group>"; };
+		504B44A7265BB59000608FF3 /* matrixvec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrixvec.cpp; sourceTree = "<group>"; };
+		504B44A8265BB59000608FF3 /* matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = matrix.cpp; sourceTree = "<group>"; };
+		504B44AD265BB63800608FF3 /* fulltest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fulltest.cpp; sourceTree = "<group>"; };
+		504B44AE265BB63800608FF3 /* simpletest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = simpletest.cpp; sourceTree = "<group>"; };
+		504B44AF265BB63800608FF3 /* test.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = test.hpp; sourceTree = "<group>"; };
+		504B44B3265BB63F00608FF3 /* matrix.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = matrix.hpp; sourceTree = "<group>"; };
 		50DA87B52625D3AB00F40149 /* lasd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lasd; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DA881F2625D79600F40149 /* test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cpp; sourceTree = "<group>"; };
 		50DA88202625D79600F40149 /* test.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = test.hpp; sourceTree = "<group>"; };
@@ -111,6 +126,8 @@
 		502457B7264ECFA20060500D /* zlasdtest */ = {
 			isa = PBXGroup;
 			children = (
+				504B44B2265BB63F00608FF3 /* matrix */,
+				504B44AC265BB63800608FF3 /* exercise5 */,
 				502457B8264ECFA20060500D /* exercise2 */,
 				502457BC264ECFA20060500D /* exercise3 */,
 				502457C0264ECFA20060500D /* exercise4 */,
@@ -234,6 +251,53 @@
 			path = bst;
 			sourceTree = "<group>";
 		};
+		504B44A0265BB58F00608FF3 /* matrix */ = {
+			isa = PBXGroup;
+			children = (
+				504B44A1265BB58F00608FF3 /* csr */,
+				504B44A4265BB58F00608FF3 /* matrix.hpp */,
+				504B44A5265BB59000608FF3 /* vec */,
+				504B44A8265BB59000608FF3 /* matrix.cpp */,
+			);
+			path = matrix;
+			sourceTree = "<group>";
+		};
+		504B44A1265BB58F00608FF3 /* csr */ = {
+			isa = PBXGroup;
+			children = (
+				504B44A2265BB58F00608FF3 /* matrixcsr.hpp */,
+				504B44A3265BB58F00608FF3 /* matrixcsr.cpp */,
+			);
+			path = csr;
+			sourceTree = "<group>";
+		};
+		504B44A5265BB59000608FF3 /* vec */ = {
+			isa = PBXGroup;
+			children = (
+				504B44A6265BB59000608FF3 /* matrixvec.hpp */,
+				504B44A7265BB59000608FF3 /* matrixvec.cpp */,
+			);
+			path = vec;
+			sourceTree = "<group>";
+		};
+		504B44AC265BB63800608FF3 /* exercise5 */ = {
+			isa = PBXGroup;
+			children = (
+				504B44AD265BB63800608FF3 /* fulltest.cpp */,
+				504B44AE265BB63800608FF3 /* simpletest.cpp */,
+				504B44AF265BB63800608FF3 /* test.hpp */,
+			);
+			path = exercise5;
+			sourceTree = "<group>";
+		};
+		504B44B2265BB63F00608FF3 /* matrix */ = {
+			isa = PBXGroup;
+			children = (
+				504B44B3265BB63F00608FF3 /* matrix.hpp */,
+			);
+			path = matrix;
+			sourceTree = "<group>";
+		};
 		50DA87AC2625D3AB00F40149 = {
 			isa = PBXGroup;
 			children = (
@@ -253,6 +317,7 @@
 		50DA87B72625D3AB00F40149 /* lasd */ = {
 			isa = PBXGroup;
 			children = (
+				504B44A0265BB58F00608FF3 /* matrix */,
 				502457B7264ECFA20060500D /* zlasdtest */,
 				502457B3264ECF920060500D /* bst */,
 				50ECE3D126398765008F87E6 /* iterator */,
@@ -453,12 +518,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504B44B0265BB63800608FF3 /* fulltest.cpp in Sources */,
 				502457ED264ED1580060500D /* simpletest.cpp in Sources */,
 				502457EE264ED15E0060500D /* fulltest.cpp in Sources */,
 				502457EB264ED14E0060500D /* simpletest.cpp in Sources */,
 				502457EC264ED1510060500D /* fulltest.cpp in Sources */,
 				502457E9264ED1460060500D /* simpletest.cpp in Sources */,
+				504B44AB265BB59000608FF3 /* matrix.cpp in Sources */,
+				504B44A9265BB59000608FF3 /* matrixcsr.cpp in Sources */,
+				504B44B1265BB63800608FF3 /* simpletest.cpp in Sources */,
 				502457EA264ED14A0060500D /* fulltest.cpp in Sources */,
+				504B44AA265BB59000608FF3 /* matrixvec.cpp in Sources */,
 				504DA40926502BA600765507 /* simpletest.cpp in Sources */,
 				504DA40A26502BAA00765507 /* fulltest.cpp in Sources */,
 				502457E8264ED1320060500D /* container.cpp in Sources */,

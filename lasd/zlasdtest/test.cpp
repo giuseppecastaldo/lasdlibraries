@@ -7,6 +7,8 @@
 
 #include "./exercise4/test.hpp"
 
+#include "./exercise5/test.hpp"
+
 /* ************************************************************************** */
 
 #include <iostream>
@@ -25,5 +27,7 @@ void lasdtest() {
   testFullExercise3();
   testSimpleExercise4();
   testFullExercise4();
+  testSimpleExercise5();
+  testFullExercise5();
   cout << endl << "Goodbye!" << endl;
 }
