@@ -214,6 +214,8 @@ void MapParityInvert(Data& dat, void* _) {
 
 void MapStringAppend(std::string&, void*);
 
+void MapStringNonEmptyAppend(std::string&, void*);
+
 /* ************************************************************************** */
 
 // FoldableContainer member functions!

@@ -33,6 +33,10 @@ void MapStringAppend(std::string& dat, void* par) {
   dat.append(*((std::string*) par));
 }
 
+void MapStringNonEmptyAppend(std::string& dat, void* par) {
+  if (!dat.empty()) { dat.append(*((std::string*) par)); }
+}
+
 /* ************************************************************************** */
 
 // Auxiliary functions for FoldableContainer!
