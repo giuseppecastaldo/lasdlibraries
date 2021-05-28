@@ -82,7 +82,7 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newSize){
 }
 
 template <typename Data>
-bool MatrixVec<Data>::ExistsCell(unsigned int i, unsigned int j)const noexcept{
+bool MatrixVec<Data>::ExistsCell(unsigned long i, unsigned long j)const noexcept{
     if (i < RowNumber_ && j < ColumnNumber_) {
         return true;
     }
@@ -143,7 +143,7 @@ void MatrixVec<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void*
 
 template <typename Data>
 void MatrixVec<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const {
-    Vector<Data>::FoldPreOrder(fun, par, acc);
+    Vector<Data>::FoldPostOrder(fun, par, acc);
 }
 
 }
