@@ -54,7 +54,7 @@ public:
   virtual void RowResize(const unsigned long) = 0;
   virtual void ColumnResize(const unsigned long) = 0;
 
-  virtual bool ExistsCell(unsigned int,unsigned int) const noexcept = 0;
+  virtual bool ExistsCell(unsigned long,unsigned long) const noexcept = 0;
 
   
   virtual Data& operator() (const unsigned long, const unsigned long) = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
