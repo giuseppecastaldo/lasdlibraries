@@ -22,8 +22,8 @@ private:
 
 protected:
 
-  unsigned long RowNumber_ = 0;
-  unsigned long ColumnNumber_ = 0;
+  unsigned long rows = 0;
+  unsigned long columns = 0;
 
 public:
 

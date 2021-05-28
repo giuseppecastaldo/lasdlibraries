@@ -23,8 +23,8 @@ protected:
     
     using Vector<Data>::Elements;
     using Vector<Data>::size;
-    using Matrix<Data>::RowNumber_;
-    using Matrix<Data>::ColumnNumber_;
+    using Matrix<Data>::rows;
+    using Matrix<Data>::columns;
     
 public:
     
@@ -47,7 +47,7 @@ public:
     /* ************************************************************************ */
     
     // Destructor
-    virtual ~MatrixVec() = default;
+    virtual ~MatrixVec();
     
     /* ************************************************************************ */
     
