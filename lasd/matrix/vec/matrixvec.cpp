@@ -64,20 +64,21 @@ void MatrixVec<Data>::RowResize(const unsigned long newsize) {
 }
 
 template <typename Data>
-void MatrixVec<Data>::ColumnResize(const unsigned long newSize){
-    if(newSize == 0) {
+void MatrixVec<Data>::ColumnResize(const unsigned long newsize){
+    if(newsize == 0) {
         Clear();
-    } else if(size!=newSize) {
-        size=newSize*rows;
-        Data* TmpElements = new Data[size]{};
-        for(unsigned long i=0;i<rows;i++) {
-            for(unsigned long j=0;j<columns;j++) {
-                std::swap(Elements[i*columns+j], TmpElements[i*newSize+j]);
+    } else if (size != newsize) {
+        size = newsize * rows;
+        unsigned long limit = (columns < newsize) ? columns : newsize;
+        Data* TmpElements = new Data[size] {};
+        for(unsigned long i=0; i < rows; i++) {
+            for(unsigned long j=0; j < limit; j++) {
+                std::swap(Elements[i*columns+j], TmpElements[i*newsize+j]);
             }
         }
-        std::swap(Elements, TmpElements);
+        std::swap(Elements,TmpElements);
+        columns = newsize;
         delete[] TmpElements;
-        columns=newSize;
     }
 }
 
