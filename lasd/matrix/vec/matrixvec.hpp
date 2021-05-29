@@ -70,10 +70,10 @@ public:
     void RowResize(const unsigned long) override; // Override Matrix member
     void ColumnResize(const unsigned long) override; // Override Matrix member
     
-    bool ExistsCell(unsigned long,unsigned long) const noexcept override; // Override Matrix member (should not throw exceptions)
+    bool ExistsCell(unsigned long, unsigned long) const noexcept override; // Override Matrix member (should not throw exceptions)
     
     Data& operator() (const unsigned long, const unsigned long) override;// Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-    Data operator() (const unsigned long, const unsigned long) const override; //throw out_of_range when out of range and length_error when not present)
+    const Data& operator() (const unsigned long, const unsigned long) const override; //throw out_of_range when out of range and length_error when not present)
     
     /* ************************************************************************ */
     

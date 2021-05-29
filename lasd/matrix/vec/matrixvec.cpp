@@ -55,8 +55,12 @@ bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexcept{
 
 template <typename Data>
 void MatrixVec<Data>::RowResize(const unsigned long newsize) {
-    Vector<Data>::Resize(newsize * columns);
-    rows = newsize;
+    if (newsize == 0) {
+        Clear();
+    } else {
+        Vector<Data>::Resize(newsize * columns);
+        rows = newsize;
+    }
 }
 
 template <typename Data>
@@ -96,7 +100,7 @@ Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c){
 }
 
 template <typename Data>
-Data MatrixVec<Data>::operator() (const unsigned long r, const unsigned long c)const{
+const Data& MatrixVec<Data>::operator() (const unsigned long r, const unsigned long c)const{
     if (ExistsCell(r,c)) {
         if (&Elements[r*columns+c] != nullptr) {
             return Elements[r*columns+c];

@@ -58,7 +58,7 @@ public:
 
   
   virtual Data& operator() (const unsigned long, const unsigned long) = 0; // Mutable access to the element (concrete function should throw exceptions only when out of range)
-  virtual Data operator() (const unsigned long, const unsigned long) const = 0;// Immutable access to the element (concrete function should throw exceptions when not present)
+  virtual const Data& operator() (const unsigned long, const unsigned long) const = 0; // Immutable access to the element (concrete function should throw exceptions when not present)
 
 };
 

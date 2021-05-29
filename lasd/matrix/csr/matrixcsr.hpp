@@ -6,8 +6,8 @@
 
 #include "../matrix.hpp"
 
-// #include "../../list/list.hpp"
-// #include "../../vector/vector.hpp"
+#include "../../list/list.hpp"
+#include "../../vector/vector.hpp"
 
 /* ************************************************************************** */
 
@@ -16,87 +16,93 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class MatrixCSR { // Must extend Matrix<Data>
-
+class MatrixCSR: virtual public Matrix<Data>, virtual protected List<std::pair<Data, unsigned long>> {
+    
 private:
-
-  // ...
-
+    
 protected:
-
-  // using Matrix<Data>::???;
-
-  // ...
-
+    
+    using List<std::pair<Data, unsigned long>>::size;
+    using typename List<std::pair<Data, unsigned long>>::Node;
+    using List<std::pair<Data, unsigned long>>::Head;
+    Vector<Node*> rowsPtr;
+    
+    using Matrix<Data>::rows;
+    using Matrix<Data>::columns;
+    
 public:
-
-  // Default constructor
-  // MatrixCSR() specifiers;
-
-  /* ************************************************************************ */
-
-  // Specific constructors
-  // MatrixCSR(argument) specifiers; // A matrix of some specified dimension
-
-  /* ************************************************************************ */
-
-  // Copy constructor
-  // MatrixCSR(argument) specifiers;
-
-  // Move constructor
-  // MatrixCSR(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Destructor
-  // ~MatrixCSR() specifiers;
-
-  /* ************************************************************************ */
-
-  // Copy assignment
-  // type operator=(argument) specifiers;
-
-  // Move assignment
-  // type operator=(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Comparison operators
-  // type operator==(argument) specifiers;
-  // type operator!=(argument) specifiers;
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from Matrix)
-
-  // type RowResize() specifiers; // Override Matrix member
-  // type ColumnResize() specifiers; // Override Matrix member
-
-  // type ExistsCell() specifiers; // Override Matrix member (should not throw exceptions)
-
-  // type operator()() specifiers; // Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-  // type operator()() specifiers; // Override Matrix member (immutable access to the element; throw out_of_range when out of range and length_error when not present)
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from Container)
-
-  // type Clear() specifiers; // Override Container member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from MappableContainer)
-
-  // type MapPreOrder(arguments) specifiers; // Override MappableContainer member
-  // type MapPostOrder(arguments) specifiers; // Override MappableContainer member
-
-  /* ************************************************************************ */
-
-  // Specific member functions (inherited from FoldableContainer)
-
-  // type FoldPreOrder(arguments) specifiers; // Override FoldableContainer member
-  // type FoldPostOrder(arguments) specifiers; // Override FoldableContainer member
-
+    
+    // Default constructor
+    MatrixCSR();
+    
+    /* ************************************************************************ */
+    
+    // Specific constructors
+    MatrixCSR(const unsigned long, const unsigned long);
+    
+    /* ************************************************************************ */
+    
+    // Copy constructor
+    MatrixCSR(const MatrixCSR&);
+    
+    // Move constructor
+    MatrixCSR(MatrixCSR&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Destructor
+    virtual ~MatrixCSR();
+    
+    /* ************************************************************************ */
+    
+    // Copy assignment
+    MatrixCSR& operator = (const MatrixCSR&);
+    
+    // Move assignment
+    MatrixCSR& operator = (MatrixCSR&&) noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Comparison operators
+    bool operator ==(const MatrixCSR&) const noexcept;
+    bool operator !=(const MatrixCSR&) const noexcept;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from Matrix)
+    
+    void RowResize(const unsigned long) override;
+    void ColumnResize(const unsigned long) override;
+    
+    bool ExistsCell(unsigned long, unsigned long) const noexcept override;
+    
+    Data& operator() (const unsigned long, const unsigned long) override;
+    const Data& operator() (const unsigned long, const unsigned long) const override;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from Container)
+    
+    void Clear() override;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from MappableContainer)
+    
+    using typename MappableContainer<Data>::MapFunctor;
+    
+    void MapPreOrder(const MapFunctor, void *) override;
+    void MapPostOrder(const MapFunctor, void *) override;
+    
+    /* ************************************************************************ */
+    
+    // Specific member functions (inherited from FoldableContainer)
+    
+    using typename FoldableContainer<Data>::FoldFunctor;
+    
+    void FoldPreOrder(const FoldFunctor, const void *, void *) const override;
+    void FoldPostOrder(const FoldFunctor, const void *, void *) const override;
+    
 };
 
 /* ************************************************************************** */
