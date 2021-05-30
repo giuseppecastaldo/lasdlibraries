@@ -28,6 +28,9 @@ protected:
         
         /* ********************************************************************** */
         
+        // Default constructor
+        Node() = default;
+        
         // Specific constructors
         Node(const Data&);
         

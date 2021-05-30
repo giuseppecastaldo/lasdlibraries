@@ -155,21 +155,39 @@ bool MatrixCSR<Data>::ExistsCell(unsigned long r, unsigned long c) const noexcep
 
 template <typename Data>
 Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned long c) {
-//    if ((r < rows) && (c < columns)) {
-//        Node** ptr = rowsPtr[r];
-//        Node** ext = rowsPtr[r+1];
-//
-//        while (ptr != ext) {
-//            Node& nod = **ptr;
-//            if (nod.Element.second == c) {
-//                return nod.Element.first;
-//            }
-//
-//            ptr = &(nod.NextElement);
-//        }
-//    }
-//
-//    throw std::out_of_range("Cell does not exists.");
+    if ((r < rows) && (c < columns)) {
+        Node** ptr = rowsPtr[r];
+        Node** ext = rowsPtr[r+1];
+
+        while (ptr != ext && (*ptr)->Element.second <= c) {
+            Node& nod = **ptr;
+            if (nod.Element.second == c) {
+                return nod.Element.first;
+            }
+
+            ptr = &(nod.NextElement);
+        }
+        
+        size++;
+        Node* tmp = (*ptr);
+        (*ptr) = new Node();
+        (*ptr)->Element.second = c;
+        (*ptr)->NextElement = tmp;
+        
+        if (ptr == ext) {
+            for (unsigned long i = r + 1; i <= rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
+                // Aggiorno vettore righe fino a quando il prossimo valore è diverso
+                rowsPtr[i] = &(*ptr)->NextElement;
+            }
+
+        }
+        
+        return (*ptr)->Element.first;
+    } else {
+        throw std::out_of_range("Cell does not exists.");
+    }
+    
+    throw std::length_error("Data does not exists.");
 }
 
 template <typename Data>
@@ -184,9 +202,11 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned lo
             
             ptr = &(nod.NextElement);
         }
+    } else {
+        throw std::out_of_range("Cell does not exists.");
     }
     
-    throw std::out_of_range("Cell does not exists.");
+    throw std::length_error("Data does not exists.");
 }
 
 // Specific member functions (inherited from Container)
