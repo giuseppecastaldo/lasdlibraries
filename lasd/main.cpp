@@ -22,19 +22,30 @@ int main() {
 //    lasdtest(); // To call in the menu of your library test!
 //        menu();
     
-    MatrixCSR<int> mat(8,6);
+    unsigned int loctestnum = 0, loctesterr = 0;
+    MatrixCSR<int> mat(5,5);
     mat(0,0) = 1;
-    mat(0,1) = 2;
-    mat(0,2) = 3;
-    mat(2,4) = 10;
-    mat(2,5) = 11;
-    mat(3,2) = 6;
-    mat(5,1) = 9;
-    mat(5,4) = 7;
+    mat(0,2) = 2;
+    mat(1,0) = 3;
+    mat(2,2) = 4;
+    mat(2,3) = 5;
+    mat(4,4) = 6;
+    mat(0,1) = 7;
+//    mat(1,3) = 9; Scoppia
     
+    
+    
+//    MapPreOrder<int, int>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+    
+    cout << endl;
+    cout << endl;
     for (int i = 0; i < mat.RowNumber(); i++) {
         for (int j = 0; j < mat.ColumnNumber(); j++) {
-            cout << mat(i,j) << " ";
+            if (mat.ExistsCell(i, j)) {
+                cout << mat(i,j) << " ";
+            } else {
+                cout << "0" << " ";
+            }
         }
         cout << endl;
     }

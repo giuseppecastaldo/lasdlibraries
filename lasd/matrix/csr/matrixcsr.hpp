@@ -23,15 +23,17 @@ private:
 protected:
     
     using List<std::pair<Data, unsigned long>>::size;
-    using typename List<std::pair<Data, unsigned long>>::Node;
+    
     using List<std::pair<Data, unsigned long>>::Head;
     using List<std::pair<Data, unsigned long>>::Tail;
-    Vector<Node**> rowsPtr;
     
     using Matrix<Data>::rows;
     using Matrix<Data>::columns;
     
 public:
+    
+    using typename List<std::pair<Data, unsigned long>>::Node;
+    Vector<Node**> rowsPtr;
     
     // Default constructor
     MatrixCSR();

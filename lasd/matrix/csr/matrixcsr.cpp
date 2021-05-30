@@ -140,6 +140,7 @@ template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(unsigned long r, unsigned long c) const noexcept {
     if ((r < rows) && (c < columns)) {
         Node** ptr = rowsPtr[r];
+//        std::cout << (*rowsPtr[r])->Element.first << ", " << (*rowsPtr[r])->Element.second << std::endl;
         while (ptr != rowsPtr[r+1]) {
             Node& nod = **ptr;
             if (nod.Element.second == c) {
@@ -175,11 +176,9 @@ Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned long c) 
         (*ptr)->NextElement = tmp;
         
         if (ptr == ext) {
-            for (unsigned long i = r + 1; i <= rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
-                // Aggiorno vettore righe fino a quando il prossimo valore è diverso
+            for (unsigned long i = r + 1; i <= rows; i++) {
                 rowsPtr[i] = &(*ptr)->NextElement;
             }
-
         }
         
         return (*ptr)->Element.first;
