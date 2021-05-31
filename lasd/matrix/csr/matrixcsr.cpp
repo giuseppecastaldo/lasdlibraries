@@ -32,6 +32,8 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat) : MatrixCSR(mat.rows, mat
 // Move constructor
 template <typename Data>
 MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept {
+    std::swap(size, mat.size);
+    std::swap(Head, mat.Head);
     std::swap(columns, mat.columns);
     std::swap(rows, mat.rows);
     std::swap(rowsPtr, mat.rowsPtr);
@@ -52,19 +54,29 @@ MatrixCSR<Data>::~MatrixCSR() {
 // Copy assignment
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& mat) {
-    *this = MatrixCSR(mat.rows, mat.columns);
+    rows = mat.rows;
+    columns = mat.columns;
+    rowsPtr.Resize(rows + 1);
+    
+    for (unsigned long i = 0; i <= rows; ++i) {
+        rowsPtr[i] = &Head;
+    }
+    
     for (unsigned long row = 0; row < rows; ++row) {
         for (Node** ptr = mat.rowsPtr[row]; ptr != mat.rowsPtr[row + 1]; ptr = &((*ptr)->NextElement)) {
             Node& nod = **ptr;
             (*this)(row, nod.Element.second) = nod.Element.first;
         }
     }
+    
     return *this;
 }
 
 // Move assignment
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
+    std::swap(size, mat.size);
+    std::swap(Head, mat.Head);
     std::swap(columns, mat.columns);
     std::swap(rows, mat.rows);
     std::swap(rowsPtr, mat.rowsPtr);
@@ -81,7 +93,20 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
 // Comparison operators
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
-    return (rows = mat.rows) && (columns = mat.columns) && (List<std::pair<Data, unsigned long>>::operator==(mat));
+    bool equal_rows = (rows == mat.rows) && (columns == mat.columns) && (List<std::pair<Data, unsigned long>>::operator==(mat));
+    
+    if (mat.rowsPtr.Size() == rowsPtr.Size()) {
+        for (unsigned long index = 0; index < rowsPtr.Size(); ++index) {
+            if (*rowsPtr[index] != nullptr && *mat.rowsPtr[index] != nullptr) {
+                if ((*rowsPtr[index])->Element != (*mat.rowsPtr[index])->Element) {
+                    return false;
+                }
+            }
+        }
+        return true && equal_rows;
+    } else {
+        return false;
+    }
 }
 
 template <typename Data>
@@ -92,14 +117,19 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR<Data>& mat) const noexcept {
 // Specific member functions (inherited from Matrix)
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+    if (newsize == 0) {
+        MatrixCSR<Data>::Clear();
+    } else if (newsize < rows) {
+        DeleteSubList(*rowsPtr[rows - (rows - newsize)]);
+        rowsPtr.Resize(newsize + 1);
+    } else if (newsize > rows) {
+        rowsPtr.Resize(newsize + 1);
+        for (unsigned long i = rows; i < newsize; ++i) {
+            rowsPtr[i+1] = rowsPtr[i];
+        }
+    }
+    
+    rows = newsize;
 }
 
 template <typename Data>
@@ -140,7 +170,6 @@ template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(unsigned long r, unsigned long c) const noexcept {
     if ((r < rows) && (c < columns)) {
         Node** ptr = rowsPtr[r];
-        //        std::cout << (*rowsPtr[r])->Element.first << ", " << (*rowsPtr[r])->Element.second << std::endl;
         while (ptr != rowsPtr[r+1]) {
             Node& nod = **ptr;
             if (nod.Element.second == c) {
@@ -208,7 +237,8 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned lo
 template <typename Data>
 void MatrixCSR<Data>::Clear() {
     List<std::pair<Data, unsigned long>>::Clear();
-    rowsPtr.Clear();
+    rowsPtr.Resize(1);
+    rowsPtr[0] = &Head;
     rows = 0;
     columns = 0;
 }
@@ -216,23 +246,23 @@ void MatrixCSR<Data>::Clear() {
 // Specific member functions (inherited from MappableContainer)
 template <typename Data>
 void MatrixCSR<Data>::MapPreOrder(const MapFunctor fun, void* par) {
-    List<std::pair<Data, unsigned long>>::MapPreOrder([&fun](std::pair<Data, unsigned long> datx, void* parx) { fun(datx.first, parx); }, par);
+    List<std::pair<Data, unsigned long>>::MapPreOrder([&fun](std::pair<Data, unsigned long>& datx, void* parx) { fun(datx.first, parx); }, par);
 }
 
 template <typename Data>
 void MatrixCSR<Data>::MapPostOrder(const MapFunctor fun, void* par) {
-    List<std::pair<Data, unsigned long>>::MapPostOrder([&fun](std::pair<Data, unsigned long> datx, void* parx) { fun(datx.first, parx); }, par);
+    List<std::pair<Data, unsigned long>>::MapPostOrder([&fun](std::pair<Data, unsigned long>& datx, void* parx) { fun(datx.first, parx); }, par);
 }
 
 // Specific member functions (inherited from FoldableContainer)
 template <typename Data>
 void MatrixCSR<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void* acc) const {
-    List<std::pair<Data, unsigned long>>::FoldPreOrder([&fun](std::pair<Data, unsigned long> datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
+    List<std::pair<Data, unsigned long>>::FoldPreOrder([&fun](const std::pair<Data, unsigned long>& datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
 }
 
 template <typename Data>
 void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const {
-    List<std::pair<Data, unsigned long>>::FoldPostOrder([&fun](std::pair<Data, unsigned long> datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
+    List<std::pair<Data, unsigned long>>::FoldPostOrder([&fun](const std::pair<Data, unsigned long>& datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
 }
 
 
@@ -243,6 +273,16 @@ void MatrixCSR<Data>::InsertInColumnAfter(unsigned long col, Node **ptr) {
     Node* tmp = (*ptr);
     (*ptr) = new Node(); (*ptr)->Element.second = col;
     (*ptr)->NextElement = tmp;
+}
+
+template <typename Data>
+void MatrixCSR<Data>::DeleteSubList(Node *&node) {
+    if (!node)
+        return;
+    DeleteSubList(node->NextElement);
+    size--;
+    delete node;
+    node = nullptr;
 }
 
 }
