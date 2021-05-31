@@ -1,21 +1,18 @@
 
 namespace lasd {
 
+/* ************************************************************************ */
+
 // Default constructor
 template<typename Data>
 MatrixCSR<Data>::MatrixCSR() {
-    rowsPtr[0] = &Head;
+    Initialize();
 }
 
 // Specific constructors
 template<typename Data>
 MatrixCSR<Data>::MatrixCSR(const unsigned long r, const unsigned long c) {
-    rows = r;
-    columns = c;
-    rowsPtr.Resize(r + 1);
-    for (unsigned long i = 0; i <= rows; ++i) {
-        rowsPtr[i] = &Head;
-    }
+    Initialize(c, r);
 }
 
 // Copy constructor
@@ -51,16 +48,12 @@ MatrixCSR<Data>::~MatrixCSR() {
     MatrixCSR<Data>::Clear();
 }
 
+/* ************************************************************************ */
+
 // Copy assignment
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& mat) {
-    rows = mat.rows;
-    columns = mat.columns;
-    rowsPtr.Resize(rows + 1);
-    
-    for (unsigned long i = 0; i <= rows; ++i) {
-        rowsPtr[i] = &Head;
-    }
+    Initialize(mat.rows, mat.columns);
     
     for (unsigned long row = 0; row < rows; ++row) {
         for (Node** ptr = mat.rowsPtr[row]; ptr != mat.rowsPtr[row + 1]; ptr = &((*ptr)->NextElement)) {
@@ -90,6 +83,8 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
     return *this;
 }
 
+/* ************************************************************************ */
+
 // Comparison operators
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
@@ -114,6 +109,8 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR<Data>& mat) const noexcept {
     return !(*this == mat);
 }
 
+/* ************************************************************************ */
+
 // Specific member functions (inherited from Matrix)
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
@@ -135,7 +132,7 @@ void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
     if (newsize == 0) {
-        List<std::pair<Data, unsigned long>>::Clear();
+        MatrixCSR<Data>::Clear();
     } else if (newsize < columns) {
         unsigned long idx = 1;
         Node** ptr = &Head;
@@ -148,9 +145,6 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
             }
             
             if (ptr != ext) {
-                if (ext == rowsPtr[rows]) {
-                    Tail = nod;
-                }
                 Node* tmp = *ptr;
                 *ptr = *ext;
                 *ext = nullptr;
@@ -204,14 +198,19 @@ Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long c
             for (unsigned long i = row + 1; i <= rows && rowsPtr[i] == ptr; i++) {
                 rowsPtr[i] = &(*ptr)->NextElement;
             }
+            
+//            unsigned long i = row + 1;
+//            for (; i < rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
+//                rowsPtr[i] = &(*ptr)->NextElement;
+//            }
+//
+//            rowsPtr[i] = &(*ptr)->NextElement;
         }
         
         return (*ptr)->Element.first;
     } else {
         throw std::out_of_range("Cell does not exists.");
     }
-    
-    throw std::length_error("Data does not exists.");
 }
 
 template <typename Data>
@@ -233,14 +232,15 @@ const Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned lo
     throw std::length_error("Data does not exists.");
 }
 
+/* ************************************************************************ */
+
 // Specific member functions (inherited from Container)
 template <typename Data>
 void MatrixCSR<Data>::Clear() {
     List<std::pair<Data, unsigned long>>::Clear();
-    rowsPtr.Resize(1);
-    rowsPtr[0] = &Head;
     rows = 0;
     columns = 0;
+    Initialize();
 }
 
 // Specific member functions (inherited from MappableContainer)
@@ -265,6 +265,7 @@ void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void
     List<std::pair<Data, unsigned long>>::FoldPostOrder([&fun](const std::pair<Data, unsigned long>& datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
 }
 
+/* ************************************************************************ */
 
 // Auxiliary member functions
 template <typename Data>
@@ -277,13 +278,32 @@ void MatrixCSR<Data>::InsertInColumnAfter(unsigned long col, Node **ptr) {
 
 template <typename Data>
 void MatrixCSR<Data>::DeleteSubList(Node *&node) {
-    if (!node)
+    if (!node) {
         return;
+    }
     DeleteSubList(node->NextElement);
-    size--;
     delete node;
     node = nullptr;
+    size--;
 }
+
+template <typename Data>
+void MatrixCSR<Data>::Initialize(unsigned long column, unsigned long row) {
+    rows = row;
+    columns = column;
+    rowsPtr.Resize(row + 1);
+    for (unsigned long i = 0; i <= rows; ++i) {
+        rowsPtr[i] = &Head;
+    }
+}
+
+template <typename Data>
+void MatrixCSR<Data>::Initialize() {
+    rowsPtr.Resize(1);
+    rowsPtr[0] = &Head;
+}
+
+/* ************************************************************************ */
 
 }
 

@@ -90,13 +90,9 @@ bool MatrixVec<Data>::ExistsCell(unsigned long i, unsigned long j) const noexcep
 template <typename Data>
 Data& MatrixVec<Data>::operator()(const unsigned long r, const unsigned long c){
     if (ExistsCell(r,c)) {
-        if (&Elements[r*columns+c] != nullptr) {
-            return Elements[r*columns+c];
-        } else {
-            throw std::length_error("non esiste valore");
-        }
+        return Elements[r*columns+c];
     } else {
-        throw std::out_of_range("non esiste la cella");
+        throw std::out_of_range("Cell does not exists.");
     }
 }
 
@@ -106,10 +102,10 @@ const Data& MatrixVec<Data>::operator() (const unsigned long r, const unsigned l
         if (&Elements[r*columns+c] != nullptr) {
             return Elements[r*columns+c];
         } else {
-            throw std::length_error("non esiste valore");
+            throw std::length_error("Data does not exists.");
         }
     } else {
-        throw std::out_of_range("non esiste la cella");
+        throw std::out_of_range("Cell does not exists.");
     }
 }
 

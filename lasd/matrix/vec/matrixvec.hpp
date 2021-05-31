@@ -34,7 +34,7 @@ public:
     /* ************************************************************************ */
     
     // Specific constructors
-    MatrixVec(const unsigned long,const unsigned long); // A matrix of some specified dimension
+    MatrixVec(const unsigned long,const unsigned long);
     
     /* ************************************************************************ */
     
@@ -67,13 +67,13 @@ public:
     
     // Specific member functions (inherited from Matrix)
     
-    void RowResize(const unsigned long) override; // Override Matrix member
-    void ColumnResize(const unsigned long) override; // Override Matrix member
+    void RowResize(const unsigned long) override;
+    void ColumnResize(const unsigned long) override;
     
-    bool ExistsCell(unsigned long, unsigned long) const noexcept override; // Override Matrix member (should not throw exceptions)
+    bool ExistsCell(unsigned long, unsigned long) const noexcept override;
     
-    Data& operator() (const unsigned long, const unsigned long) override;// Override Matrix member (mutable access to the element; throw out_of_range when out of range)
-    const Data& operator() (const unsigned long, const unsigned long) const override; //throw out_of_range when out of range and length_error when not present)
+    Data& operator() (const unsigned long, const unsigned long) override;
+    const Data& operator() (const unsigned long, const unsigned long) const override;
     
     /* ************************************************************************ */
     

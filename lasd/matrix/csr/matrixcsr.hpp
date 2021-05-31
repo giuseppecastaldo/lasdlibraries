@@ -25,7 +25,6 @@ protected:
     using List<std::pair<Data, unsigned long>>::size;
     using typename List<std::pair<Data, unsigned long>>::Node;
     using List<std::pair<Data, unsigned long>>::Head;
-    using List<std::pair<Data, unsigned long>>::Tail;
     
     Vector<Node**> rowsPtr = Vector<Node**>(1);
     using Matrix<Data>::rows;
@@ -108,7 +107,8 @@ protected:
     
     // Auxiliary member functions
     void DeleteSubList(Node*&);
-    
+    void Initialize();
+    void Initialize(unsigned long, unsigned long);
     void InsertInColumnAfter(unsigned long, Node**);
     
 };
