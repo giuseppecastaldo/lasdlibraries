@@ -92,14 +92,14 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR<Data>& mat) const noexcept {
 // Specific member functions (inherited from Matrix)
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
-//
-//
-//
-//
-//
-//
-//
-//
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
 }
 
 template <typename Data>
@@ -140,7 +140,7 @@ template <typename Data>
 bool MatrixCSR<Data>::ExistsCell(unsigned long r, unsigned long c) const noexcept {
     if ((r < rows) && (c < columns)) {
         Node** ptr = rowsPtr[r];
-//        std::cout << (*rowsPtr[r])->Element.first << ", " << (*rowsPtr[r])->Element.second << std::endl;
+        //        std::cout << (*rowsPtr[r])->Element.first << ", " << (*rowsPtr[r])->Element.second << std::endl;
         while (ptr != rowsPtr[r+1]) {
             Node& nod = **ptr;
             if (nod.Element.second == c) {
@@ -150,33 +150,29 @@ bool MatrixCSR<Data>::ExistsCell(unsigned long r, unsigned long c) const noexcep
             ptr = &(nod.NextElement);
         }
     }
-
+    
     return false;
 }
 
 template <typename Data>
-Data& MatrixCSR<Data>::operator()(const unsigned long r, const unsigned long c) {
-    if ((r < rows) && (c < columns)) {
-        Node** ptr = rowsPtr[r];
-        Node** ext = rowsPtr[r+1];
-
-        while (ptr != ext && (*ptr)->Element.second <= c) {
+Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long col) {
+    if ((row < rows) && (col < columns)) {
+        Node** ptr = rowsPtr[row];
+        Node** ext = rowsPtr[row+1];
+        
+        while (ptr != ext && (*ptr)->Element.second <= col) {
             Node& nod = **ptr;
-            if (nod.Element.second == c) {
+            if (nod.Element.second == col) {
                 return nod.Element.first;
             }
-
+            
             ptr = &(nod.NextElement);
         }
         
-        size++;
-        Node* tmp = (*ptr);
-        (*ptr) = new Node();
-        (*ptr)->Element.second = c;
-        (*ptr)->NextElement = tmp;
+        InsertInColumnAfter(col, ptr);
         
         if (ptr == ext) {
-            for (unsigned long i = r + 1; i <= rows; i++) {
+            for (unsigned long i = row + 1; i <= rows && rowsPtr[i] == ptr; i++) {
                 rowsPtr[i] = &(*ptr)->NextElement;
             }
         }
@@ -237,6 +233,16 @@ void MatrixCSR<Data>::FoldPreOrder(const FoldFunctor fun, const void* par, void*
 template <typename Data>
 void MatrixCSR<Data>::FoldPostOrder(const FoldFunctor fun, const void* par, void* acc) const {
     List<std::pair<Data, unsigned long>>::FoldPostOrder([&fun](std::pair<Data, unsigned long> datx, const void* parx, void* accx) { fun(datx.first, parx, accx); }, par, acc);
+}
+
+
+// Auxiliary member functions
+template <typename Data>
+void MatrixCSR<Data>::InsertInColumnAfter(unsigned long col, Node **ptr) {
+    size++;
+    Node* tmp = (*ptr);
+    (*ptr) = new Node(); (*ptr)->Element.second = col;
+    (*ptr)->NextElement = tmp;
 }
 
 }

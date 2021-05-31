@@ -106,6 +106,11 @@ public:
     void FoldPreOrder(const FoldFunctor, const void *, void *) const override;
     void FoldPostOrder(const FoldFunctor, const void *, void *) const override;
     
+protected:
+    
+    // Auxiliary member functions
+    void InsertInColumnAfter(unsigned long, Node**);
+    
 };
 
 /* ************************************************************************** */
