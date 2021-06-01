@@ -89,15 +89,17 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
 // Comparison operators
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
+    if ((rows == 0 && mat.rows == 0) && (columns == 0 && mat.columns == 0)) {
+        return true;
+    }
+    
     if (rows != mat.rows || columns != mat.columns) {
         return false;
     }
     
-    if (mat.rows == 0 && mat.columns == 0) {
-        return true;
+    if (!List<std::pair<Data, unsigned long>>::operator==(mat)) {
+        return false;
     }
-    
-    bool equal_columns = (List<std::pair<Data, unsigned long>>::operator==(mat));
     
     // Verifico se siano uguali le righe
     for (unsigned long row = 0; row < rows; ++row) {
@@ -108,7 +110,7 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
         }
     }
     
-    return true && equal_columns;
+    return true;
 }
 
 template <typename Data>
@@ -205,13 +207,6 @@ Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long c
             for (unsigned long i = row + 1; i <= rows && rowsPtr[i] == ptr; i++) {
                 rowsPtr[i] = &(*ptr)->NextElement;
             }
-            
-            //            unsigned long i = row + 1;
-            //            for (; i < rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
-            //                rowsPtr[i] = &(*ptr)->NextElement;
-            //            }
-            //
-            //            rowsPtr[i] = &(*ptr)->NextElement;
         }
         
         return (*ptr)->Element.first;
