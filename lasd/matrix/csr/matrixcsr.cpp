@@ -11,8 +11,8 @@ MatrixCSR<Data>::MatrixCSR() {
 
 // Specific constructors
 template<typename Data>
-MatrixCSR<Data>::MatrixCSR(const unsigned long r, const unsigned long c) {
-    Initialize(c, r);
+MatrixCSR<Data>::MatrixCSR(const unsigned long rows_n, const unsigned long cols_n) {
+    Initialize(rows_n, cols_n);
 }
 
 // Copy constructor
@@ -53,6 +53,7 @@ MatrixCSR<Data>::~MatrixCSR() {
 // Copy assignment
 template <typename Data>
 MatrixCSR<Data>& MatrixCSR<Data>::operator=(const MatrixCSR<Data>& mat) {
+    MatrixCSR<Data>::Clear();
     Initialize(mat.rows, mat.columns);
     
     for (unsigned long row = 0; row < rows; ++row) {
@@ -199,12 +200,12 @@ Data& MatrixCSR<Data>::operator()(const unsigned long row, const unsigned long c
                 rowsPtr[i] = &(*ptr)->NextElement;
             }
             
-//            unsigned long i = row + 1;
-//            for (; i < rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
-//                rowsPtr[i] = &(*ptr)->NextElement;
-//            }
-//
-//            rowsPtr[i] = &(*ptr)->NextElement;
+            //            unsigned long i = row + 1;
+            //            for (; i < rows && rowsPtr[i] == rowsPtr[i+1]; i++) {
+            //                rowsPtr[i] = &(*ptr)->NextElement;
+            //            }
+            //
+            //            rowsPtr[i] = &(*ptr)->NextElement;
         }
         
         return (*ptr)->Element.first;
@@ -288,10 +289,10 @@ void MatrixCSR<Data>::DeleteSubList(Node *&node) {
 }
 
 template <typename Data>
-void MatrixCSR<Data>::Initialize(unsigned long column, unsigned long row) {
-    rows = row;
-    columns = column;
-    rowsPtr.Resize(row + 1);
+void MatrixCSR<Data>::Initialize(unsigned long rows_n, unsigned long cols_n) {
+    rows = rows_n;
+    columns = cols_n;
+    rowsPtr.Resize(rows_n + 1);
     for (unsigned long i = 0; i <= rows; ++i) {
         rowsPtr[i] = &Head;
     }
