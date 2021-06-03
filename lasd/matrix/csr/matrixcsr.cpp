@@ -106,13 +106,11 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
     }
     
     // Verifico se siano uguali le righe
-    for (unsigned long row = 0; row < rows; ++row) {
-        if (((*rowsPtr[row]) == nullptr && (*mat.rowsPtr[row]) != nullptr) || ((*rowsPtr[row]) != nullptr && (*mat.rowsPtr[row]) == nullptr)) {
-            return false;
-        } else if ((*rowsPtr[row])->Element != (*mat.rowsPtr[row])->Element) {
-            return false;
-        }
-    }
+//    for (unsigned long index = 0; index < rows; ++index) {
+//        if ((*rowsPtr[index])->Element != (*mat.rowsPtr[index])->Element) {
+//            return false;
+//        }
+//    }
     
     return true;
 }

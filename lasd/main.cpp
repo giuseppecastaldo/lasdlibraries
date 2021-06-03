@@ -1,4 +1,6 @@
 #include "zlasdtest/test.hpp"
+#include "zlasdtest/container/container.hpp"
+#include"zlasdtest/matrix/matrix.hpp"
 //#include "zmytest/test.hpp"
 #include <random>
 #define seed 3499211612
@@ -9,240 +11,275 @@
 #include "matrix/csr/matrixcsr.hpp"
 #include "matrix/vec/matrixvec.hpp"
 
-using namespace std;
+
 using namespace lasd;
 
-enum Action{
-    RowResize,
-    ColResize,
-    InsertValue,
-    TestCopy,
-    TestMove
-};
-
-bool eq_matr(const MatrixCSR<int>& mc, const MatrixVec<int>& mv);
-const int& const_acc(const Matrix<int>& mx, unsigned int i, unsigned int j);
-
-/* *** Random generation *** */
-default_random_engine gen(seed);
-uniform_int_distribution<unsigned int> distr0_100(0, 100);
-uniform_int_distribution<unsigned int> distr0_4(0, 4);
 
 /* ************************************************************************** */
 
-void printMx(const Matrix<int>& m){
-    for (int i = 0; i < m.RowNumber(); ++i) {
-        for (int j = 0; j < m.ColumnNumber(); ++j) {
-            if (m.ExistsCell(i, j))
-                cout<< m(i, j) << " ";
-            else
-                cout<< 0 << " ";
-        }
-        cout<< endl;
-    }
-}
-
 int main() {
   std::cout << "Lasd Libraries 2020" << std::endl;
-//  lasdtest(); // To call in the menu of your library test!
+  //lasdtest(); // To call in the menu of your library test!
 
-  MatrixVec<int> mv;
-  MatrixCSR<int> mc;
-  int valMatr[100][100];
-  unsigned long err = 0, test = 0;
+    uint loctestnum = 0, loctesterr = 0;
+    MatrixVec<long> mat;
 
-  cout<< "Seed: "<< seed << endl;
+    Empty(loctestnum, loctesterr, mat, true);
+    Size(loctestnum, loctesterr, mat, true, 0);
 
-  for(int i=1; i <= 1000; i++){
-      auto action = static_cast<Action>(distr0_4(gen));
-      cout<< "["<< i << "] ";
-      if(action == RowResize){
-          unsigned int r = distr0_100(gen);
-          try {
-              cout << "Set row to " << r;
-              mv.RowResize(r);
-              mc.RowResize(r);
-              cout << " ok" << endl;
-          } catch (...){
-              cerr<< "Exception in RowResize" << endl;
-              err++;
-          }
-          test++;
-      }
-      if(action == ColResize){
-          unsigned int c = distr0_100(gen);
-          try {
-              cout << "Set col to " << c;
-              mv.ColumnResize(c);
-              mc.ColumnResize(c);
-              cout << " ok" << endl;
-          } catch (...){
-              cerr<< "Exception in ColResize" << endl;
-              err++;
-          }
-          test++;
-      }
-      if(action == InsertValue && mc.RowNumber() != 0 && mc.ColumnNumber() != 0){
-          uniform_int_distribution<unsigned int> N(0, mc.RowNumber()-1);
-          uniform_int_distribution<unsigned int> M(0, mc.ColumnNumber()-1);
+    GetRowNumber(loctestnum, loctesterr, mat, true, 0);
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 0);
 
-          unsigned int nElements = distr0_100(gen)/3;
-          cout<< "Insert " << nElements << " values" << endl;
-          for(int k = 0; k < nElements; k++){
-              try {
-                  int num = distr0_100(gen);
-                  unsigned int n = N(gen);
-                  unsigned int m = M(gen);
+    ExistsCell(loctestnum, loctesterr, mat, false, 0, 0);
 
-                  cout << "\tInsert " << num << " in (" << n << ", " << m << ")";
-                  mv(n, m) = num;
-                  mc(n, m) = num;
-                  valMatr[n][m] = num;
-                  cout << " ok" << endl;
+    GetCell<long>(loctestnum, loctesterr, mat, false, 0, 0, 0);
+    SetCell<long>(loctestnum, loctesterr, mat, false, 0, 0, 0);
 
-                  test++;
-                  if (mv(n, m) != mc(n, m)) {
-                      cerr << "ERRORE! I valori delle matrici sono diversi!! (mv(n, m) != mc(n, m))" << endl;
-                      err++;
-                  }test++;
-                  if (mc(n, m) != valMatr[n][m]) {
-                      cerr << "ERRORE! I valori delle matrici sono diversi!! (mc(n, m) != valMatr[n][m])" << endl;
-                      err++;
-                  }test++;
-                  if (mv(n, m) != valMatr[n][m]) {
-                      cerr << "ERRORE! I valori delle matrici sono diversi!! (mv(n, m) != valMatr[n][m])" << endl;
-                      err++;
-                  }test++;
-                  if (const_acc(mv, n, m) != const_acc(mc, n, m)) {
-                      cerr<< "ERRORE! I valori delle matrici (accesso costante) sono diversi!! const_acc(mv, n, m) != const_acc(mc, n, m)"<< endl;
-                      err++;
-                  }
-              } catch (...){
-                  cerr<< "Exception in Insert" << endl;
-                  err++;
-              }
-          }
-          cout<< "ok" << endl;
-      }
-      if(action == TestCopy){
-          cout<< "Test Copy";
-          try {
-              MatrixVec<int> mv_copy(mv);
-              MatrixCSR<int> mc_copy(mc);
+    SetRowNumber(loctestnum, loctesterr, mat, true, 6);
+    SetColumnNumber(loctestnum, loctesterr, mat, true, 7);
 
-              if (mc.RowNumber() != 0 && mc.ColumnNumber() != 0) {
-                  uniform_int_distribution<unsigned int> N(0, mc.RowNumber() - 1);
-                  uniform_int_distribution<unsigned int> M(0, mc.ColumnNumber() - 1);
-                  unsigned int nElements = distr0_100(gen)/3;
-                  for (int k = 0; k < nElements; k++) {
-                      int num = distr0_100(gen);
-                      unsigned int n = N(gen);
-                      unsigned int m = M(gen);
-                      mv(n, m) = num;
-                      mc(n, m) = num;
+    GetRowNumber(loctestnum, loctesterr, mat, true, 6);
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 7);
+    Size(loctestnum, loctesterr, mat, true, 0);
 
-                      mv_copy(n, m) = num;
-                      mc_copy(n, m) = num;
-                  }
-              }
+    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 0, 3);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 2, 4);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 6, 3);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 6, 2);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 1, 1);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 0, 7);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 3, 5);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 3, 3, 6);
 
+    Size(loctestnum, loctesterr, mat, true, 8);
 
-              test++;
-              if (!eq_matr(mc_copy, mv_copy)) {
-                  err++;
-                  cerr << "Le matrici copiate col costruttore sono diverse!!(mc_copy, mv_copy)" << endl;
-              } test++;
-              if (mv != mv_copy) {
-                  err++;
-                  cerr << "Le matrici copiate col costruttore sono diverse!!(mv != mv_copy)" << endl;
-              } test++;
-              if (mc != mc_copy) {
-                  err++;
-                  cerr << "Le matrici copiate col costruttore sono diverse!!(mc != mc_copy)" << endl;
-              }
-              mv_copy = mv;
-              mc_copy = mc;
+  MatrixVec<long> copmat(mat);
 
-              test++;
-              if (!eq_matr(mc_copy, mv_copy)) {
-                  cerr << "Le matrici copiate per assegnazione sono diverse!!" << endl;
-              }
-              cout << " ok" << endl;
-          } catch (...){
-              cerr<< "Exception in Copy" << endl;
-              err++;
-          }
-      }
-      if(action == TestMove){
-          cout<< "Test Move";
-          try {
-              MatrixVec<int> mv_copy(mv);
-              MatrixCSR<int> mc_copy(mc);
+    SetColumnNumber(loctestnum, loctesterr, copmat, true, 0);
+    SetRowNumber(loctestnum, loctesterr, copmat, true, 6);
 
-              MatrixVec<int> mv_move(move(mv_copy));
-              MatrixCSR<int> mc_move(move(mc_copy));
-              test++;
-              if (!eq_matr(mc_move, mv_move)) {
-                  err++;
-                  cout << "Le matrici spostate col costruttore sono diverse!!" << endl;
-              }test++;
-              if (mv != mv_move) {
-                  err++;
-                  cout << "Le matrici spostate col costruttore sono diverse!!" << endl;
-              }test++;
-              if (mc != mc_move) {
-                  err++;
-                  cout << "Le matrici spostate col costruttore sono diverse!!" << endl;
-              }
-              mv = move(mv_move);
-              mc = move(mc_move);
-              test++;
-              if (!eq_matr(mc, mv)) {
-                  err++;
-                  cout << "Le matrici spostate per assegnazione sono diverse!!" << endl;
-              }
-              cout << " ok" << endl;
+    GetRowNumber(loctestnum, loctesterr, copmat, true, 6);
+    GetColumnNumber(loctestnum, loctesterr, copmat, true, 0);
 
+    SetColumnNumber(loctestnum, loctesterr, mat, true, 5);
+    Size(loctestnum, loctesterr, mat, true, 6);
+    SetRowNumber(loctestnum, loctesterr, mat, true, 5);
+    Size(loctestnum, loctesterr, mat, true, 4);
+    GetRowNumber(loctestnum, loctesterr, mat, true, 5);
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 5);
 
-          test++;
-          if (mv.RowNumber() != mc.RowNumber()) {
-              err++;
-              cerr << "ERRORE! Il numero di righe delle matrici sono diversi!!" << "mc: " << mc.RowNumber() << " mv: "
-                   << mv.RowNumber() << endl;
-          }test++;
-          if (mv.ColumnNumber() != mc.ColumnNumber()) {
-              err++;
-              cerr << "ERRORE! Il numero di colonne delle matrici sono diversi!! " << "mc: " << mc.ColumnNumber()
-                   << " mv: " << mv.ColumnNumber() << endl;
-          }test++;
-          if (!eq_matr(mc, mv)) {
-              err++;
-              cerr << "ERRORE! Le matrici sono diverse!!" << endl;
-          }
-          }catch (...){
-              cerr<< "Exception in Move" << endl;
-              err++;
-          }
-      }
-      test++;
-  }
+    SetCell<long>(loctestnum, loctesterr, mat, true, 4, 4, 8);
 
-  cout << "End. errors/tests: "<< err << "/" << test << endl;
-  return 0;
-}
+    FoldPreOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldAdd<long>, 0, 0, 22);
+    FoldPostOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldAdd<long>, 0, 0, 22);
 
+    SetColumnNumber(loctestnum, loctesterr, mat, true, 8);
+    SetRowNumber(loctestnum, loctesterr, mat, true, 7);
+    Size(loctestnum, loctesterr, mat, true, 5);
 
-bool eq_matr(const MatrixCSR<int>& mc, const MatrixVec<int>& mv){
-    for(int i=0; i<mc.RowNumber(); i++)
-        for(int j=0; j<mc.ColumnNumber(); j++){
-            if(mc.ExistsCell(i, j))
-                if(mc(i, j) != mv(i, j))
-                    return false;
-        }
-    return true;
-}
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 5, 9);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 6, 6, 10);
+    Size(loctestnum, loctesterr, mat, true, 7);
 
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 7, 5);
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 6, 3);
 
-const int& const_acc(const Matrix<int>& mx, unsigned int i, unsigned int j){
-    return mx(i, j);
+    MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+    MapPostOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+
+      MatrixVec<long> movmat(std::move(mat));
+
+    Empty(loctestnum, loctesterr, mat, true);
+    Size(loctestnum, loctesterr, mat, true, 0);
+
+    GetRowNumber(loctestnum, loctesterr, mat, true, 0);
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 0);
+
+    ExistsCell(loctestnum, loctesterr, mat, false, 0, 0);
+
+    GetCell<long>(loctestnum, loctesterr, mat, false, 0, 0, 0);
+    SetCell<long>(loctestnum, loctesterr, mat, false, 0, 0, 0);
+
+    Size(loctestnum, loctesterr, movmat, true, 9);
+
+    FoldPreOrder<long, long, long>(loctestnum, loctesterr, movmat, true, &FoldMultiply<long>, 0, 1, 777600);
+    FoldPostOrder<long, long, long>(loctestnum, loctesterr, movmat, true, &FoldMultiply<long>, 0, 1, 777600);
+
+    MapPreOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
+    MapPostOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
+
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 2, 6, 3);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 3, 3, 6);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 4, 4, 8);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 6, 6, 10);
+    GetCell<long>(loctestnum, loctesterr, movmat, false, 7, 8, 20);
+
+    copmat = std::move(movmat);
+
+    Empty(loctestnum, loctesterr, movmat, true);
+    Size(loctestnum, loctesterr, movmat, true, 0);
+
+    GetRowNumber(loctestnum, loctesterr, movmat, true, 6);
+    GetColumnNumber(loctestnum, loctesterr, movmat, true, 0);
+
+    ExistsCell(loctestnum, loctesterr, movmat, false, 0, 0);
+
+    GetCell<long>(loctestnum, loctesterr, movmat, false, 0, 0, 0);
+    SetCell<long>(loctestnum, loctesterr, movmat, false, 0, 0, 0);
+
+    Size(loctestnum, loctesterr, copmat, true, 9);
+
+    FoldPreOrder<long, long, long>(loctestnum, loctesterr, copmat, true, &FoldMultiply<long>, 0, 1, 777600);
+    FoldPostOrder<long, long, long>(loctestnum, loctesterr, copmat, true, &FoldMultiply<long>, 0, 1, 777600);
+
+    MapPreOrder<long, long>(loctestnum, loctesterr, copmat, true, &MapPrint<long>, 0);
+    MapPostOrder<long, long>(loctestnum, loctesterr, copmat, true, &MapPrint<long>, 0);
+
+    GetCell<long>(loctestnum, loctesterr, copmat, true, 2, 6, 3);
+    GetCell<long>(loctestnum, loctesterr, copmat, true, 3, 3, 6);
+    GetCell<long>(loctestnum, loctesterr, copmat, true, 4, 4, 8);
+    GetCell<long>(loctestnum, loctesterr, copmat, true, 6, 6, 10);
+    GetCell<long>(loctestnum, loctesterr, copmat, false, 7, 8, 20);
+
+    mat = copmat;
+
+    Empty(loctestnum, loctesterr, mat, false);
+    Size(loctestnum, loctesterr, mat, true, 9);
+
+    GetRowNumber(loctestnum, loctesterr, mat, true, 7);
+    GetColumnNumber(loctestnum, loctesterr, mat, true, 8);
+
+    FoldPreOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldMultiply<long>, 0, 1, 777600);
+    FoldPostOrder<long, long, long>(loctestnum, loctesterr, mat, true, &FoldMultiply<long>, 0, 1, 777600);
+
+    MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+    MapPostOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+
+    GetCell<long>(loctestnum, loctesterr, mat, true, 2, 6, 3);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 3, 3, 6);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 4, 4, 8);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 6, 6, 10);
+    GetCell<long>(loctestnum, loctesterr, mat, false, 7, 8, 20);
+
+    Exists<long>(loctestnum, loctesterr, mat, true, 8);
+    Exists<long>(loctestnum, loctesterr, mat, false, 7);
+
+    mat.Clear();
+    movmat.Clear();
+
+    Empty(loctestnum, loctesterr, mat, true);
+    Size(loctestnum, loctesterr, mat, true, 0);
+
+    Empty(loctestnum, loctesterr, movmat, true);
+    Size(loctestnum, loctesterr, movmat, true, 0);
+
+    EqualMatrix(loctestnum, loctesterr, mat, movmat);
+
+    SetRowNumber(loctestnum, loctesterr, mat, true, 6);
+    SetColumnNumber(loctestnum, loctesterr, mat, true, 6);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 0, 1);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 0, 0, 1);
+    Exists<long>(loctestnum, loctesterr, mat, true, 1);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 1, 1, 2);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 1, 1, 2);
+    Exists<long>(loctestnum, loctesterr, mat, true, 2);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 2, 3);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 2, 2, 3);
+    Exists<long>(loctestnum, loctesterr, mat, true, 3);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 3, 3, 4);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 3, 3, 4);
+    Exists<long>(loctestnum, loctesterr, mat, true, 4);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 4, 4, 5);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 4, 4, 5);
+    Exists<long>(loctestnum, loctesterr, mat, true, 5);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 5, 6);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 5, 5, 6);
+    Exists<long>(loctestnum, loctesterr, mat, true, 6);
+
+    NonEqualMatrix(loctestnum, loctesterr, mat, movmat);
+
+    SetRowNumber(loctestnum, loctesterr, movmat, true, 6);
+    SetColumnNumber(loctestnum, loctesterr, movmat, true, 6);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 0, 0, 1);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 0, 0, 1);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 1);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 1, 1, 2);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 1, 1, 2);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 2);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 2, 2, 3);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 2, 2, 3);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 3);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 3, 3, 4);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 3, 3, 4);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 4);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 4, 4, 5);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 4, 4, 5);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 5);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 4, 5, 6);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 4, 5, 6);
+    Exists<long>(loctestnum, loctesterr, movmat, true, 6);
+
+    MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
+    MapPreOrder<long, long>(loctestnum, loctesterr, movmat, true, &MapPrint<long>, 0);
+
+    NonEqualMatrix(loctestnum, loctesterr, mat, movmat);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 0, 5, 1);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 0, 5, 1);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 1, 4, 2);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 1, 4, 2);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 2, 3, 3);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 2, 3, 3);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 3, 2, 4);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 3, 2, 4);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 4, 1, 5);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 4, 1, 5);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 5, 0, 6);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 5, 0, 6);
+
+    SetCell<long>(loctestnum, loctesterr, movmat, true, 5, 5, 6);
+    GetCell<long>(loctestnum, loctesterr, movmat, true, 5, 5, 6);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 0, 5, 1);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 0, 5, 1);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 1, 4, 2);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 1, 4, 2);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 2, 3, 3);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 2, 3, 3);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 3, 2, 4);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 3, 2, 4);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 4, 1, 5);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 4, 1, 5);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 5, 0, 6);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 5, 0, 6);
+
+    SetCell<long>(loctestnum, loctesterr, mat, true, 4, 5, 6);
+    GetCell<long>(loctestnum, loctesterr, mat, true, 4, 5, 6);
+
+    EqualMatrix(loctestnum, loctesterr, mat, movmat);
+
+    std::cout << "End of Matrix<string> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << std::endl;
+  
 }
