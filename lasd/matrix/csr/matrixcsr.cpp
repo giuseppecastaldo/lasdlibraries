@@ -40,6 +40,10 @@ MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept {
     for (unsigned long i = 0; i < mat.size && mat.rowsPtr[i] == &Head; ++i) {
         mat.rowsPtr[i] = &mat.Head;
     }
+    
+    if (mat.size == 0) {
+        mat.Initialize();
+    }
 }
 
 // Destructor
@@ -79,6 +83,10 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
     }
     for (unsigned long i = 0; i < mat.size && mat.rowsPtr[i] == &Head; ++i) {
         mat.rowsPtr[i] = &mat.Head;
+    }
+    
+    if (mat.size == 0) {
+        mat.Initialize();
     }
     
     return *this;
