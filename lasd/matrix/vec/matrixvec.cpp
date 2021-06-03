@@ -56,17 +56,18 @@ bool MatrixVec<Data>::operator!=(const MatrixVec<Data>& mat) const noexcept{
 template <typename Data>
 void MatrixVec<Data>::RowResize(const unsigned long newsize) {
     if (newsize == 0) {
-        Clear();
+        Vector<Data>::Clear();
     } else {
         Vector<Data>::Resize(newsize * columns);
-        rows = newsize;
     }
+    
+    rows = newsize;
 }
 
 template <typename Data>
 void MatrixVec<Data>::ColumnResize(const unsigned long newsize){
-    if(newsize == 0) {
-        Clear();
+    if (newsize == 0) {
+        Vector<Data>::Clear();
     } else if (size != newsize) {
         size = newsize * rows;
         unsigned long limit = (columns < newsize) ? columns : newsize;
@@ -77,9 +78,10 @@ void MatrixVec<Data>::ColumnResize(const unsigned long newsize){
             }
         }
         std::swap(Elements,TmpElements);
-        columns = newsize;
         delete[] TmpElements;
     }
+    
+    columns = newsize;
 }
 
 template <typename Data>

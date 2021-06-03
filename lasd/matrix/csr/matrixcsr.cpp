@@ -17,7 +17,7 @@ MatrixCSR<Data>::MatrixCSR(const unsigned long rows_n, const unsigned long cols_
 
 // Copy constructor
 template<typename Data>
-MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat) : MatrixCSR(mat.rows, mat.columns) {
+MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat) : MatrixCSR<Data>(mat.rows, mat.columns) {
     for (unsigned long row = 0; row < rows; ++row) {
         for (Node** ptr = mat.rowsPtr[row]; ptr != mat.rowsPtr[row + 1]; ptr = &((*ptr)->NextElement)) {
             Node& nod = **ptr;
@@ -28,21 +28,19 @@ MatrixCSR<Data>::MatrixCSR(const MatrixCSR<Data>& mat) : MatrixCSR(mat.rows, mat
 
 // Move constructor
 template <typename Data>
-MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept {
+MatrixCSR<Data>::MatrixCSR(MatrixCSR<Data>&& mat) noexcept : MatrixCSR<Data>() {
     std::swap(size, mat.size);
-    std::swap(Head, mat.Head);
     std::swap(columns, mat.columns);
     std::swap(rows, mat.rows);
+    std::swap(Head, mat.Head);
     std::swap(rowsPtr, mat.rowsPtr);
-    for (unsigned long i = 0; i < size && rowsPtr[i] == &mat.Head; ++i) {
+    
+    for (unsigned long i = 0; i < rowsPtr.Size() && rowsPtr[i] == &mat.Head; ++i) {
         rowsPtr[i] = &Head;
     }
-    for (unsigned long i = 0; i < mat.size && mat.rowsPtr[i] == &Head; ++i) {
-        mat.rowsPtr[i] = &mat.Head;
-    }
     
-    if (mat.size == 0) {
-        mat.Initialize();
+    for (unsigned long i = 0; i < mat.rowsPtr.Size() && mat.rowsPtr[i] == &Head; ++i) {
+        mat.rowsPtr[i] = &mat.Head;
     }
 }
 
@@ -78,15 +76,13 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
     std::swap(columns, mat.columns);
     std::swap(rows, mat.rows);
     std::swap(rowsPtr, mat.rowsPtr);
-    for (unsigned long i = 0; i < size && rowsPtr[i] == &mat.Head; ++i) {
+    
+    for (unsigned long i = 0; i < rowsPtr.Size() && rowsPtr[i] == &mat.Head; ++i) {
         rowsPtr[i] = &Head;
     }
-    for (unsigned long i = 0; i < mat.size && mat.rowsPtr[i] == &Head; ++i) {
-        mat.rowsPtr[i] = &mat.Head;
-    }
     
-    if (mat.size == 0) {
-        mat.Initialize();
+    for (unsigned long i = 0; i < mat.rowsPtr.Size() && mat.rowsPtr[i] == &Head; ++i) {
+        mat.rowsPtr[i] = &mat.Head;
     }
     
     return *this;
@@ -132,7 +128,8 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR<Data>& mat) const noexcept {
 template <typename Data>
 void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
     if (newsize == 0) {
-        MatrixCSR<Data>::Clear();
+        List<std::pair<Data, unsigned long>>::Clear();
+        Initialize(newsize, columns);
     } else if (newsize < rows) {
         DeleteSubList(*rowsPtr[rows - (rows - newsize)]);
         rowsPtr.Resize(newsize + 1);
@@ -149,7 +146,8 @@ void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
 template <typename Data>
 void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
     if (newsize == 0) {
-        MatrixCSR<Data>::Clear();
+        List<std::pair<Data, unsigned long>>::Clear();
+        Initialize(rows, newsize);
     } else if (newsize < columns) {
         unsigned long idx = 1;
         Node** ptr = &Head;
@@ -316,4 +314,3 @@ void MatrixCSR<Data>::Initialize() {
 /* ************************************************************************ */
 
 }
-
