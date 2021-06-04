@@ -4,8 +4,6 @@
 
 #include "../../container/container.hpp"
 
-#include <iostream>
-
 /* ************************************************************************** */
 
 // Container member functions!

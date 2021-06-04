@@ -4,6 +4,8 @@
 
 #include "../../matrix/matrix.hpp"
 
+#include <iostream>
+
 /* ************************************************************************** */
 
 template <typename Mat>

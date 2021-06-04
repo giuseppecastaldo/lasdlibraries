@@ -96,21 +96,17 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
     if ((rows == 0 && mat.rows == 0) && (columns == 0 && mat.columns == 0)) {
         return true;
     }
-    
+
     if (rows != mat.rows || columns != mat.columns) {
         return false;
     }
     
-    if (!List<std::pair<Data, unsigned long>>::operator==(mat)) {
+    if (List<std::pair<Data, unsigned long>>::operator!=(mat)) {
         return false;
     }
     
     // Verifico se siano uguali le righe
-//    for (unsigned long index = 0; index < rows; ++index) {
-//        if ((*rowsPtr[index])->Element != (*mat.rowsPtr[index])->Element) {
-//            return false;
-//        }
-//    }
+    // TODO
     
     return true;
 }
