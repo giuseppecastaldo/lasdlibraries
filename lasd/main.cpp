@@ -34,30 +34,42 @@ void PrintMatrix(const Matrix<T>& mat) {
 
 int main() {
     std::cout << "Lasd Libraries 2020" << std::endl;
-    //  lasdtest(); // To call in the menu of your library test!
+//      lasdtest(); // To call in the menu of your library test!
     
     unsigned int loctestnum = 0, loctesterr = 0;
-    
+
     MatrixCSR<long> mat1;
     MatrixCSR<long> mat2;
-    
+
     SetRowNumber(loctestnum, loctesterr, mat1, true, 5);
-    SetColumnNumber(loctestnum, loctesterr, mat1, true, 5);
-    
+    SetColumnNumber(loctestnum, loctesterr, mat1, true, 4);
+
     SetRowNumber(loctestnum, loctesterr, mat2, true, 5);
-    SetColumnNumber(loctestnum, loctesterr, mat2, true, 5);
-    
-    SetCell<long>(loctestnum, loctesterr, mat1, true, 0, 0, 1);
-    SetCell<long>(loctestnum, loctesterr, mat1, true, 0, 1, 2);
-    
+    SetColumnNumber(loctestnum, loctesterr, mat2, true, 4);
+
+    SetCell<long>(loctestnum, loctesterr, mat1, true, 0, 1, 1);
+    SetCell<long>(loctestnum, loctesterr, mat1, true, 0, 3, 4);
+    SetCell<long>(loctestnum, loctesterr, mat1, true, 1, 0, 2);
+    SetCell<long>(loctestnum, loctesterr, mat1, true, 1, 1, 3);
+
     SetCell<long>(loctestnum, loctesterr, mat2, true, 0, 0, 1);
-    SetCell<long>(loctestnum, loctesterr, mat2, true, 1, 1, 2);
-    
-    PrintMatrix(mat1);
-    PrintMatrix(mat2);
-    
+    SetCell<long>(loctestnum, loctesterr, mat2, true, 1, 1, 4);
+    SetCell<long>(loctestnum, loctesterr, mat2, true, 2, 2, 2);
+    SetCell<long>(loctestnum, loctesterr, mat2, true, 3, 3, 3);
+
     NonEqualMatrix(loctestnum, loctesterr, mat1, mat2);
     
+    MatrixCSR<long> mat3(mat2);
+    EqualMatrix(loctestnum, loctesterr, mat3, mat2);
+    
+    MatrixCSR<long> mat4(mat1);
+    EqualMatrix(loctestnum, loctesterr, mat1, mat4);
+    
+    mat1.Clear();
+    mat2.Clear();
+    
+    EqualMatrix(loctestnum, loctesterr, mat1, mat2);
+
     std::cout << "End of Matrix<long> Test! (Errors/Tests: " << loctesterr << "/" << loctestnum << ")" << std::endl;
     
     return 0;

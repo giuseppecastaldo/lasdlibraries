@@ -93,20 +93,30 @@ MatrixCSR<Data>& MatrixCSR<Data>::operator=(MatrixCSR<Data>&& mat) noexcept {
 // Comparison operators
 template <typename Data>
 bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
-    if ((rows == 0 && mat.rows == 0) && (columns == 0 && mat.columns == 0)) {
+    if ((size == 0) && (mat.size == 0)) {
         return true;
     }
 
-    if (rows != mat.rows || columns != mat.columns) {
+    if (size != mat.size || rows != mat.rows || columns != mat.columns) {
         return false;
     }
-    
-    if (List<std::pair<Data, unsigned long>>::operator!=(mat)) {
-        return false;
+
+    for (unsigned long row = 0; row < rows; row++) {
+        Node** ptr = rowsPtr[row];
+        Node** other_ptr = mat.rowsPtr[row];
+        
+        while (ptr != rowsPtr[row + 1] && other_ptr != mat.rowsPtr[row + 1]) {
+            Node& nod = **ptr;
+            Node& nd = **other_ptr;
+            
+            if (nod.Element.first != nd.Element.first || nod.Element.second != nd.Element.second) {
+                return false;
+            }
+            
+            ptr = &((*ptr)->NextElement);
+            other_ptr = &((*other_ptr)->NextElement);
+        }
     }
-    
-    // Verifico se siano uguali le righe
-    // TODO
     
     return true;
 }
@@ -143,11 +153,11 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
         List<std::pair<Data, unsigned long>>::Clear();
         Initialize(rows, newsize);
     } else if (newsize < columns) {
-        unsigned long idx = 1;
+        unsigned long i = 1;
         Node** ptr = &Head;
-        while (idx <= rows) {
+        while (i <= rows) {
             Node* nod;
-            Node** ext = rowsPtr[idx];
+            Node** ext = rowsPtr[i];
             while (ptr != ext && (*ptr)->Element.second < newsize) {
                 nod = *ptr;
                 ptr = &(nod->NextElement);
@@ -160,8 +170,8 @@ void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
                 for (Node* ptr = tmp; ptr != nullptr; ptr = ptr->NextElement) { size--; }
                 delete tmp;
             }
-            for (; idx <= rows && rowsPtr[idx] == ext; ++idx) {
-                rowsPtr[idx] = ptr;
+            for (; i <= rows && rowsPtr[i] == ext; ++i) {
+                rowsPtr[i] = ptr;
             }
         }
     }

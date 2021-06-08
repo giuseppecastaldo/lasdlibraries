@@ -17,6 +17,21 @@ using namespace std;
 
 /* ************************************************************************** */
 
+template <typename T>
+void PrintMatrix(const lasd::Matrix<T>& mat) {
+    std::cout << std::endl;
+    for (unsigned long i = 0; i < mat.RowNumber(); ++i) {
+        for (unsigned long j = 0; j < mat.ColumnNumber(); ++j) {
+            if (mat.ExistsCell(i, j)) {
+                std::cout << mat(i,j) << " ";
+            } else {
+                std::cout << "- ";
+            }
+        }
+        std::cout << std::endl;
+    }
+}
+
 template <template<typename> typename Mat>
 void stestMatrixInt(Mat<long>& mat, unsigned int& testnum, unsigned int& testerr) {
   unsigned int loctestnum = 0, loctesterr = 0;
@@ -80,7 +95,7 @@ void stestMatrixInt(Mat<long>& mat, unsigned int& testnum, unsigned int& testerr
 
     SetColumnNumber(loctestnum, loctesterr, mat, true, 3);
     SetColumnNumber(loctestnum, loctesterr, mat, true, 4);
-
+      
     MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
     MapPostOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
 
@@ -148,6 +163,9 @@ void stestMatrixInt(Mat<long>& mat, unsigned int& testnum, unsigned int& testerr
 
     MapPreOrder<long, long>(loctestnum, loctesterr, mat, true, &MapPrint<long>, 0);
     MapPreOrder<long, long>(loctestnum, loctesterr, copmat, true, &MapPrint<long>, 0);
+      
+      PrintMatrix<long>(mat);
+      PrintMatrix<long>(copmat);
 
     EqualMatrix(loctestnum, loctesterr, mat, copmat);
 
