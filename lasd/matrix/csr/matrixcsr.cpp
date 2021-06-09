@@ -108,13 +108,17 @@ bool MatrixCSR<Data>::operator==(const MatrixCSR<Data>& mat) const noexcept {
         while (ptr != rowsPtr[row + 1] && other_ptr != mat.rowsPtr[row + 1]) {
             Node& nod = **ptr;
             Node& nd = **other_ptr;
-            
+
             if (nod.Element.first != nd.Element.first || nod.Element.second != nd.Element.second) {
                 return false;
             }
             
             ptr = &((*ptr)->NextElement);
             other_ptr = &((*other_ptr)->NextElement);
+        }
+        
+        if ((ptr == rowsPtr[row + 1] && other_ptr != mat.rowsPtr[row + 1]) || (ptr != rowsPtr[row + 1] && other_ptr == mat.rowsPtr[row + 1])) {
+            return false;
         }
     }
     
