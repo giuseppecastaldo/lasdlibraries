@@ -17,6 +17,9 @@ using namespace lasd;
 /* ************************************************************************** */
 
 template <typename Data>
+void concat_head_strings(Data&, void*);
+
+template <typename Data>
 void print(const Data&, void*);
 
 template <typename Data>
@@ -24,6 +27,9 @@ void multiply_2(Data&, void*);
 
 template <typename Data>
 void negative_cube(Data&, void*);
+
+template <typename Data>
+void concat_strings_n(const Data&, const void*, void*);
 
 template <typename Data>
 void multiply_n(const Data&, const void*, void*);
