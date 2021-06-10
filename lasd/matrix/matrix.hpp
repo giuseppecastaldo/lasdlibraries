@@ -48,8 +48,8 @@ public:
     unsigned long RowNumber() const noexcept;
     unsigned long ColumnNumber() const noexcept;
     
-    virtual void RowResize(const unsigned long) = 0;
-    virtual void ColumnResize(const unsigned long) = 0;
+    virtual void RowResize(unsigned long) = 0;
+    virtual void ColumnResize(unsigned long) = 0;
     
     virtual bool ExistsCell(unsigned long,unsigned long) const noexcept = 0;
     

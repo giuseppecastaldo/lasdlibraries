@@ -134,7 +134,7 @@ bool MatrixCSR<Data>::operator!=(const MatrixCSR<Data>& mat) const noexcept {
 
 // Specific member functions (inherited from Matrix)
 template <typename Data>
-void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
+void MatrixCSR<Data>::RowResize(unsigned long newsize) {
     if (newsize == 0) {
         List<std::pair<Data, unsigned long>>::Clear();
         Initialize(newsize, columns);
@@ -152,7 +152,7 @@ void MatrixCSR<Data>::RowResize(const unsigned long newsize) {
 }
 
 template <typename Data>
-void MatrixCSR<Data>::ColumnResize(const unsigned long newsize) {
+void MatrixCSR<Data>::ColumnResize(unsigned long newsize) {
     if (newsize == 0) {
         List<std::pair<Data, unsigned long>>::Clear();
         Initialize(rows, newsize);

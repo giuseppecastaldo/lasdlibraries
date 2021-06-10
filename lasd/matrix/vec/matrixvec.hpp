@@ -67,8 +67,8 @@ public:
     
     // Specific member functions (inherited from Matrix)
     
-    void RowResize(const unsigned long) override;
-    void ColumnResize(const unsigned long) override;
+    void RowResize(unsigned long) override;
+    void ColumnResize(unsigned long) override;
     
     bool ExistsCell(unsigned long, unsigned long) const noexcept override;
     
