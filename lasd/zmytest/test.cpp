@@ -1,23 +1,13 @@
 #include "test.hpp"
 
-template <typename T>
-void print_matrix(const Matrix<T>& mat) {
-    std::cout << std::endl;
-    for (unsigned long i = 0; i < mat.RowNumber(); ++i) {
-        for (unsigned long j = 0; j < mat.ColumnNumber(); ++j) {
-            if (mat.ExistsCell(i, j)) {
-                std::cout << mat(i,j) << " ";
-            } else {
-                std::cout << "- ";
-            }
-        }
-        std::cout << std::endl;
-    }
-}
-
 template <typename Data>
 void print(const Data& dat, void* _) {
     std::cout << dat << " ";
+}
+
+template <typename Data>
+void concat_head_strings(Data& dat, void* par) {
+    static_cast<std::string&>(dat).insert(0, *(std::string*) par);
 }
 
 template <typename Data>
@@ -34,6 +24,13 @@ template <typename Data>
 void multiply_n(const Data& dat, const void* par, void* acc) {
     if (dat < (*(Data*)par)) {
         *((Data*) acc) *= dat;
+    }
+}
+
+template <typename Data>
+void concat_strings_n(const Data& dat, const void* par, void* acc) {
+    if (static_cast<const std::string&>(dat).size() <= *((unsigned long*) par)) {
+        *((std::string*) acc) += dat;
     }
 }
 
@@ -161,10 +158,10 @@ void populate_structure(int structure, int type) {
                     
                     int el = random_int(1, rows * cols);
                     for (uint i = 0; i < el; ++i) {
-                        mat(random_int(0, rows - 1), random_int(0, cols - 1)) = random_string(1);
+                        mat(random_int(0, rows - 1), random_int(0, cols - 1)) = random_string(random_int(1, 2));
                     }
                     
-                    test_matrix(mat);
+                    test_matrix_string(mat);
                     
                     break;
                 }
@@ -208,10 +205,10 @@ void populate_structure(int structure, int type) {
                     
                     int el = random_int(rows, rows * cols);
                     for (uint i = 0; i < el; ++i) {
-                        mat(random_int(0, rows - 1), random_int(0, cols - 1)) = random_string(1);
+                        mat(random_int(0, rows - 1), random_int(0, cols - 1)) = random_string(random_int(1, 2));
                     }
                     
-                    test_matrix(mat);
+                    test_matrix_string(mat);
                     
                     break;
                 }
@@ -251,13 +248,11 @@ void populate_structure(int structure, int type) {
     }
 }
 
-template <typename T>
-void test_matrix(Matrix<T>& mat) {
-    std::cout << "Stampa: \n"; print_matrix(mat); std::cout << std::endl;
-    std::cout << "Stampa in order: "; mat.MapPreOrder(&print<T>, 0); std::cout << std::endl;
-    std::cout << "Stampa in pre order: "; mat.MapPostOrder(&print<T>, 0); std::cout << std::endl;
+void test_matrix_string(Matrix<std::string>& mat) {
+    std::cout << "Stampa in order: "; mat.MapPreOrder(&print<std::string>, 0); std::cout << std::endl;
+    std::cout << "Stampa in pre order: "; mat.MapPostOrder(&print<std::string>, 0); std::cout << std::endl;
     
-    T in;
+    std::string in;
     std::cout << "Controlla esistenza valore: "; std::cin >> in;
     
     if (mat.Exists(in)) {
@@ -266,11 +261,20 @@ void test_matrix(Matrix<T>& mat) {
         std::cout << "Il valore NON esiste" << std::endl;
     }
     
+    int input; std::string acc = "";
+    std::cout << "Inserisci intero: "; std::cin >> input;
+    std::cout << "Concatenazione di stringhe con lunghezza minori di questo: "; fold(mat, &concat_strings_n<std::string>, input, acc); std::cout << std::endl;
+    
+    std::string to_concat = "";
+    std::cout << "Inserisci stringa: "; std::cin >> to_concat;
+    std::cout << "Concatenazione in testa..."; map(mat, &concat_head_strings<std::string>, to_concat); std::cout << std::endl;
+    
+    std::cout << "Ecco la nuova struttura: "; mat.MapPreOrder(&print<std::string>, 0); std::cout << std::endl;
+    
     menu();
 }
 
 void test_matrix_int(Matrix<int>& mat) {
-    std::cout << "Stampa: \n"; print_matrix(mat); std::cout << std::endl;
     std::cout << "Stampa in order: "; mat.MapPreOrder(&print<int>, 0); std::cout << std::endl;
     std::cout << "Stampa in pre order: "; mat.MapPostOrder(&print<int>, 0); std::cout << std::endl;
     
@@ -293,7 +297,6 @@ void test_matrix_int(Matrix<int>& mat) {
 }
 
 void test_matrix_double(Matrix<double>& mat) {
-    std::cout << "Stampa: \n"; print_matrix(mat); std::cout << std::endl;
     std::cout << "Stampa in order: "; mat.MapPreOrder(&print<double>, 0); std::cout << std::endl;
     std::cout << "Stampa in pre order: "; mat.MapPostOrder(&print<double>, 0); std::cout << std::endl;
     

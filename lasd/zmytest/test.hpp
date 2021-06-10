@@ -16,9 +16,6 @@ using namespace lasd;
 
 /* ************************************************************************** */
 
-template <typename T>
-void print_matrix(const Matrix<T>&);
-
 template <typename Data>
 void print(const Data&, void*);
 
@@ -47,8 +44,7 @@ void menu();
 
 void types(int);
 
-template <typename T>
-void test_matrix(Matrix<T>&);
+void test_matrix_string(Matrix<std::string>&);
 void test_matrix_double(Matrix<double>&);
 void test_matrix_int(Matrix<int>&);
 
